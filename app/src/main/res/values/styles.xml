@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="player_name">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingBottom">0dp</item>
+
+    </style>
+
+    <style name="player_score">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large.Inverse</item>
+    </style>
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <host.capitalquiz.arondit.EruditWordView
+        android:layout_gravity="center_vertical"
+        android:id="@+id/eruditWord"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:mainColor="@color/letter_block_color"
+        app:size="30dp"
+        app:word="слово" />
+
+    <TextView
+        android:id="@+id/wordScores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingHorizontal="8dp"
+        android:text="15"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/letter_block_color"
+        tools:text="42" />
+</LinearLayout>
