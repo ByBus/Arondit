@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.GridLayout
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
@@ -77,6 +79,10 @@ class GameFragment : Fragment() {
             recyclerWords.adapter = adapter
             binding.grid.addView(newPlayerList)
             adapter.submitList(viewModel.words)
+
+            newPlayerList.findViewById<Button>(R.id.addWord).setOnClickListener {
+                findNavController().navigate(GameFragmentDirections.actionAddWordDialog())
+            }
         }
     }
 

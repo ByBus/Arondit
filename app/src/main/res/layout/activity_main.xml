@@ -8,9 +8,10 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="host.capitalquiz.arondit.GameFragment"
         android:layout_width="match_parent"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_height="match_parent"
+        app:navGraph="@navigation/base_nav"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

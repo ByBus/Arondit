@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/base_nav"
+    app:startDestination="@id/gameFragment">
+
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="host.capitalquiz.arondit.GameFragment"
+        android:label="GameFragment" >
+        <action
+            android:id="@+id/actionAddWordDialog"
+            app:destination="@id/addWordDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/addWordDialog"
+        android:name="host.capitalquiz.arondit.AddWordDialog"
+        android:label="AddWordDialog" />
+</navigation>

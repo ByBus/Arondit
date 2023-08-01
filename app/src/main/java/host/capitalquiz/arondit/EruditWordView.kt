@@ -10,6 +10,7 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.Px
+import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
 import androidx.core.graphics.ColorUtils
 
@@ -26,15 +27,20 @@ class EruditWordView @JvmOverloads constructor(
             isAntiAlias = true
         }
     private val rect = RectF()
-    private val gap = 3f
+    private val gap get() = blockSize * 0.05f
     private val word = mutableListOf<Letter>()
     private var blockSize = 0f
     private var radius = 0f
-    var multiplier = 1
+    private lateinit var multiplierRect: RectF
+    private val bonus by lazy { Bonus() }
+    private val x2Drawable by lazy { ContextCompat.getDrawable(context, R.drawable.ic_bonus_x2_strict) }
+    private val x3Drawable by lazy { ContextCompat.getDrawable(context, R.drawable.ic_bonus_x3_strict) }
+    var multiplier = 2
         set(value) {
             field = value
             invalidate()
         }
+    private val hasMultiplier get() = multiplier == 2 || multiplier == 3
 
     init {
         context.withStyledAttributes(attrs, R.styleable.EruditWordView) {
@@ -71,16 +77,22 @@ class EruditWordView @JvmOverloads constructor(
     @SuppressLint("NewApi")
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (word.isEmpty()) {
-            return
+        if (word.isEmpty()) return
+
+        if (hasMultiplier) {
+            bonus.apply {
+                text = multiplier.toString()
+                bonusBgColor = if (multiplier == 2) WORD_X2_COLOR else WORD_X3_COLOR
+            }.draw(canvas)
         }
+
         rect.apply {
             left = gap
             top = gap
             right = blockSize - gap
             bottom = blockSize - gap
         }
-        for (letter in word) {
+        word.forEach { letter ->
             letter.draw(canvas)
             rect.offset(blockSize, 0f)
         }
@@ -98,6 +110,9 @@ class EruditWordView @JvmOverloads constructor(
         for (i in widths.indices) {
             word[i].width = widths[i]
         }
+        if (hasMultiplier) {
+            multiplierRect = RectF(0f, 0f, blockSize * word.size, height.toFloat())
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -106,14 +121,14 @@ class EruditWordView @JvmOverloads constructor(
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
         val heightSize = MeasureSpec.getSize(heightMeasureSpec)
 
-        val desiredWidth = size * word.size
+        val desiredWidth = size * word.size + if (hasMultiplier) size else 0
         val width = when (widthMode) {
             MeasureSpec.EXACTLY -> widthSize
             MeasureSpec.AT_MOST -> Math.min(desiredWidth, widthSize)
             else -> desiredWidth
         }
 
-        val desiredHeight = Math.min(width / word.size, size)
+        val desiredHeight = Math.min(width / (word.size + if (hasMultiplier) 1 else 0), size)
 
         //Measure Height
         //1.Must be this size
@@ -130,11 +145,11 @@ class EruditWordView @JvmOverloads constructor(
     inner class Letter(private val char: Char, var width: Float = 10f, var bonus: Int = 1) {
         fun draw(canvas: Canvas) {
             paint.withColor(ColorUtils.compositeColors(thicknessColor, color)) {
-                rect.with(top = rect.top + 1f, bottom = rect.bottom + rect.height() * 0.05f) {
+                rect.with(top = rect.top + 1f) {
                     canvas.drawRoundRect(this, radius, radius, paint)
                 }
             }
-            rect.with(bottom = rect.bottom - 2f) {
+            rect.with(bottom = rect.bottom - rect.height() * 0.05f) {
                 canvas.drawRoundRect(this, radius, radius, paint)
             }
 
@@ -168,6 +183,59 @@ class EruditWordView @JvmOverloads constructor(
         }
 
         override fun toString(): String = char.toString()
+
+    }
+
+    inner class Bonus(
+        private val prefix: String = "✘",
+        var text: String = "",
+        var bonusBgColor: Int = LETTER_X2_COLOR,
+    ) {
+        @SuppressLint("NewApi")
+        fun draw(canvas: Canvas) {
+            val r = multiplierRect.height() / 2
+            val halfSize = blockSize / 2
+            paint.withColor(bonusBgColor) {
+                multiplierRect.with(right = multiplierRect.right + halfSize) {
+                    canvas.drawRoundRect(multiplierRect, radius, radius, paint)
+                }
+                multiplierRect.with(
+                    left = multiplierRect.right - blockSize,
+                    right = multiplierRect.right + blockSize
+                ) {
+                    canvas.drawRoundRect(multiplierRect, r, r, paint)
+                }
+            }
+            val bonusDrawable = if (multiplier == 2) x2Drawable else x3Drawable
+            if (bonusDrawable != null) {
+                bonusDrawable.setBounds(
+                    (multiplierRect.right).toInt(),
+                    (multiplierRect.top).toInt(),
+                    (multiplierRect.right + blockSize).toInt(),
+                    (multiplierRect.bottom).toInt()
+                )
+                bonusDrawable.draw(canvas)
+                return
+            }
+            paint.withColor(textColor) {
+                withTextSize(paint.textSize * 0.65f) {
+                    canvas.drawText(
+                        prefix,
+                        multiplierRect.right,
+                        multiplierRect.height() * 0.65f,
+                        paint
+                    )
+                }
+                withTextSize(paint.textSize * 1.5f) {
+                    val multTextSize = paint.textSize * 1.5f
+                    canvas.drawText(
+                        text,
+                        multiplierRect.right + halfSize * 0.4f,
+                        (multiplierRect.bottom - descent()) * 1.15f, paint
+                    )
+                }
+            }
+        }
     }
 
 
@@ -179,6 +247,10 @@ class EruditWordView @JvmOverloads constructor(
             'Ч' to 5, 'Ш' to 10, 'Щ' to 10, 'Ъ' to 10, 'Ы' to 5, 'Ь' to 5, 'Э' to 10, 'Ю' to 10,
             'Я' to 3, '*' to 0
         )
+        private const val LETTER_X2_COLOR = (0XFF26A69A).toInt()
+        private const val LETTER_X3_COLOR = (0XFBC02D).toInt()
+        private const val WORD_X2_COLOR = (0XFF42A5F5).toInt()
+        private const val WORD_X3_COLOR = (0XFFEF5350).toInt()
     }
 }
 

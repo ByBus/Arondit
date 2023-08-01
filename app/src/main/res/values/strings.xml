@@ -3,4 +3,10 @@
     <string name="remove_player">Remove Player</string>
     <string name="remove">Remove</string>
     <string name="add_player">Add player</string>
+    <string name="add_word_dialog_title">Введите новое слово</string>
+    <string name="your_word_hint">Ваше слово</string>
+    <string name="cancel">ОТМЕНА</string>
+    <string name="ok">OK</string>
+    <string name="delete_word">delete word</string>
+    <string name="word">СЛОВО</string>
 </resources>

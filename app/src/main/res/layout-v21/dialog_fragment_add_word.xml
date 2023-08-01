@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/dialogHeader"
+        style="@style/DialogHeader"
+        android:text="@string/add_word_dialog_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/wordInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialogHeader">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/your_word_hint" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ToggleButton
+        android:id="@+id/x2WordBonusButton"
+        style="@style/toggle_button_big"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/background_blue_tint_toggle"
+        android:backgroundTintMode="multiply"
+        android:drawableTop="@drawable/ic_bonus_x2_strictlarge"
+        app:layout_constraintEnd_toStartOf="@+id/x3WordBonusButton2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/wordInput"
+        app:layout_constraintTop_toBottomOf="@+id/wordInput"
+        tools:checked="true" />
+
+    <ToggleButton
+        android:id="@+id/x3WordBonusButton2"
+        style="@style/toggle_button_big"
+        android:backgroundTint="@color/background_red_tint_toggle"
+        android:backgroundTintMode="multiply"
+        android:drawableTop="@drawable/ic_bonus_x3_strictlarge"
+        app:layout_constraintEnd_toEndOf="@id/wordInput"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/x2WordBonusButton"
+        app:layout_constraintTop_toTopOf="@+id/x2WordBonusButton"
+        tools:checked="true" />
+
+    <LinearLayout
+        android:id="@+id/wordContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingVertical="8dp"
+        app:layout_constraintEnd_toEndOf="@id/wordInput"
+        app:layout_constraintStart_toStartOf="@id/wordInput"
+        app:layout_constraintTop_toBottomOf="@id/x2WordBonusButton">
+
+        <host.capitalquiz.arondit.EruditWordView
+            android:id="@+id/eruditWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:word="Слово" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/wordInput"
+        app:layout_constraintStart_toStartOf="@id/wordInput"
+        app:layout_constraintTop_toBottomOf="@id/wordContainer">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/confirmWord"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ok"
+            app:backgroundTint="@color/player_color_2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel" />
+
+        <ImageButton
+            android:id="@+id/removeWord"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/delete_word"
+            android:src="@drawable/round_delete_forever_32"
+            android:visibility="gone"
+            app:backgroundTint="@color/player_color_1"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
