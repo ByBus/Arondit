@@ -12,4 +12,12 @@
         <item name="android:textSize">22sp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large.Inverse</item>
     </style>
+
+    <style name="toggle_button_big">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:checked">false</item>
+        <item name="android:textSize">0sp</item>
+    </style>
 </resources>
