@@ -1,4 +1,4 @@
-package host.capitalquiz.arondit
+package host.capitalquiz.arondit.game.ui
 
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +24,7 @@ class WordAdapter: ListAdapter<String, WordAdapter.BindViewHolder>(DIFF_UTIL) {
     companion object {
         private val DIFF_UTIL = object : DiffUtil.ItemCallback<String>() {
             override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
-                return  true
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {

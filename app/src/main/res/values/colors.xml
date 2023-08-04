@@ -7,5 +7,6 @@
     <color name="player_color_3">#42A5F5</color>
     <color name="player_color_4">#FFA726</color>
     <color name="letter_block_color">#AB47BC</color>
-
+    <color name="main_menu_letters_tile">#ECB913</color>
+    <color name="main_menu_letters">#3C3C3C</color>
 </resources>

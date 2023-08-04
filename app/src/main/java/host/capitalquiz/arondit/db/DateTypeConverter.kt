@@ -1,4 +1,4 @@
-package host.capitalquiz.arondit.data
+package host.capitalquiz.arondit.db
 
 import androidx.room.TypeConverter
 import java.util.Date

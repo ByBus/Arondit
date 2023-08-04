@@ -1,4 +1,4 @@
-package host.capitalquiz.arondit.data
+package host.capitalquiz.arondit.db
 
 import android.content.Context
 import androidx.room.Database
@@ -9,7 +9,11 @@ import androidx.room.TypeConverters
 @Database(entities = [GameData::class, PlayerData::class, WordData::class], version = 1, exportSchema = false)
 @TypeConverters(DateTypeConverter::class, IntListConverter::class, UserAndColorMapConverter::class)
 abstract class GameDataBase: RoomDatabase() {
-    abstract fun gameDao(): GamesDao
+    abstract fun gameDao(): GameDao
+
+    abstract fun playerDao(): PlayerDao
+
+    abstract fun wordDao(): WordDao
 
     companion object {
         fun database(context: Context): GameDataBase {

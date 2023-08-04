@@ -1,4 +1,4 @@
-package host.capitalquiz.arondit.data
+package host.capitalquiz.arondit.db
 
 import androidx.room.Embedded
 import androidx.room.Entity
@@ -10,6 +10,7 @@ import java.util.Date
 data class GameData(val date: Date) {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L
+
 }
 
 data class GameWithPlayersData(
@@ -20,4 +21,8 @@ data class GameWithPlayersData(
         entityColumn = "gameId"
     )
     val players: List<PlayerWithWordsData>,
-)
+)  {
+    fun <R>map(mapper: GameDataMapper<R>): R {
+        return mapper(game, players)
+    }
+}

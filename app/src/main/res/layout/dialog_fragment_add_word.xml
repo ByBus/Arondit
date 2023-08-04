@@ -28,20 +28,20 @@
             android:hint="@string/your_word_hint" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatToggleButton
+    <ToggleButton
         android:id="@+id/x2WordBonusButton"
         style="@style/toggle_button_big"
         android:layout_marginTop="8dp"
         android:drawableTop="@drawable/ic_bonus_x2_strictlarge"
         app:backgroundTint="@color/background_blue_tint_toggle"
-        app:layout_constraintEnd_toStartOf="@+id/x3WordBonusButton2"
+        app:layout_constraintEnd_toStartOf="@+id/x3WordBonusButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@id/wordInput"
         app:layout_constraintTop_toBottomOf="@id/wordInput"
         tools:checked="false" />
 
     <ToggleButton
-        android:id="@+id/x3WordBonusButton2"
+        android:id="@+id/x3WordBonusButton"
         style="@style/toggle_button_big"
         android:drawableTop="@drawable/ic_bonus_x3_strictlarge"
         app:backgroundTint="@color/background_red_tint_toggle"
@@ -62,10 +62,12 @@
         app:layout_constraintStart_toStartOf="@id/wordInput"
         app:layout_constraintTop_toBottomOf="@id/x2WordBonusButton">
 
-        <host.capitalquiz.arondit.EruditWordView
+        <host.capitalquiz.arondit.core.ui.EruditWordView
             android:id="@+id/eruditWord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:mainColor="@color/letter_block_color"
+            app:size="50dp"
             tools:word="Слово" />
     </LinearLayout>
 

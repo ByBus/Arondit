@@ -6,14 +6,15 @@
 
     <fragment
         android:id="@+id/gameFragment"
-        android:name="host.capitalquiz.arondit.GameFragment"
+        android:name="host.capitalquiz.arondit.game.ui.GameFragment"
         android:label="GameFragment" >
         <action
             android:id="@+id/actionAddWordDialog"
-            app:destination="@id/addWordDialog" />
+            app:destination="@id/addWordDialog"
+            app:launchSingleTop="false" />
     </fragment>
     <dialog
         android:id="@+id/addWordDialog"
-        android:name="host.capitalquiz.arondit.AddWordDialog"
+        android:name="host.capitalquiz.arondit.game.ui.AddWordDialog"
         android:label="AddWordDialog" />
 </navigation>

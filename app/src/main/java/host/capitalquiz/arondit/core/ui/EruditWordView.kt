@@ -1,4 +1,4 @@
-package host.capitalquiz.arondit
+package host.capitalquiz.arondit.core.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,6 +13,7 @@ import androidx.annotation.Px
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
 import androidx.core.graphics.ColorUtils
+import host.capitalquiz.arondit.R
 
 class EruditWordView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
@@ -33,12 +34,22 @@ class EruditWordView @JvmOverloads constructor(
     private var radius = 0f
     private lateinit var multiplierRect: RectF
     private val bonus by lazy { Bonus() }
-    private val x2Drawable by lazy { ContextCompat.getDrawable(context, R.drawable.ic_bonus_x2_strict) }
-    private val x3Drawable by lazy { ContextCompat.getDrawable(context, R.drawable.ic_bonus_x3_strict) }
-    var multiplier = 2
+    private val x2Drawable by lazy {
+        ContextCompat.getDrawable(
+            context,
+            R.drawable.ic_bonus_x2_strict
+        )
+    }
+    private val x3Drawable by lazy {
+        ContextCompat.getDrawable(
+            context,
+            R.drawable.ic_bonus_x3_strict
+        )
+    }
+    var multiplier = 1
         set(value) {
             field = value
-            invalidate()
+            requestLayout()
         }
     private val hasMultiplier get() = multiplier == 2 || multiplier == 3
 
@@ -66,12 +77,12 @@ class EruditWordView @JvmOverloads constructor(
 
     fun setText(text: String) {
         updateWord(text)
-        invalidate()
+        requestLayout()
     }
 
     fun setSize(@Px size: Int) {
         this.size = resources.displayMetrics.scaledDensity.toInt() * size
-        invalidate()
+        requestLayout()
     }
 
     @SuppressLint("NewApi")
@@ -128,7 +139,10 @@ class EruditWordView @JvmOverloads constructor(
             else -> desiredWidth
         }
 
-        val desiredHeight = Math.min(width / (word.size + if (hasMultiplier) 1 else 0), size)
+        val desiredHeight = if (word.size == 0) 0 else Math.min(
+            width / (word.size + if (hasMultiplier) 1 else 0),
+            size
+        )
 
         //Measure Height
         //1.Must be this size

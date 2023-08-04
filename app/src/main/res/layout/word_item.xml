@@ -9,7 +9,7 @@
     android:orientation="horizontal"
     tools:ignore="RtlSymmetry">
 
-    <host.capitalquiz.arondit.EruditWordView
+    <host.capitalquiz.arondit.core.ui.EruditWordView
         android:layout_gravity="center_vertical"
         android:id="@+id/eruditWord"
         android:layout_width="0dp"

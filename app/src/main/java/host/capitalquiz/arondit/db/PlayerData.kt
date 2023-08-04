@@ -1,4 +1,4 @@
-package host.capitalquiz.arondit.data
+package host.capitalquiz.arondit.db
 
 import androidx.room.Embedded
 import androidx.room.Entity
@@ -27,4 +27,8 @@ data class PlayerWithWordsData(
         entityColumn = "playerId"
     )
     val words: List<WordData>,
-)
+) {
+    fun <R>map(mapper: PlayerDataMapper<R>): R {
+        return mapper(player, words)
+    }
+}

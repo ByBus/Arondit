@@ -1,4 +1,4 @@
-package host.capitalquiz.arondit.data
+package host.capitalquiz.arondit.db
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -21,4 +21,8 @@ data class WordData(
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L
+
+    fun <R> map(mapper: WordDataMapper<R>): R {
+        return mapper(word, letterBonuses, multiplier, id)
+    }
 }
