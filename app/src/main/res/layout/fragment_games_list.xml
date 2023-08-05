@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".gameslist.ui.GamesListFragment">
+
+    <FrameLayout
+        android:layout_marginTop="16dp"
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="48dp"
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <host.capitalquiz.arondit.core.ui.EruditWordView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:mainColor="@color/main_menu_letters_tile"
+            app:textColor="@color/main_menu_letters"
+            app:size="70dp"
+            app:word="АРОНДИТ" />
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        android:id="@+id/gamesList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="70dp"
+        app:layout_constraintVertical_weight="1"
+        android:layout_marginHorizontal="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frameLayout" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+
+        android:text="@string/new_game"
+        android:id="@+id/createGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="16dp"
+        android:clickable="true"
+        android:contentDescription="@string/create_new_game"
+        android:focusable="true"
+        android:labelFor="@id/gamesList"
+        app:icon="@android:drawable/ic_input_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

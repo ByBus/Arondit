@@ -1,4 +1,4 @@
-package host.capitalquiz.arondit.db
+package host.capitalquiz.arondit.core.db
 
 import androidx.room.Dao
 import androidx.room.Insert

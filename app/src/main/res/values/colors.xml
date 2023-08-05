@@ -9,4 +9,5 @@
     <color name="letter_block_color">#AB47BC</color>
     <color name="main_menu_letters_tile">#ECB913</color>
     <color name="main_menu_letters">#3C3C3C</color>
+    <color name="light_gray_text_color">#787878</color>
 </resources>

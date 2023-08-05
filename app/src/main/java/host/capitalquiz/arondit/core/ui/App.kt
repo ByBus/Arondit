@@ -1,8 +1,7 @@
 package host.capitalquiz.arondit.core.ui
 
 import android.app.Application
-import host.capitalquiz.arondit.db.GameDataBase
+import dagger.hilt.android.HiltAndroidApp
 
-class App: Application() {
-    val db by lazy { GameDataBase.database(this) }
-}
+@HiltAndroidApp
+class App: Application()
