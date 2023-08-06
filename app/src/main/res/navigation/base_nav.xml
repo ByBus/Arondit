@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/base_nav"
-    app:startDestination="@id/gameFragment">
+    app:startDestination="@id/gamesListFragment">
 
     <fragment
         android:id="@+id/gameFragment"
@@ -12,9 +13,59 @@
             android:id="@+id/actionAddWordDialog"
             app:destination="@id/addWordDialog"
             app:launchSingleTop="false" />
+        <action
+            android:id="@+id/action_to_addPlayerDialog"
+            app:destination="@id/addPlayerDialog" />
+        <action
+            android:id="@+id/action_gameFragment_to_addWordDialog"
+            app:destination="@id/addWordDialog" />
+        <action
+            android:id="@+id/action_to_editWordDialog"
+            app:destination="@id/editWordDialog" />
+        <argument
+            android:name="gameId"
+            app:argType="long" />
     </fragment>
     <dialog
         android:id="@+id/addWordDialog"
-        android:name="host.capitalquiz.arondit.game.ui.AddWordDialog"
-        android:label="AddWordDialog" />
+        android:name="host.capitalquiz.arondit.game.ui.dialog.AddWordDialog"
+        android:label="AddWordDialog" >
+        <argument
+            android:name="playerId"
+            app:argType="long" />
+        <argument
+            android:name="dialogColor"
+            app:argType="integer" />
+    </dialog>
+    <fragment
+        android:id="@+id/gamesListFragment"
+        android:name="host.capitalquiz.arondit.gameslist.ui.GamesListFragment"
+        android:label="fragment_games_list"
+        tools:layout="@layout/fragment_games_list" >
+        <action
+            android:id="@+id/action_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/addPlayerDialog"
+        android:name="host.capitalquiz.arondit.game.ui.dialog.AddPlayerDialog"
+        android:label="AddPlayerDialog" >
+        <argument
+            android:name="color"
+            app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/editWordDialog"
+        android:name="host.capitalquiz.arondit.game.ui.dialog.EditWordDialog"
+        android:label="EditWordDialog" >
+        <argument
+            android:name="wordId"
+            app:argType="long" />
+        <argument
+            android:name="dialogColor"
+            app:argType="integer" />
+        <argument
+            android:name="playerId"
+            app:argType="long" />
+    </dialog>
 </navigation>

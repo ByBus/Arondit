@@ -1,10 +1,10 @@
 package host.capitalquiz.arondit.gameslist.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -29,7 +29,6 @@ class GamesListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val adapter = GameAdapter { gameId ->
             findNavController().navigate(GamesListFragmentDirections.actionToGameFragment(gameId))
-            Log.i("GamesListFragment", "onViewCreated: $gameId")
         }
         binding.gamesList.adapter = adapter
 
@@ -37,20 +36,25 @@ class GamesListFragment : Fragment() {
             viewModel.createGame()
         }
 
+        binding.information.infoButton.setOnClickListener {
+            viewModel.createGame()
+        }
+
         viewModel.games.observe(viewLifecycleOwner) {
+            binding.information.root.isVisible = it.isEmpty()
+            binding.gamesLayout.isVisible = it.isNotEmpty()
             adapter.submitList(it)
         }
 
-//        viewModel.navigateToGameScreen.observe(viewLifecycleOwner) {
-//            if (it) {
-//                viewModel.resetNavigation()
-//                val gameId = viewModel.newGameId.value!!
-//                findNavController()
-//                    .navigate(
-//                        GamesListFragmentDirections.actionToGameFragment(gameId)
-//                    )
-//            }
-//        }
+        viewModel.navigateToGameScreen.observe(viewLifecycleOwner) {
+            if (it) {
+                viewModel.resetNavigation()
+                val gameId = viewModel.newGameId.value!!
+                findNavController()
+                    .navigate(
+                        GamesListFragmentDirections.actionToGameFragment(gameId))
+            }
+        }
     }
 
     override fun onDestroy() {

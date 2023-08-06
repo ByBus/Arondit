@@ -8,29 +8,38 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import host.capitalquiz.arondit.databinding.WordItemBinding
 
-class WordAdapter: ListAdapter<String, WordAdapter.BindViewHolder>(DIFF_UTIL) {
+class WordAdapter(private val wordClickListener: (Long) -> Unit) :
+    ListAdapter<WordUi, WordAdapter.BindViewHolder>(DIFF_UTIL) {
 
-    abstract class BindViewHolder(itemView: View): ViewHolder(itemView) {
-        abstract fun bind(item: String)
-    }
+    abstract inner class BindViewHolder(itemView: View) : ViewHolder(itemView) {
+        protected var id = 0L
 
-    inner class WordViewHolder(private val binding: WordItemBinding) : BindViewHolder(binding.root) {
-        override fun bind(item: String) {
-            binding.eruditWord.setText(item)
+        init {
+            itemView.setOnClickListener { wordClickListener.invoke(id) }
         }
 
+        abstract fun bind(item: WordUi)
+    }
+
+    inner class WordViewHolder(private val binding: WordItemBinding) :
+        BindViewHolder(binding.root) {
+        override fun bind(item: WordUi) {
+            id = item.id
+            binding.eruditWord.setText(item.word)
+            binding.eruditWord.multiplier = item.multiplier
+            binding.wordScores.text = item.score.toString()
+        }
     }
 
     companion object {
-        private val DIFF_UTIL = object : DiffUtil.ItemCallback<String>() {
-            override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
-                return oldItem == newItem
+        private val DIFF_UTIL = object : DiffUtil.ItemCallback<WordUi>() {
+            override fun areItemsTheSame(oldItem: WordUi, newItem: WordUi): Boolean {
+                return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+            override fun areContentsTheSame(oldItem: WordUi, newItem: WordUi): Boolean {
                 return oldItem == newItem
             }
-
         }
     }
 

@@ -23,6 +23,6 @@ data class WordData(
     var id: Long = 0L
 
     fun <R> map(mapper: WordDataMapper<R>): R {
-        return mapper(word, letterBonuses, multiplier, id)
+        return mapper(word, letterBonuses, multiplier, id, playerId)
     }
 }

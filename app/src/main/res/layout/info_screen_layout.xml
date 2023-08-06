@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/infoBlock"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="48dp">
+
+
+    <ImageView
+        android:id="@+id/infoImage"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/camp" />
+
+    <TextView
+        android:id="@+id/infoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:fontFamily="@font/yanone_kaffeesatz_bold"
+        android:gravity="center"
+        android:text="@string/no_games_info_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/infoButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/start_new_game" />
+</LinearLayout>

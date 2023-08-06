@@ -29,10 +29,8 @@ abstract class GamesListModule {
     @Binds
     abstract fun bindGamesListRepository(impl: GamesListRepository): GamesRepository
 
-
     @Binds
     abstract fun bindGameDataToGameMapper(impl: GameDataToGameMapper): GameDataMapper<Game>
-
 
     @Binds
     abstract fun bindPlayerDataToPlayerInfoMapper(impl: PlayerDataToPlayerInfoMapper): PlayerDataMapper<PlayerInfo>
