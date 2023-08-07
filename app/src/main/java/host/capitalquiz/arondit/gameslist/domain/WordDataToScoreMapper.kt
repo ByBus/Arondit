@@ -10,7 +10,6 @@ class WordDataToScoreMapper @Inject constructor(private val dictionary: Map<Char
             .foldIndexed(0) { i, acc, current ->
                 val bonus = letterBonuses.getOrNull(i) ?: 1
                 acc + current * bonus
-            }
+            } * multiplier
     }
-
 }

@@ -9,7 +9,6 @@ import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import host.capitalquiz.arondit.databinding.DialogFragmentAddWordBinding
 
@@ -36,10 +35,12 @@ abstract class BaseWordDialogFragment: DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         dialog?.window
             ?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
 
         binding.dialogHeader.text = view.context.getText(titleRes)
         binding.dialogHeader.setBackgroundColor(headerColor)
         binding.cancel.setOnClickListener { dismiss() }
+        binding.wordInput.requestFocus()
 
         binding.wordInput.editText?.addTextChangedListener {
             viewModel.updateWord(it.toString())
@@ -64,9 +65,4 @@ abstract class BaseWordDialogFragment: DialogFragment() {
         super.onDestroy()
         _binding = null
     }
-}
-
-fun Fragment.requirePreviousFragment(): Fragment {
-    val fragments = requireParentFragment().childFragmentManager.fragments
-    return if (fragments.size < 2) requireParentFragment() else fragments[fragments.lastIndex - 1]
 }

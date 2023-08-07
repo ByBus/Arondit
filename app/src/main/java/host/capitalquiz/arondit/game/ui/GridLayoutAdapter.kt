@@ -15,6 +15,7 @@ import host.capitalquiz.arondit.R
 
 class GridLayoutAdapter(
     private val context: Context,
+    private val addUserCallBack: () -> Unit,
     private val removeUserCallback: (PlayerId, PlayerColor) -> Unit,
     private val openAddWordDialogCallback: (PlayerId, PlayerColor) -> Unit,
     private val wordClickCallback: (id: Long, PlayerColor, PlayerId) -> Unit,
@@ -51,6 +52,11 @@ class GridLayoutAdapter(
                 detach()
                 true
             }
+
+            toolbar.setNavigationOnClickListener {
+                addUserCallBack.invoke()
+            }
+
             itemView.findViewById<Button>(R.id.addWord).setOnClickListener {
                 openAddWordDialogCallback.invoke(id, color)
             }

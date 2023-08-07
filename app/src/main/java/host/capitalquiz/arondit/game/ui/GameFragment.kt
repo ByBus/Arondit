@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -26,6 +27,7 @@ class GameFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         gridLayoutAdapter = GridLayoutAdapter(requireContext(),
+            addUserCallBack = { addPlayer() },
             removeUserCallback = { playerId, playerColor ->
                 viewModel.returnColor(playerColor.value)
                 viewModel.deletePlayer(playerId.value)
@@ -76,16 +78,27 @@ class GameFragment : Fragment() {
             bindTo(binding.grid)
         }
 
-        viewModel.players.observe(viewLifecycleOwner) { players ->
-            viewModel.removeUsedColors(players.map { it.color })
-            gridLayoutAdapter.submitList(players)
+        with(binding.information){
+            infoButton.setOnClickListener {
+                addPlayer()
+            }
+            infoText.text = getString(R.string.no_players_info_text)
+            infoImage.setImageResource(R.drawable.knights)
+            infoButton.text = getString(R.string.add_participant)
         }
 
-        binding.addPlayer.setOnClickListener {
-            viewModel.borrowColor { color ->
-                val addWordDialog = GameFragmentDirections.actionToAddPlayerDialog(color)
-                findNavController().navigate(addWordDialog)
-            }
+        viewModel.players.observe(viewLifecycleOwner) { players ->
+            viewModel.removeUsedColors(players.map { it.color })
+            binding.information.root.isVisible = players.isEmpty()
+            binding.grid.isVisible = players.isNotEmpty()
+            gridLayoutAdapter.submitList(players)
+        }
+    }
+
+    private fun addPlayer() {
+        viewModel.borrowColor { color ->
+            val addWordDialog = GameFragmentDirections.actionToAddPlayerDialog(color)
+            findNavController().navigate(addWordDialog)
         }
     }
 

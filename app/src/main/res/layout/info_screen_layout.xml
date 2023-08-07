@@ -6,13 +6,16 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="vertical"
+    android:paddingVertical="8dp"
     android:paddingHorizontal="48dp">
 
 
     <ImageView
         android:id="@+id/infoImage"
-        android:layout_width="256dp"
-        android:layout_height="wrap_content"
+        android:scaleType="fitEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/info_image_height"
+        android:layout_weight="@dimen/info_image_weigh"
         android:adjustViewBounds="true"
         android:src="@drawable/camp" />
 

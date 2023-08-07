@@ -6,9 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".gameslist.ui.GamesListFragment">
 
+    <include
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible"
+        android:visibility="gone"
+        android:id="@+id/information"
+        layout="@layout/info_screen_layout"
+        android:layout_height="match_parent" />
+
     <RelativeLayout
         android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
+        app:layout_constraintHorizontal_weight="0.5"
+        android:layout_width="500dp"
         android:layout_height="100dp"
         android:layout_marginTop="16dp"
         android:paddingVertical="16dp"
@@ -16,6 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
             android:id="@+id/swordSpike"
             android:layout_alignParentLeft="true"
@@ -94,10 +106,5 @@
         app:icon="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <include
-        android:visibility="gone"
-        android:id="@+id/information"
-        layout="@layout/info_screen_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
