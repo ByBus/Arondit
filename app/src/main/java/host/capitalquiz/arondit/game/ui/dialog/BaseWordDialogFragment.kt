@@ -50,13 +50,10 @@ abstract class BaseWordDialogFragment: DialogFragment() {
             viewModel.updateWord(it.toString())
         }
 
-        viewModel.word.observe(viewLifecycleOwner) {
-            binding.x2WordBonusButton.isChecked = it.multiplier == 2
-            binding.x3WordBonusButton.isChecked = it.multiplier == 3
-            binding.eruditWord.setTextWithBonuses(it.word, it.letterBonuses)
-//            binding.eruditWord.setText(it.word)
-//            binding.eruditWord.setBonuses(it.letterBonuses)
-            binding.eruditWord.multiplier = it.multiplier
+        viewModel.word.observe(viewLifecycleOwner) {wordUi ->
+            with(binding){
+                wordUi.update(eruditWord, x2WordBonusButton, x3WordBonusButton)
+            }
         }
 
         binding.eruditWord.setLetterClickListener{ index, _ ->
@@ -75,6 +72,12 @@ abstract class BaseWordDialogFragment: DialogFragment() {
             }
         }
 
+        binding.confirmWord.setOnClickListener {
+            if (!binding.wordInput.editText?.text.isNullOrBlank()) {
+                viewModel.saveWord()
+                dismiss()
+            }
+        }
     }
 
     override fun onDestroy() {

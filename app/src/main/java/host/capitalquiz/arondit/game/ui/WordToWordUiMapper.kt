@@ -9,12 +9,12 @@ class WordToWordUiMapper @Inject constructor(
 ) : WordMapper<WordUi> {
     private var score = 0
 
-    override fun invoke(word: Word): WordUi {
+    override fun map(word: Word): WordUi {
         score = word.score(dictionary)
         return word.map(this)
     }
 
-    override fun invoke(
+    override fun map(
         word: String,
         letterBonuses: List<Int>,
         multiplier: Int,

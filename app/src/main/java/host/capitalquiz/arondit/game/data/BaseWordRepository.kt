@@ -1,20 +1,24 @@
 package host.capitalquiz.arondit.game.data
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import host.capitalquiz.arondit.core.db.WordDao
 import host.capitalquiz.arondit.core.db.WordData
 import host.capitalquiz.arondit.core.db.WordDataMapper
 import host.capitalquiz.arondit.game.domain.Word
-import host.capitalquiz.arondit.game.domain.WordMapperWithId
+import host.capitalquiz.arondit.game.domain.WordMapperWithParameter
 import host.capitalquiz.arondit.game.domain.WordRepository
 import javax.inject.Inject
 
 class BaseWordRepository @Inject constructor(
+    private val oneWordCache: WordDataDataSource,
     private val wordDao: WordDao,
-    private val wordUiMapper: WordDataMapper<Word>,
-    private val wordDataMapper: WordMapperWithId<Long, WordData>,
+    private val wordMapper: WordDataMapper<Word>,
+    private val wordDataMapper: WordMapperWithParameter<Long, Word, WordData>,
+    private val wordBonusMapper: WordDataToWordDataMapper,
 ) : WordRepository {
     override suspend fun addWord(playerId: Long, word: Word): Long {
-        return wordDao.insert(word.map(wordDataMapper.apply { additionalId = playerId }))
+        return wordDao.insert(wordDataMapper.map(word, playerId))
     }
 
     override suspend fun deleteWord(wordId: Long) {
@@ -22,10 +26,46 @@ class BaseWordRepository @Inject constructor(
     }
 
     override suspend fun selectWord(wordId: Long): Word {
-        return wordDao.selectWordById(wordId).map(wordUiMapper)
+        return wordDao.selectWordById(wordId).map(wordMapper)
     }
 
     override suspend fun updateWord(playerId: Long, word: Word) {
-        wordDao.updateWord(word.map(wordDataMapper.apply { additionalId = playerId }))
+        wordDao.updateWord(wordDataMapper.map(word, playerId))
+    }
+
+    override suspend fun loadToCache(wordId: Long) {
+        val word = wordDao.selectWordById(wordId)
+        oneWordCache.save(word)
+    }
+
+    override fun readCache(): LiveData<Word> = oneWordCache.read().map { it.map(wordMapper) }
+
+    override suspend fun initCache(playerId: Long) =
+        oneWordCache.save(WordData("", playerId = playerId))
+
+    override suspend fun updateCache(word: String) {
+        oneWordCache.read().value?.let { oldWordData ->
+            oneWordCache.save(wordBonusMapper.map(oldWordData, word))
+        }
+    }
+
+    override suspend fun updateMultiplier(value: Int) {
+        oneWordCache.read().value?.let {
+            oneWordCache.save(it.deepCopy(multiplier = value))
+        }
+    }
+
+    override suspend fun changeLetterScore(position: Int) {
+        oneWordCache.read().value?.let {
+            val bonuses = it.letterBonuses.toMutableList()
+            bonuses[position] = if (bonuses[position] == 3) 1 else bonuses[position] + 1
+            oneWordCache.save(it.deepCopy(letterBonuses = bonuses))
+        }
+    }
+
+    override suspend fun saveCacheToDb() {
+        oneWordCache.read().value?.let {
+            wordDao.insertOrUpdate(it)
+        }
     }
 }

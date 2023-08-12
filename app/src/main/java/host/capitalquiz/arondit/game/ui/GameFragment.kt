@@ -97,8 +97,8 @@ class GameFragment : Fragment() {
 
     private fun addPlayer() {
         viewModel.borrowColor { color ->
-            val addWordDialog = GameFragmentDirections.actionToAddPlayerDialog(color)
-            findNavController().navigate(addWordDialog)
+            val addPlayerDialog = GameFragmentDirections.actionToAddPlayerDialog(color)
+            findNavController().navigate(addPlayerDialog)
         }
     }
 

@@ -15,6 +15,6 @@ class PlayerToPlayerUiMapper @Inject constructor(
         score: Int,
         words: List<Word>,
     ): PlayerUi {
-        return PlayerUi(id, color, name, words.map { mapper.invoke(it) }, score)
+        return PlayerUi(id, color, name, words.map { mapper.map(it) }, score)
     }
 }

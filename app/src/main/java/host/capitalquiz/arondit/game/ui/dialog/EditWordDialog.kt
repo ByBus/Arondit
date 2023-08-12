@@ -33,11 +33,6 @@ class EditWordDialog : BaseWordDialogFragment() {
             }
         }
 
-        binding.confirmWord.setOnClickListener {
-            viewModel.updateWord(args.playerId)
-            dismiss()
-        }
-
         viewModel.word.observe(viewLifecycleOwner){
             val editText = binding.wordInput.editText
             if (editText?.text.isNullOrBlank() && it.word.isNotBlank()) {

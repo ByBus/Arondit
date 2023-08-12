@@ -11,6 +11,7 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.os.Build
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -198,15 +199,18 @@ class EruditWordView @JvmOverloads constructor(
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun setTextWithBonuses(text: String, bonuses: List<Int>) {
+        Log.d("EruditWordView1", "setTextWithBonuses: BEFORE ${word.map { it.charToBonus() }} ")
         if (text.equals(toString(), true)) {
             setBonuses(bonuses)
+            Log.d("EruditWordView1", "setTextWithBonuses: AFTER  ${word.map { it.charToBonus() }} ")
             return
         }
         hideAndShow {
             updateWord(text)
-            requestLayout()
             setBonuses(bonuses)
+            requestLayout()
         }
+        Log.d("EruditWordView1", "setTextWithBonuses: AFTER  ${word.map { it.charToBonus() }} ")
     }
 
     /**
@@ -414,6 +418,8 @@ class EruditWordView @JvmOverloads constructor(
 
         override fun toString(): String = char.toString()
 
+        fun charToBonus() = "$char=$bonus"
+
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         fun drawInside(newBounds: RectF, canvas: Canvas) {
             bounds.set(newBounds)
@@ -436,7 +442,7 @@ class EruditWordView @JvmOverloads constructor(
         }
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) return false
+            if (this === other) return true
             if (javaClass != other?.javaClass) return false
             other as Letter
             if (char != other.char) return false

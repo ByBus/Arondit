@@ -20,12 +20,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:longClickable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dialogHeader">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:longClickable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/your_word_hint" />

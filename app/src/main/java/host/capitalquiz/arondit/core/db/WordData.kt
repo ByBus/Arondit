@@ -25,4 +25,20 @@ data class WordData(
     fun <R> map(mapper: WordDataMapper<R>): R {
         return mapper(word, letterBonuses, multiplier, id, playerId)
     }
+
+    fun deepCopy(
+        word: String = this.word,
+        letterBonuses: List<Int> = this.letterBonuses,
+        multiplier: Int = this.multiplier,
+        playerId: Long = this.playerId,
+    ): WordData {
+        return copy(
+            word = word,
+            letterBonuses = letterBonuses,
+            multiplier = multiplier,
+            playerId = playerId
+        ).also {
+            it.id = id
+        }
+    }
 }

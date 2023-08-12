@@ -17,7 +17,7 @@
         android:layout_weight="1"
         app:mainColor="@color/letter_block_color"
         app:size="40dp"
-        app:word="слово" />
+        tools:word="слово" />
 
     <TextView
         android:id="@+id/wordScores"
