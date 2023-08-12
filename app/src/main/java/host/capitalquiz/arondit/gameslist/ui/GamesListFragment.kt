@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import host.capitalquiz.arondit.R
+import host.capitalquiz.arondit.core.ui.BorderDrawable
 import host.capitalquiz.arondit.databinding.FragmentGamesListBinding
 
 @AndroidEntryPoint
@@ -31,6 +33,17 @@ class GamesListFragment : Fragment() {
             findNavController().navigate(GamesListFragmentDirections.actionToGameFragment(gameId))
         }
         binding.gamesList.adapter = adapter
+        binding.border?.apply {
+            setImageDrawable(
+                BorderDrawable(
+                    requireContext(),
+                    R.drawable.medival_corner_2,
+                    R.drawable.medival_pipe_2,
+                ).apply {
+                    cutPipeEnds(25)
+                }
+            )
+        }
 
         binding.createGame.setOnClickListener {
             viewModel.createGame()
@@ -52,7 +65,8 @@ class GamesListFragment : Fragment() {
                 val gameId = viewModel.newGameId.value!!
                 findNavController()
                     .navigate(
-                        GamesListFragmentDirections.actionToGameFragment(gameId))
+                        GamesListFragmentDirections.actionToGameFragment(gameId)
+                    )
             }
         }
     }

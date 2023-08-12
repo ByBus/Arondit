@@ -47,7 +47,7 @@
             android:layout_height="match_parent"
             />
 
-        <host.capitalquiz.arondit.core.ui.EruditWordView
+        <host.capitalquiz.arondit.core.ui.view.EruditWordView
             android:layout_centerInParent="true"
             android:layout_toLeftOf="@id/swordHilt"
             android:layout_marginLeft="48dp"
@@ -69,7 +69,8 @@
         android:id="@+id/gamesList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="50dp"
+        android:layout_marginHorizontal="16dp"
+        android:padding="36dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="70dp"
         android:orientation="vertical"
@@ -79,6 +80,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/frameLayout"
         app:layout_constraintVertical_weight="1" />
+
+    <ImageView
+        android:id="@+id/border"
+        app:layout_constraintTop_toTopOf="@id/gamesList"
+        app:layout_constraintEnd_toEndOf="@id/gamesList"
+        app:layout_constraintBottom_toBottomOf="@id/gamesList"
+        app:layout_constraintStart_toStartOf="@id/gamesList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/createGame"
@@ -92,6 +102,7 @@
         android:labelFor="@id/gamesList"
         android:text="@string/new_game"
         app:icon="@android:drawable/ic_input_add"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
