@@ -9,7 +9,7 @@
     android:orientation="horizontal"
     tools:ignore="RtlSymmetry">
 
-    <host.capitalquiz.arondit.core.ui.EruditWordView
+    <host.capitalquiz.arondit.core.ui.view.EruditWordView
         android:layout_gravity="center_vertical"
         android:id="@+id/eruditWord"
         android:layout_width="0dp"
@@ -25,7 +25,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:paddingHorizontal="8dp"
-        android:text="15"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/letter_block_color"
         tools:text="42" />

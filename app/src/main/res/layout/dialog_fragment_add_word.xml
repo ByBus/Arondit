@@ -2,8 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:maxWidth="420dp">
 
     <TextView
         android:id="@+id/dialogHeader"
@@ -17,7 +19,8 @@
         android:id="@+id/wordInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
+        android:layout_marginHorizontal="16dp"
+        android:longClickable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dialogHeader">
@@ -37,8 +40,8 @@
         app:layout_constraintEnd_toStartOf="@+id/x3WordBonusButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@id/wordInput"
-        app:layout_constraintTop_toBottomOf="@id/wordInput"
-        tools:checked="false" />
+        app:layout_constraintTop_toBottomOf="@+id/wordInput"
+        tools:checked="true" />
 
     <ToggleButton
         android:id="@+id/x3WordBonusButton"
@@ -58,22 +61,29 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:paddingVertical="8dp"
+        app:clickableLetters="true"
         app:layout_constraintEnd_toEndOf="@id/wordInput"
         app:layout_constraintStart_toStartOf="@id/wordInput"
         app:layout_constraintTop_toBottomOf="@id/x2WordBonusButton">
 
-        <host.capitalquiz.arondit.core.ui.EruditWordView
+        <host.capitalquiz.arondit.core.ui.view.EruditWordView
             android:id="@+id/eruditWord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:longClickable="false"
+            app:animateUpdates="true"
+            app:initWithBadges="true"
             app:mainColor="@color/letter_block_color"
             app:size="50dp"
+            app:useDiffUtil="true"
             tools:word="Слово" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/wordInput"
@@ -107,5 +117,15 @@
             app:backgroundTint="@color/player_color_1"
             tools:visibility="visible" />
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/dialog_border_9patch_metallic_"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,8 +1,10 @@
 package host.capitalquiz.arondit.game.ui
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -23,10 +25,12 @@ class WordAdapter(private val wordClickListener: (Long) -> Unit) :
 
     inner class WordViewHolder(private val binding: WordItemBinding) :
         BindViewHolder(binding.root) {
+        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         override fun bind(item: WordUi) {
             id = item.id
             binding.eruditWord.setText(item.word)
             binding.eruditWord.multiplier = item.multiplier
+            binding.eruditWord.setBonuses(item.letterBonuses)
             binding.wordScores.text = item.score.toString()
         }
     }

@@ -1,7 +1,9 @@
 package host.capitalquiz.arondit.game.ui.dialog
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,10 +21,10 @@ class EditWordDialog : BaseWordDialogFragment() {
         viewModel.loadWord(args.wordId)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.dialogHeader.setBackgroundColor(args.dialogColor)
-
         binding.removeWord.apply {
             isVisible = true
             setOnClickListener {
@@ -34,6 +36,13 @@ class EditWordDialog : BaseWordDialogFragment() {
         binding.confirmWord.setOnClickListener {
             viewModel.updateWord(args.playerId)
             dismiss()
+        }
+
+        viewModel.word.observe(viewLifecycleOwner){
+            val editText = binding.wordInput.editText
+            if (editText?.text.isNullOrBlank() && it.word.isNotBlank()) {
+                editText?.setText(it.word)
+            }
         }
     }
 }

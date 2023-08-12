@@ -1,11 +1,13 @@
 package host.capitalquiz.arondit.game.ui.dialog
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.annotation.ColorInt
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
@@ -31,11 +33,13 @@ abstract class BaseWordDialogFragment: DialogFragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialog?.window
             ?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+//        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         binding.dialogHeader.text = view.context.getText(titleRes)
         binding.dialogHeader.setBackgroundColor(headerColor)
@@ -47,18 +51,30 @@ abstract class BaseWordDialogFragment: DialogFragment() {
         }
 
         viewModel.word.observe(viewLifecycleOwner) {
-            binding.eruditWord.setText(it.word)
-            binding.eruditWord.multiplier = it.multiplier
             binding.x2WordBonusButton.isChecked = it.multiplier == 2
             binding.x3WordBonusButton.isChecked = it.multiplier == 3
+            binding.eruditWord.setTextWithBonuses(it.word, it.letterBonuses)
+//            binding.eruditWord.setText(it.word)
+//            binding.eruditWord.setBonuses(it.letterBonuses)
+            binding.eruditWord.multiplier = it.multiplier
         }
 
-        binding.x2WordBonusButton.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.updateWordMultiplier(if (isChecked) 2 else 1)
+        binding.eruditWord.setLetterClickListener{ index, _ ->
+            viewModel.changeLetterScore(index)
         }
-        binding.x3WordBonusButton.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.updateWordMultiplier(if (isChecked) 3 else 1)
+
+        with(binding.x2WordBonusButton){
+            setOnClickListener {
+                viewModel.updateWordMultiplier(if (isChecked) 2 else 1)
+            }
         }
+
+        with(binding.x3WordBonusButton){
+            setOnClickListener {
+                viewModel.updateWordMultiplier(if (isChecked) 3 else 1)
+            }
+        }
+
     }
 
     override fun onDestroy() {

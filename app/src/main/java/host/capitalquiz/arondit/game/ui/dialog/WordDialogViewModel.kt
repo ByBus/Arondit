@@ -36,17 +36,15 @@ class WordDialogViewModel @Inject constructor(
     }
 
     fun updateWord(word: String) {
-        tempWord.value = tempWord.value?.copy(word = word)
-    }
-
-    fun updateScoreOfLetter(score: Int, letterIndex: Int) {
-        tempWord.value?.let { word ->
-            if (letterIndex < word.letterBonuses.size) {
-                val wordScores = word.letterBonuses.toMutableList()
-                wordScores[letterIndex] = score
-                tempWord.value = word.copy(letterBonuses = wordScores)
+        tempWord.value?.let{
+            val bonuses = MutableList(word.length){ 1 }
+            for ((i, value) in it.letterBonuses.withIndex()){
+                if (i > word.lastIndex) break
+                bonuses[i] = value
             }
+            tempWord.value = tempWord.value?.copy(word = word, letterBonuses = bonuses)
         }
+
     }
 
     fun updateWordMultiplier(value: Int){
@@ -66,6 +64,14 @@ class WordDialogViewModel @Inject constructor(
             viewModelScope.launch {
                 wordInteractor.addWord(playerId, it.map(wordUiToWordMapper))
             }
+        }
+    }
+
+    fun changeLetterScore(index: Int) {
+        tempWord.value?.let {
+            val bonuses = it.letterBonuses.toMutableList()
+            bonuses[index] = if (bonuses[index] == 3) 1 else bonuses[index] + 1
+            tempWord.value = tempWord.value?.copy(letterBonuses = bonuses)
         }
     }
 }
