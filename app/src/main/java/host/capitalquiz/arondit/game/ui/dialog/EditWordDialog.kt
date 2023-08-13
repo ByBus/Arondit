@@ -10,10 +10,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.R
 
 @AndroidEntryPoint
-class EditWordDialog : BaseWordDialogFragment() {
+class EditWordDialog : BaseWordBottomDialog() {
 
     private val args by navArgs<EditWordDialogArgs>()
     override val titleRes = R.string.edit_word_dialog_title
+    override val confirmButtonTextRes = R.string.save
     override val headerColor get() = args.dialogColor
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +33,8 @@ class EditWordDialog : BaseWordDialogFragment() {
                 dismiss()
             }
         }
+
+        binding.confirmWord.setBackgroundResource(R.drawable.left_corners_round)
 
         viewModel.word.observe(viewLifecycleOwner){
             val editText = binding.wordInput.editText

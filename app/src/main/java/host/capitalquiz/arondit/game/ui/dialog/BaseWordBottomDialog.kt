@@ -5,16 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.databinding.DialogFragmentAddWordBinding
 
-abstract class BaseWordDialogFragment: DialogFragment() {
+@AndroidEntryPoint
+abstract class BaseWordBottomDialog : BottomSheetDialogFragment() {
+
     protected val viewModel by viewModels<WordDialogViewModel>()
     private var _binding: DialogFragmentAddWordBinding? = null
     protected val binding get() = _binding!!
@@ -23,6 +25,8 @@ abstract class BaseWordDialogFragment: DialogFragment() {
     abstract val titleRes: Int
     @get:ColorInt
     abstract val headerColor: Int
+    @get:StringRes
+    abstract val confirmButtonTextRes: Int
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,15 +40,13 @@ abstract class BaseWordDialogFragment: DialogFragment() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialog?.window
-            ?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+//        dialog?.window
+//            ?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+//        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
 //        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         binding.dialogHeader.text = view.context.getText(titleRes)
         binding.dialogHeader.setBackgroundColor(headerColor)
-        binding.cancel.setOnClickListener { dismiss() }
-        binding.wordInput.requestFocus()
 
         binding.wordInput.editText?.addTextChangedListener {
             viewModel.updateWord(it.toString())
@@ -72,6 +74,7 @@ abstract class BaseWordDialogFragment: DialogFragment() {
             }
         }
 
+        binding.confirmWord.text = view.context.getText(confirmButtonTextRes)
         binding.confirmWord.setOnClickListener {
             if (!binding.wordInput.editText?.text.isNullOrBlank()) {
                 viewModel.saveWord()

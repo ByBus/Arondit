@@ -17,7 +17,7 @@
             android:id="@+id/dateBlock"
             android:layout_width="68sp"
             android:layout_height="68sp"
-            android:background="@color/player_color_4"
+            android:background="@color/base_orange"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -65,25 +65,25 @@
             <com.google.android.material.chip.Chip
                 android:id="@+id/player1"
                 style="@style/text_name_style"
-                app:chipBackgroundColor="@color/player_color_1"
+                app:chipBackgroundColor="@color/base_red"
                 tools:text="Вася 100" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/player2"
                 style="@style/text_name_style"
-                app:chipBackgroundColor="@color/player_color_2"
+                app:chipBackgroundColor="@color/base_green"
                 tools:text="Катя 65" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/player3"
                 style="@style/text_name_style"
-                app:chipBackgroundColor="@color/player_color_3"
+                app:chipBackgroundColor="@color/base_blue"
                 tools:text="Михаил Васютин 52" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/player4"
                 style="@style/text_name_style"
-                app:chipBackgroundColor="@color/player_color_4"
+                app:chipBackgroundColor="@color/base_orange"
                 tools:text="Ольга 22" />
 
         </com.google.android.material.chip.ChipGroup>

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:maxWidth="420dp">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/dialogHeader"
@@ -25,10 +24,11 @@
         app:layout_constraintTop_toBottomOf="@id/dialogHeader">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:longClickable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/your_word_hint" />
+            android:hint="@string/your_word_hint"
+            android:inputType="text"
+            android:longClickable="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ToggleButton
@@ -55,11 +55,12 @@
         tools:checked="true" />
 
     <LinearLayout
+        android:animateLayoutChanges="true"
         android:id="@+id/wordContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:paddingVertical="8dp"
         app:clickableLetters="true"
         app:layout_constraintEnd_toEndOf="@id/wordInput"
@@ -92,29 +93,23 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/confirmWord"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/ok"
-            app:backgroundTint="@color/player_color_2" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel" />
+            android:text="@string/add_word"
+            app:backgroundTint="@color/base_green" />
 
         <ImageButton
+            android:background="@drawable/right_corners_round"
             android:id="@+id/removeWord"
-            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:contentDescription="@string/delete_word"
             android:src="@drawable/round_delete_forever_32"
             android:visibility="gone"
-            app:backgroundTint="@color/player_color_1"
+            app:backgroundTint="@color/base_red"
             tools:visibility="visible" />
     </LinearLayout>
 

@@ -2,10 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="player_color_1">#EF5350</color>
-    <color name="player_color_2">#26A69A</color>
-    <color name="player_color_3">#42A5F5</color>
-    <color name="player_color_4">#FFA726</color>
+    <color name="base_red">#EF5350</color>
+    <color name="base_green">#26A69A</color>
+    <color name="base_blue">#42A5F5</color>
+    <color name="base_orange">#FFA726</color>
     <color name="letter_block_color">#AB47BC</color>
     <color name="main_menu_letters_tile">#ECB913</color>
     <color name="main_menu_letters">#3C3C3C</color>
