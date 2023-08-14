@@ -10,8 +10,14 @@ import javax.inject.Inject
 interface HtmlParser {
     fun parse(htmlResult: Response<String>): WordDefinition
 
-    class OzhegovSlovarOnlineComParser @Inject constructor(): HtmlParser {
-        private val lowPriorityGlossary = "Словарь синонимов"
+    class OzhegovSlovarOnlineComParser @Inject constructor() : HtmlParser {
+        private val glossaryPriority = mapOf(
+            "Толковый словарь русского языка" to 50,
+            "Словарь современных географических названий" to 40,
+            "Города России" to 30,
+            "Энциклопедия моды и одежды" to 20,
+            "Словарь синонимов" to 10
+        )
 
         override fun parse(htmlResult: Response<String>): WordDefinition {
             return if (htmlResult.isSuccessful) {
@@ -19,7 +25,7 @@ interface HtmlParser {
                 val foundElements: Elements = htmlDocument.select(".search-result")
 
                 if (foundElements.isEmpty()) throw IllegalStateException()
-                val element = foundElements.findOtherThan(lowPriorityGlossary)!!
+                val element = foundElements.sortedWith(elementsComparator).first()
 
                 val wordElement = element.select("h3 a")
                 val word = wordElement.text()
@@ -32,8 +38,11 @@ interface HtmlParser {
             }
         }
 
-        private fun Elements.findOtherThan(glossaryName: String): Element? {
-            return firstOrNull { it.select(".search-link").text() != glossaryName } ?: first()
+        private val elementsComparator = Comparator<Element> { o1, o2 ->
+            o2.priority() - o1.priority()
         }
+
+        private fun Element.priority(): Int = glossaryPriority[select(".search-link").text()] ?: 0
+
     }
 }
