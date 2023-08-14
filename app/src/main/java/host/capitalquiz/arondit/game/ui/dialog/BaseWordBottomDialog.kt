@@ -12,6 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import host.capitalquiz.arondit.R
 import host.capitalquiz.arondit.databinding.DialogFragmentAddWordBinding
 
 @AndroidEntryPoint
@@ -23,11 +24,17 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragment() {
 
     @get:StringRes
     abstract val titleRes: Int
+
     @get:ColorInt
     abstract val headerColor: Int
+
     @get:StringRes
     abstract val confirmButtonTextRes: Int
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NO_TITLE, R.style.DialogStyle)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,23 +59,27 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragment() {
             viewModel.updateWord(it.toString())
         }
 
-        viewModel.word.observe(viewLifecycleOwner) {wordUi ->
-            with(binding){
-                wordUi.update(eruditWord, x2WordBonusButton, x3WordBonusButton)
+        viewModel.word.observe(viewLifecycleOwner) { word ->
+            with(binding) {
+                word.update(eruditWord, x2WordBonusButton, x3WordBonusButton)
             }
         }
 
-        binding.eruditWord.setLetterClickListener{ index, _ ->
+        viewModel.definition.observe(viewLifecycleOwner){ definition ->
+            definition.update(binding.glossaryBlock)
+        }
+
+        binding.eruditWord.setLetterClickListener { index, _ ->
             viewModel.changeLetterScore(index)
         }
 
-        with(binding.x2WordBonusButton){
+        with(binding.x2WordBonusButton) {
             setOnClickListener {
                 viewModel.updateWordMultiplier(if (isChecked) 2 else 1)
             }
         }
 
-        with(binding.x3WordBonusButton){
+        with(binding.x3WordBonusButton) {
             setOnClickListener {
                 viewModel.updateWordMultiplier(if (isChecked) 3 else 1)
             }

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -55,7 +56,7 @@
         tools:checked="true" />
 
     <LinearLayout
-        android:animateLayoutChanges="true"
+        android:animateLayoutChanges= "true"
         android:id="@+id/wordContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -78,6 +79,12 @@
             app:size="50dp"
             app:useDiffUtil="true"
             tools:word="Слово" />
+
+        <host.capitalquiz.arondit.core.ui.view.GlossaryView
+            android:id="@+id/glossaryBlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout

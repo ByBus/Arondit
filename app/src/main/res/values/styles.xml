@@ -48,4 +48,9 @@
         <item name="chipMinTouchTargetSize">32dp</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.ExtraSmall</item>
     </style>
+
+    <style name="DialogStyle" parent="Theme.Material3.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize|stateAlwaysVisible</item>
+    </style>
 </resources>

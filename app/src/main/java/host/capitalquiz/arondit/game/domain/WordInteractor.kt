@@ -27,7 +27,12 @@ interface WordInteractor {
 
     fun readCache(): LiveData<Word>
 
-    class Base @Inject constructor(private val wordRepository: WordRepository) : WordInteractor {
+    suspend fun findDefinition(word: String): WordDefinition
+
+    class Base @Inject constructor(
+        private val wordRepository: WordRepository,
+        private val definitionRepository: DefinitionRepository,
+    ) : WordInteractor {
         override suspend fun addWord(playerId: Long, word: Word): Long =
             wordRepository.addWord(playerId, word)
 
@@ -41,6 +46,8 @@ interface WordInteractor {
         override suspend fun updateWord(word: String) = wordRepository.updateCache(word)
 
         override fun readCache(): LiveData<Word> = wordRepository.readCache()
+        override suspend fun findDefinition(word: String): WordDefinition =
+            definitionRepository.findDefinition(word)
 
         override suspend fun loadWordToCache(wordId: Long) = wordRepository.loadToCache(wordId)
 
@@ -53,5 +60,6 @@ interface WordInteractor {
 
         override suspend fun initCacheWithPlayer(playerId: Long) =
             wordRepository.initCache(playerId)
+
     }
 }
