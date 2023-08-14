@@ -1,6 +1,5 @@
 package host.capitalquiz.arondit.game.ui.dialog
 
-import android.net.Uri
 import host.capitalquiz.arondit.core.ui.view.GlossaryView
 
 interface WordDefinitionUi {
@@ -9,10 +8,10 @@ interface WordDefinitionUi {
         val word: String,
         val glossaryTitle: String,
         val definition: String,
-        val webSiteUrl: Uri?,
+        val webSiteUrl: String?,
     ): WordDefinitionUi {
         override fun update(glossaryView: GlossaryView) {
-            glossaryView.setWithAnimation(word, glossaryTitle, definition)
+            glossaryView.setWithAnimation(word, glossaryTitle, definition, webSiteUrl)
         }
     }
 

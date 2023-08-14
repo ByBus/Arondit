@@ -1,6 +1,5 @@
 package host.capitalquiz.arondit.game.ui.dialog
 
-import android.net.Uri
 import host.capitalquiz.arondit.game.domain.WordDefinitionMapper
 import javax.inject.Inject
 
@@ -11,8 +10,8 @@ class WordDefinitionToUiMapper @Inject constructor() : WordDefinitionMapper<Word
         definition: String,
         articleUrl: String?,
     ): WordDefinitionUi {
-        val url = articleUrl?.let { Uri.parse(it) }
-        return WordDefinitionUi.Base(word, glossary, definition, url)
+        val html = articleUrl?.let { "<a href=\"$it\">$word</a>" }
+        return WordDefinitionUi.Base(word, glossary, definition, html)
     }
 
     override fun invoke(isEmpty: Boolean): WordDefinitionUi {
