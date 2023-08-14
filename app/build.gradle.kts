@@ -81,6 +81,10 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     implementation("androidx.multidex:multidex:2.0.1")
+
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-scalars:2.9.0")
+    implementation("org.jsoup:jsoup:1.15.4")
 }
 
 // Allow references to generated code
