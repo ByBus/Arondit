@@ -34,14 +34,19 @@ class BaseWordRepository @Inject constructor(
     }
 
     override suspend fun loadToCache(wordId: Long) {
-        val word = wordDao.selectWordById(wordId)
-        oneWordCache.save(word)
+        if (oneWordCache.isEmpty()) {
+            val word = wordDao.selectWordById(wordId)
+            oneWordCache.save(word)
+        }
     }
 
     override fun readCache(): LiveData<Word> = oneWordCache.read().map { it.map(wordMapper) }
 
-    override suspend fun initCache(playerId: Long) =
-        oneWordCache.save(WordData("", playerId = playerId))
+    override suspend fun initCache(playerId: Long) {
+        if (oneWordCache.isEmpty()) {
+            oneWordCache.save(WordData("", playerId = playerId))
+        }
+    }
 
     override suspend fun updateCache(word: String) {
         oneWordCache.read().value?.let { oldWordData ->

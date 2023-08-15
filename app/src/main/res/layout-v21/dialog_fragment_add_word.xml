@@ -58,7 +58,6 @@
         tools:checked="true" />
 
     <LinearLayout
-        android:animateLayoutChanges= "true"
         android:id="@+id/wordContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

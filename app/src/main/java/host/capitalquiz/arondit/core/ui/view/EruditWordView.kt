@@ -25,11 +25,14 @@ import androidx.core.graphics.ColorUtils
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import host.capitalquiz.arondit.R
+import java.util.LinkedList
+import java.util.Queue
 import kotlin.math.roundToInt
 
 class EruditWordView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
 ) : View(context, attrs, defStyleAttr), ColorHolder {
+    private val wordUpdatesBuffer: Queue<String> = LinkedList()
     private var letterClickListener: LetterClickListener? = null
 
     // index = 0 is for base color
@@ -108,22 +111,30 @@ class EruditWordView @JvmOverloads constructor(
             updateWord(getString(R.styleable.EruditWordView_word))
         }
     }
+
     private var badgeHeight = 0
 
     /**
      * Update bonus of whole word
-     * @param multiplier Int [[1, 3]]
+     *
+     * value: [[1, 3]]
      */
     var multiplier = 1
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         set(value) {
             val newValue = value.coerceIn(1, 3)
             if (field == newValue) return
-            val skipAnimation = (field == 1 || newValue == 1).not()
+            val bonusVisibilityChanged = (field == 1 || newValue == 1).not()
             field = newValue
-            bonusAnimationState.animateTo(if (newValue == 2) x2Color else x3Color)
-            hideAndShow(skipAnimation) {
-                if (skipAnimation) invalidate() else requestLayout()
+            bonusAnimationState.animateTo(
+                when (newValue) {
+                    2 -> x2Color
+                    3 -> x3Color
+                    else -> WORD_X1_COLOR
+                }
+            )
+            hideAndShow(bonusVisibilityChanged) {
+                if (!bonusVisibilityChanged) requestLayout()
             }
         }
     private val hasMultiplier get() = multiplier == 2 || multiplier == 3
@@ -140,8 +151,8 @@ class EruditWordView @JvmOverloads constructor(
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private val bonusAnimationState =
         AnimationStateResolver(
-            BonusColorAdapter(this@EruditWordView),
-            multiplier,
+            BonusColorAdapter(this@EruditWordView, WORD_X1_COLOR),
+            WORD_X1_COLOR,
             multiplierBadgeAnimator,
         )
 
@@ -185,6 +196,7 @@ class EruditWordView @JvmOverloads constructor(
             word.addAll(newWord)
         }
     }
+
 
     /**
      * Updates word chars
@@ -235,8 +247,12 @@ class EruditWordView @JvmOverloads constructor(
 
     /**
      * Update bonuses of letter
-     * @param values intArray of digits
-     * 1 = x1, 2 = x2, 3 = x3. Values will be coerced in [[1, 3]] diapason
+     * @param values intArray of digits:
+     *
+     * 1 = x1, 2 = x2, 3 = x3.
+     * Each value corresponds to a letter
+     *
+     * Values will be coerced in [[1, 3]] diapason
      */
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun setBonuses(values: List<Int>) {
@@ -250,13 +266,10 @@ class EruditWordView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         if (word.isEmpty()) return
-        if (hasMultiplier) {
-            wordBonus.apply {
-                text = multiplier.toString()
-                bonusBgColor = if (multiplier == 2) WORD_X2_COLOR else WORD_X3_COLOR
-            }.draw(canvas)
-        }
 
+        wordBonus.apply {
+            text = multiplier.toString()
+        }.draw(canvas)
 
         tempLetterBounds.apply {
             left = gap
@@ -318,6 +331,7 @@ class EruditWordView @JvmOverloads constructor(
         val char = char.uppercaseChar().takeIf { scoresDictionary.containsKey(it) } ?: '*'
         private var charWidth: Float = 0f
         private val bounds = RectF()
+
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         private var colorAnimator = ValueAnimator.ofArgb(0, 0).apply {
             duration = 300
@@ -457,13 +471,16 @@ class EruditWordView @JvmOverloads constructor(
     inner class WordBonus(
         private val prefix: String = "✘",
         var text: String = "",
-        var bonusBgColor: Int = LETTER_X2_COLOR,
     ) {
         @SuppressLint("NewApi")
         fun draw(canvas: Canvas) {
+            if(bonusAnimationState.showBadge.not()) return
             val halfSize = blockSize / 2
             val offset = bonusAnimationState.animatedPosition() * blockSize
-            val r = (multiplierRect.height() / 3 * bonusAnimationState.animatedPosition()).coerceAtLeast(radius)
+            val r =
+                (multiplierRect.height() / 3 * bonusAnimationState.animatedPosition()).coerceAtLeast(
+                    radius
+                )
             paint.withColor(bonusAnimationState.animatedColor()) {
                 multiplierRect.with(right = multiplierRect.right - r + offset) {
                     canvas.drawRoundRect(multiplierRect, radius, radius, paint)
@@ -547,6 +564,7 @@ class EruditWordView @JvmOverloads constructor(
         private const val LETTER_X3_COLOR = 0xFFFBC02D.toInt()
         private const val WORD_X2_COLOR = 0xFF42A5F5.toInt()
         private const val WORD_X3_COLOR = 0xFFEF5350.toInt()
+        private const val WORD_X1_COLOR = Color.TRANSPARENT
     }
 }
 

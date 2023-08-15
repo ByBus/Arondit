@@ -27,7 +27,7 @@ class WordDialogViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val tempWord = wordInteractor.readCache()
-    val word: LiveData<WordUi> = tempWord.map { it.map(wordToUiMapper) }
+    val word: LiveData<WordUi> get() = tempWord.map { it.map(wordToUiMapper) }
 
     private val queryFlow = MutableStateFlow("")
     private val _definition = MutableStateFlow<WordDefinitionUi>(WordDefinitionUi.NoDefinition)

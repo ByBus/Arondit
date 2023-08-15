@@ -29,7 +29,7 @@ class GlossaryView @JvmOverloads constructor(
     private var definition: TextView
     private val animationInterpolator = DecelerateInterpolator()
     private var previousHeight = 0
-    private val hyperlinkDrawable = R.drawable.round_link_24
+    private val hyperlinkDrawable = R.drawable.ic_external_link_24
 
     init {
         val view = LayoutInflater.from(context)
@@ -87,7 +87,7 @@ class GlossaryView @JvmOverloads constructor(
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
         } else {
-            Html.fromHtml(html);
+            Html.fromHtml(html)
         }
     }
 

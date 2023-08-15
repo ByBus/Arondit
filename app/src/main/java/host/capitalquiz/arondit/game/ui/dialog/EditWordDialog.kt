@@ -3,7 +3,6 @@ package host.capitalquiz.arondit.game.ui.dialog
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
@@ -35,16 +34,9 @@ class EditWordDialog : BaseWordBottomDialog() {
             }
         }
 
-        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+//        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
 
         binding.confirmWord.setBackgroundResource(R.drawable.left_corners_round)
-
-        viewModel.word.observe(viewLifecycleOwner){
-            val editText = binding.wordInput.editText
-            if (editText?.text.isNullOrBlank() && it.word.isNotBlank()) {
-                editText?.setText(it.word)
-            }
-        }
     }
 }

@@ -56,14 +56,12 @@
         tools:checked="true" />
 
     <LinearLayout
-        android:animateLayoutChanges= "true"
         android:id="@+id/wordContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingVertical="8dp"
-        app:clickableLetters="true"
         app:layout_constraintEnd_toEndOf="@id/wordInput"
         app:layout_constraintStart_toStartOf="@id/wordInput"
         app:layout_constraintTop_toBottomOf="@id/x2WordBonusButton">
