@@ -24,4 +24,6 @@
     <string name="add_participant">ДОБАВИТЬ УЧАСТНИКА</string>
     <string name="add_word">ДОБАВИТЬ</string>
     <string name="save">СОХРАНИТЬ</string>
+    <string name="x2">X2</string>
+    <string name="x3">X3</string>
 </resources>

@@ -1,5 +1,7 @@
 package host.capitalquiz.arondit.core.ui.view
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Build
@@ -9,6 +11,7 @@ import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -44,6 +47,7 @@ class GlossaryView @JvmOverloads constructor(
         duration = ANIMATION_DURATION
         addUpdateListener {
             definition.height = it.animatedValue as Int
+
         }
         doOnEnd {
             definition.layoutParams = definition.layoutParams.apply {
@@ -60,22 +64,20 @@ class GlossaryView @JvmOverloads constructor(
     ) {
         if (currentWord == word) return
         if (word.isBlank()) {
-            set(word, glossaryTitle, wordDefinition, html)
             isVisible = false
-            return
+            set(word, glossaryTitle, wordDefinition, html)
         } else {
             isVisible = true
-        }
-        hideDefinition {
-            set(word, glossaryTitle, wordDefinition, html)
-            showDefinition()
+            hideDefinition {
+                set(word, glossaryTitle, wordDefinition, html)
+                showDefinition()
+            }
         }
     }
 
     fun set(word: String, glossaryTitle: String, wordDefinition: String, html: String? = null) {
         if (currentWord == word) return
         currentWord = word
-
         wordTerm.text = html?.let { makeSpannable(it) } ?: currentWord
         wordTerm.movementMethod = LinkMovementMethod.getInstance()
         wordTerm.rightDrawable(if (html != null) hyperlinkDrawable else 0)
@@ -134,4 +136,50 @@ class GlossaryView @JvmOverloads constructor(
 
 fun TextView.rightDrawable(@DrawableRes drawable: Int = 0) {
     this.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable, 0)
+}
+
+fun View.visible(animate: Boolean = true) {
+    if (animate) {
+        animate().alpha(1f).setDuration(300).setListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationStart(animation: Animator) {
+                super.onAnimationStart(animation)
+                visibility = View.VISIBLE
+            }
+        })
+    } else {
+        visibility = View.VISIBLE
+    }
+}
+
+/** Set the View visibility to INVISIBLE and eventually animate view alpha till 0% */
+fun View.invisible(animate: Boolean = true) {
+    hide(View.INVISIBLE, animate)
+}
+
+/** Set the View visibility to GONE and eventually animate view alpha till 0% */
+fun View.gone(animate: Boolean = true) {
+    hide(View.GONE, animate)
+}
+
+/** Convenient method that chooses between View.visible() or View.invisible() methods */
+fun View.visibleOrInvisible(show: Boolean, animate: Boolean = true) {
+    if (show) visible(animate) else invisible(animate)
+}
+
+/** Convenient method that chooses between View.visible() or View.gone() methods */
+fun View.visibleOrGone(show: Boolean, animate: Boolean = true) {
+    if (show) visible(animate) else gone(animate)
+}
+
+private fun View.hide(hidingStrategy: Int, animate: Boolean = true) {
+    if (animate) {
+        animate().alpha(0f).setDuration(300).setListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                super.onAnimationEnd(animation)
+                visibility = hidingStrategy
+            }
+        })
+    } else {
+        visibility = hidingStrategy
+    }
 }

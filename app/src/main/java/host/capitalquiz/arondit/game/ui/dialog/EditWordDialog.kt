@@ -37,6 +37,6 @@ class EditWordDialog : BaseWordBottomDialog() {
 //        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
 
-        binding.confirmWord.setBackgroundResource(R.drawable.left_corners_round)
+        binding.confirmWord.setBackgroundResource(R.drawable.all_corners_straight)
     }
 }

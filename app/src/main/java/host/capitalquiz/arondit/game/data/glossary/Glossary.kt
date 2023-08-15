@@ -17,6 +17,7 @@ interface Glossary {
 
         override suspend fun requestDefinition(word: String): WordDefinition {
             return try {
+                if (word.isBlank()) return WordDefinition.NotFound
                 val htmlResult = glossaryApi.requestWord(urlForWord(word))
                 val definition = parser.parse(htmlResult)
                 definition.takeIf { it.equalTo(word) } ?: WordDefinition.Empty

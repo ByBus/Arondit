@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.R
@@ -61,11 +62,13 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragment() {
 
         viewModel.word.observe(viewLifecycleOwner) { word ->
             with(binding) {
+                TransitionManager.beginDelayedTransition(binding.content)
                 word.update(eruditWord, x2WordBonusButton, x3WordBonusButton)
             }
         }
 
         viewModel.definition.observe(viewLifecycleOwner){ definition ->
+            TransitionManager.beginDelayedTransition(binding.content)
             definition.update(binding.glossaryBlock)
         }
 
