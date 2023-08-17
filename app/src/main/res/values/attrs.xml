@@ -10,4 +10,11 @@
         <attr name="animateUpdates" format="boolean"/>
         <attr name="initWithBadges" format="boolean"/>
     </declare-styleable>
+    <declare-styleable name="HeaderTextView">
+        <attr name="leftDrawable" format="reference"/>
+        <attr name="leftDrawableTintBackgroundMask" format="reference"/>
+        <attr name="centerDrawable" format="reference"/>
+        <attr name="rightDrawable" format="reference"/>
+        <attr name="rightDrawableTintBackgroundMask" format="reference"/>
+    </declare-styleable>
 </resources>
