@@ -15,7 +15,8 @@
 
         <FrameLayout
             android:id="@+id/dateBlock"
-            android:layout_width="68sp"
+            android:paddingHorizontal="8dp"
+            android:layout_width="wrap_content"
             android:layout_height="68sp"
             android:background="@color/base_orange"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -16,7 +16,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.DecelerateInterpolator
+import androidx.annotation.DrawableRes
 import androidx.annotation.Px
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
@@ -25,14 +25,11 @@ import androidx.core.graphics.ColorUtils
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import host.capitalquiz.arondit.R
-import java.util.LinkedList
-import java.util.Queue
 import kotlin.math.roundToInt
 
 class EruditWordView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
 ) : View(context, attrs, defStyleAttr), ColorHolder {
-    private val wordUpdatesBuffer: Queue<String> = LinkedList()
     private var letterClickListener: LetterClickListener? = null
 
     // index = 0 is for base color
@@ -52,40 +49,16 @@ class EruditWordView @JvmOverloads constructor(
     private var radius = 0f
     private var multiplierRect: RectF = RectF()
     private val wordBonus by lazy { WordBonus() }
-    override val x2Drawable by lazy {
-        ContextCompat.getDrawable(
-            context,
-            R.drawable.ic_bonus_x2_strict
-        )
-    }
-    override val x3Drawable by lazy {
-        ContextCompat.getDrawable(
-            context,
-            R.drawable.ic_bonus_x3_strict
-        )
-    }
-    override val x2LetterDrawable by lazy {
-        ContextCompat.getDrawable(
-            context,
-            R.drawable.letter_x2_bonus
-        )
-    }
+    override val x2Drawable by lazy { R.drawable.ic_bonus_x2_strict.loadDrawable(context) }
+    override val x3Drawable by lazy { R.drawable.ic_bonus_x3_strict.loadDrawable(context) }
+    override val x2LetterDrawable by lazy { R.drawable.letter_x2_bonus.loadDrawable(context) }
+    override val x3LetterDrawable by lazy { R.drawable.letter_x3_bonus.loadDrawable(context) }
 
-    override val x3LetterDrawable by lazy {
-        ContextCompat.getDrawable(
-            context,
-            R.drawable.letter_x3_bonus
-        )
-    }
+    override val baseColor: Int get() = letterColors[0]
 
-    override val baseColor: Int
-        get() = letterColors[0]
+    override val x2LetterColor: Int get() = letterColors[1]
 
-    override val x2LetterColor: Int
-        get() = letterColors[1]
-
-    override val x3LetterColor: Int
-        get() = letterColors[2]
+    override val x3LetterColor: Int get() = letterColors[2]
 
     override val x2Color = WORD_X2_COLOR
     override val x3Color = WORD_X3_COLOR
@@ -164,8 +137,8 @@ class EruditWordView @JvmOverloads constructor(
         }
         animate()
             .alpha(0f)
-            .setDuration(250)
-            .setInterpolator(DecelerateInterpolator())
+            .setDuration(150)
+            .setInterpolator(AccelerateDecelerateInterpolator())
             .withEndAction {
                 function.invoke()
                 show()
@@ -177,7 +150,7 @@ class EruditWordView @JvmOverloads constructor(
         if (!animateUpdates) return
         animate()
             .alpha(1f)
-            .setDuration(250)
+            .setDuration(200)
             .setInterpolator(AccelerateInterpolator())
             .start()
     }
@@ -623,3 +596,6 @@ private fun RectF.with(
     block.invoke(this)
     set(leftTemp, topTemp, rightTemp, botTemp)
 }
+
+private fun @receiver:DrawableRes Int.loadDrawable(context: Context) =
+    ContextCompat.getDrawable(context, this)

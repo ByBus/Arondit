@@ -1,5 +1,7 @@
 package host.capitalquiz.arondit.game.ui.dialog
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,11 +12,12 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
-import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.R
+import host.capitalquiz.arondit.core.ui.view.DialogSymmetricalBorderDrawable
 import host.capitalquiz.arondit.databinding.DialogFragmentAddWordBinding
+
 
 @AndroidEntryPoint
 abstract class BaseWordBottomDialog : BottomSheetDialogFragment() {
@@ -34,8 +37,9 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_TITLE, R.style.DialogStyle)
+        setStyle(STYLE_NORMAL, R.style.DialogStyle)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,9 +56,14 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragment() {
 //            ?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
 //        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
 //        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
         binding.dialogHeader.text = view.context.getText(titleRes)
+//        binding.header.setBackgroundColor(headerColor)
         binding.dialogHeader.setBackgroundColor(headerColor)
+
+        //Remove background
+        val bottomSheet = view.parent as View
+        bottomSheet.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+        bottomSheet.elevation = 0f
 
         binding.wordInput.editText?.addTextChangedListener {
             viewModel.updateWord(it.toString())
@@ -62,13 +71,13 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragment() {
 
         viewModel.word.observe(viewLifecycleOwner) { word ->
             with(binding) {
-                TransitionManager.beginDelayedTransition(binding.content)
+//                TransitionManager.beginDelayedTransition(binding.content)
                 word.update(eruditWord, x2WordBonusButton, x3WordBonusButton)
             }
         }
 
         viewModel.definition.observe(viewLifecycleOwner){ definition ->
-            TransitionManager.beginDelayedTransition(binding.content)
+//            TransitionManager.beginDelayedTransition(binding.content)
             definition.update(binding.glossaryBlock)
         }
 
@@ -101,6 +110,18 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragment() {
             if (editText?.text.isNullOrBlank() && it.word.isNotBlank()) {
                 editText?.setText(it.word)
             }
+        }
+
+        binding.border.background = DialogSymmetricalBorderDrawable(
+            requireContext(),
+            leftTopCorner = R.drawable.dialog_border_top_left_corner,
+            leftBottomCorner = R.drawable.dialog_border_bottom_left_corner,
+            leftVerticalPipe = R.drawable.dialog_border_vertical_pipe,
+            topHorizontalPipe = R.drawable.dialog_border_top_hor_pipe,
+            bottomHorizontalPipe = R.drawable.dialog_border_horizontal_pipe,
+            topHorizontalDecorTile = R.drawable.dialog_border_top_hor_pipe_pattern
+        ).apply {
+            moveDecorSides(-15, 15)
         }
     }
 

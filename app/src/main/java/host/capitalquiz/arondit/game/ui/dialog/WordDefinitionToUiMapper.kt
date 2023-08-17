@@ -10,8 +10,7 @@ class WordDefinitionToUiMapper @Inject constructor() : WordDefinitionMapper<Word
         definition: String,
         articleUrl: String?,
     ): WordDefinitionUi {
-        val html = articleUrl?.let { "<a href=\"$it\">$word</a>" }
-        return WordDefinitionUi.Base(word, glossary, definition, html)
+        return WordDefinitionUi.Base(word, glossary, definition, articleUrl)
     }
 
     override fun invoke(isEmpty: Boolean): WordDefinitionUi {

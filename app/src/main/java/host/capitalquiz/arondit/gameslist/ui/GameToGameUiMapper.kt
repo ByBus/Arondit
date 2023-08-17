@@ -13,7 +13,7 @@ class GameToGameUiMapper @Inject constructor(): GameMapper<GameUi> {
     private val simpleDateFormat = SimpleDateFormat("dd LLL${DELIMITER}yyyy")
     override fun invoke(id: Long, date: Date, playersInfo: List<PlayerInfo>): GameUi {
         val players = playersInfo.sortedByDescending { it.score }.map { Pair(it.color, "${it.name} ${it.score}") }
-        val (dayMonth, year) = simpleDateFormat.format(date).split(DELIMITER)
-        return GameUi(id, dayMonth, year, players)
+        val dateList = simpleDateFormat.format(date).split(DELIMITER)
+        return GameUi(id, dateList.first(), dateList.last(), players)
     }
 }

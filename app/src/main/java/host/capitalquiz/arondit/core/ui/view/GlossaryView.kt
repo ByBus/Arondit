@@ -60,32 +60,33 @@ class GlossaryView @JvmOverloads constructor(
         word: String,
         glossaryTitle: String,
         wordDefinition: String,
-        html: String? = null,
+        url: String? = null,
     ) {
         if (currentWord == word) return
         if (word.isBlank()) {
             isVisible = false
-            set(word, glossaryTitle, wordDefinition, html)
+            set(word, glossaryTitle, wordDefinition, url)
         } else {
             isVisible = true
             hideDefinition {
-                set(word, glossaryTitle, wordDefinition, html)
+                set(word, glossaryTitle, wordDefinition, url)
                 showDefinition()
             }
         }
     }
 
-    fun set(word: String, glossaryTitle: String, wordDefinition: String, html: String? = null) {
+    fun set(word: String, glossaryTitle: String, wordDefinition: String, url: String? = null) {
         if (currentWord == word) return
         currentWord = word
-        wordTerm.text = html?.let { makeSpannable(it) } ?: currentWord
+        wordTerm.text = url?.let { makeSpannable(it, word) } ?: currentWord
         wordTerm.movementMethod = LinkMovementMethod.getInstance()
-        wordTerm.rightDrawable(if (html != null) hyperlinkDrawable else 0)
+        wordTerm.rightDrawable(if (url != null) hyperlinkDrawable else 0)
         glossary.text = glossaryTitle
         definition.text = wordDefinition
     }
 
-    private fun makeSpannable(html: String): Spanned {
+    private fun makeSpannable(url: String, word: String): Spanned {
+        val html = "<a href=\"$url\">$word</a>"
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
         } else {
