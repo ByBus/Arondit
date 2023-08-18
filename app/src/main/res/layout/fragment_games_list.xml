@@ -4,55 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:maxWidth="700dp"
     tools:context=".gameslist.ui.GamesListFragment">
 
     <RelativeLayout
         android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginTop="16dp"
-        android:paddingVertical="16dp"
         android:paddingHorizontal="4dp"
+        android:paddingVertical="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <ImageView
-            android:id="@+id/swordSpike"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/sword_spike"
-            android:adjustViewBounds="true"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="650dp">
 
         <ImageView
-            android:scaleType="fitXY"
-            android:id="@+id/swordBlade"
-            android:src="@drawable/sword_blade"
-            android:layout_toRightOf="@id/swordSpike"
-            android:layout_toLeftOf="@id/swordHilt"
+            android:id="@+id/swordSpike"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            />
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:adjustViewBounds="true"
+            android:src="@drawable/sword_spike" />
+
+        <ImageView
+            android:id="@+id/swordBlade"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/swordHilt"
+            android:layout_toRightOf="@id/swordSpike"
+            android:scaleType="fitXY"
+            android:src="@drawable/sword_blade" />
 
         <ImageView
             android:id="@+id/swordHilt"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/sword_hilt"
-            android:adjustViewBounds="true"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:adjustViewBounds="true"
+            android:src="@drawable/sword_hilt" />
 
         <host.capitalquiz.arondit.core.ui.view.EruditWordView
-            android:layout_centerInParent="true"
-            android:layout_toLeftOf="@id/swordHilt"
-            android:layout_marginLeft="48dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="48dp"
+            android:layout_toLeftOf="@id/swordHilt"
             app:mainColor="@color/main_menu_letters_tile"
             app:size="70dp"
             app:textColor="@color/main_menu_letters"
@@ -67,28 +68,29 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gamesList"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
-        android:padding="36dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="70dp"
         android:orientation="vertical"
+        android:padding="36dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/frameLayout"
-        app:layout_constraintVertical_weight="1" />
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintWidth_max="650dp" />
 
     <ImageView
         android:id="@+id/border"
-        app:layout_constraintTop_toTopOf="@id/gamesList"
-        app:layout_constraintEnd_toEndOf="@id/gamesList"
-        app:layout_constraintBottom_toBottomOf="@id/gamesList"
-        app:layout_constraintStart_toStartOf="@id/gamesList"
         android:layout_width="0dp"
-        android:layout_height="0dp"/>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/gamesList"
+        app:layout_constraintEnd_toEndOf="@id/gamesList"
+        app:layout_constraintStart_toStartOf="@id/gamesList"
+        app:layout_constraintTop_toTopOf="@id/gamesList" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/createGame"
@@ -102,13 +104,19 @@
         android:labelFor="@id/gamesList"
         android:text="@string/new_game"
         app:icon="@android:drawable/ic_input_add"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <include
-        android:visibility="gone"
         android:id="@+id/information"
-        layout="@layout/info_screen_layout" />
+        layout="@layout/info_screen_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="700dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -72,4 +72,33 @@
         <item name="android:textOn">@string/x2</item>
     </style>
 
+    <style name="BottomSheetDialogInnerContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">17dp</item>
+        <item name="android:background">@drawable/rounded_rectangle_bottom_sheet_bg</item>
+        <item name="android:paddingTop">48dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="BottomSheetDialogCompositeHeader" parent="DialogHeader">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">54dp</item>
+        <item name="android:layout_marginTop">-10dp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="InfoBlockImage">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">0</item>
+    </style>
+
 </resources>
