@@ -33,7 +33,7 @@ class GamesListFragment : Fragment() {
             findNavController().navigate(GamesListFragmentDirections.actionToGameFragment(gameId))
         }
         binding.gamesList.adapter = adapter
-        binding.border?.apply {
+        binding.border.apply {
             setImageDrawable(
                 BorderDrawable(
                     requireContext(),

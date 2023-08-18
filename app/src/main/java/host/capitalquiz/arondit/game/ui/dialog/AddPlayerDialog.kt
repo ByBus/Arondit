@@ -1,22 +1,20 @@
 package host.capitalquiz.arondit.game.ui.dialog
 
 import android.content.DialogInterface
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import androidx.fragment.app.DialogFragment
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import host.capitalquiz.arondit.R
-import host.capitalquiz.arondit.core.ui.BorderDrawable
 import host.capitalquiz.arondit.databinding.DialogFragmentAddPlayerBinding
 import host.capitalquiz.arondit.game.domain.Player
 import host.capitalquiz.arondit.game.ui.GameViewModel
 
-class AddPlayerDialog: DialogFragment() {
+class AddPlayerDialog: BottomSheetDialogFragmentWithBorder() {
     private val parentViewModel by viewModels<GameViewModel>(ownerProducer = { requirePreviousFragment() })
     private var _binding: DialogFragmentAddPlayerBinding? = null
     private val binding get() = _binding!!
@@ -31,13 +29,9 @@ class AddPlayerDialog: DialogFragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialog?.window
-            ?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        binding.playerName.requestFocus()
 
         binding.dialogHeader.setBackgroundColor(args.color)
 
@@ -49,15 +43,9 @@ class AddPlayerDialog: DialogFragment() {
             }
         }
 
-        binding.cancel.setOnClickListener {
-            dismiss()
-        }
+        binding.border.background = CompositeBorderDrawable()
 
-        binding.border.setImageDrawable(
-            BorderDrawable(requireContext(), R.drawable.border_corner_small, R.drawable.border_pipe_small).apply {
-                cutPipeEnds(75)
-            }
-        )
+        binding.playerName.requestFocus()
     }
 
     override fun onDismiss(dialog: DialogInterface) {

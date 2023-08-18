@@ -17,7 +17,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.withRotation
 import androidx.core.graphics.withTranslation
 
-class DialogSymmetricalBorderDrawable(
+class CompositeBorderDrawable(
     context: Context,
     @DrawableRes private val leftTopCorner: Int,
     @DrawableRes private val leftBottomCorner: Int,
