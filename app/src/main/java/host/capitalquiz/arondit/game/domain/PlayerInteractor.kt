@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 interface PlayerInteractor {
 
-    fun allPlayersOfGame(gameId: Long): LiveData<List<Player>>
+    fun findAllPlayersOfGame(gameId: Long): LiveData<List<Player>>
 
     suspend fun createPlayer(player: Player, gameId: Long): Long
 
@@ -14,7 +14,7 @@ interface PlayerInteractor {
     class Base @Inject constructor(
         private val playerRepository: PlayerRepository,
     ): PlayerInteractor {
-        override fun allPlayersOfGame(gameId: Long): LiveData<List<Player>> {
+        override fun findAllPlayersOfGame(gameId: Long): LiveData<List<Player>> {
             return playerRepository.allPlayersOfGame(gameId)
         }
 

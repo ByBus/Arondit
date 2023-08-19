@@ -23,7 +23,7 @@ class GameViewModel @Inject constructor(
     }
     private val availableColors = mutableListOf<Int>()
 
-    private var _players = playerInteractor.allPlayersOfGame(gameId)
+    private var _players = playerInteractor.findAllPlayersOfGame(gameId)
     val players: LiveData<List<PlayerUi>> = _players.map { players ->
         players.map { it.map(mapper) }
     }

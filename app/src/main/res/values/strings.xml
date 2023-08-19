@@ -27,4 +27,7 @@
     <string name="save">СОХРАНИТЬ</string>
     <string name="x2">X2</string>
     <string name="x3">X3</string>
+    <string name="remove_game_button">УДАЛИТЬ</string>
+    <string name="cancel_button">ОТМЕНА</string>
+    <string name="remove_game_info_message">Хотите удалить эту игру?</string>
 </resources>

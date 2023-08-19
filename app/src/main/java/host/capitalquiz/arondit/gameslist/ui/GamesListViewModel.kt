@@ -33,6 +33,12 @@ class GamesListViewModel @Inject constructor(
         }
     }
 
+    fun removeGame(gameId: Long){
+        viewModelScope.launch {
+            gamesListInteractor.deleteGame(gameId)
+        }
+    }
+
     fun resetNavigation() {
         _navigateToGameScreen.value = false
     }

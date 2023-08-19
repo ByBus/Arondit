@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_to_gameFragment"
             app:destination="@id/gameFragment" />
+        <action
+            android:id="@+id/action_to_removeGameDialog"
+            app:destination="@id/removeGameDialog" />
     </fragment>
     <dialog
         android:id="@+id/addPlayerDialog"
@@ -66,6 +69,14 @@
             app:argType="integer" />
         <argument
             android:name="playerId"
+            app:argType="long" />
+    </dialog>
+    <dialog
+        android:id="@+id/removeGameDialog"
+        android:name="host.capitalquiz.arondit.gameslist.ui.RemoveGameDialog"
+        android:label="RemoveGameDialog" >
+        <argument
+            android:name="gameId"
             app:argType="long" />
     </dialog>
 </navigation>

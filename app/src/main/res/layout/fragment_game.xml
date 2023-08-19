@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:animateLayoutChanges="true"
         android:columnCount="2"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="2dp"
         android:rowCount="2" />
 

@@ -1,4 +1,4 @@
-package host.capitalquiz.arondit.game.ui.dialog
+package host.capitalquiz.arondit.core.ui
 
 import android.content.res.ColorStateList
 import android.graphics.Color

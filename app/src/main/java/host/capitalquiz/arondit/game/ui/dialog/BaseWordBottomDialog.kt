@@ -11,6 +11,7 @@ import androidx.annotation.StringRes
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import host.capitalquiz.arondit.core.ui.BottomSheetDialogFragmentWithBorder
 import host.capitalquiz.arondit.databinding.DialogFragmentAddWordBinding
 
 

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import host.capitalquiz.arondit.databinding.GameItemBinding
 
-class GameAdapter(private val callback: (Long) -> Unit): ListAdapter<GameUi, GameAdapter.BindableVH>(DIFF_UTIL) {
+class GameAdapter(private val callback: Callback): ListAdapter<GameUi, GameAdapter.BindableVH>(DIFF_UTIL) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindableVH {
         val binding = GameItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -22,7 +22,11 @@ class GameAdapter(private val callback: (Long) -> Unit): ListAdapter<GameUi, Gam
     abstract inner class BindableVH(itemView: View) : ViewHolder(itemView) {
         protected var id: Long = 0
         init {
-            itemView.setOnClickListener { callback.invoke(id) }
+            itemView.setOnClickListener { callback.onGameClick(id) }
+            itemView.setOnLongClickListener {
+                callback.onGameLongClick(id)
+                true
+            }
         }
         abstract fun bind(item: GameUi)
     }
@@ -47,5 +51,10 @@ class GameAdapter(private val callback: (Long) -> Unit): ListAdapter<GameUi, Gam
                 return oldItem == newItem
             }
         }
+    }
+
+    interface Callback {
+        fun onGameClick(gameId: Long)
+        fun onGameLongClick(gameId: Long)
     }
 }

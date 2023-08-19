@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content"
+    style="@style/BottomSheetDialogInnerContainerSmall">
+
+    <TextView
+        android:id="@+id/playerName"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="48dp"
+        android:gravity="center"
+        android:paddingVertical="8dp"
+        android:text="@string/remove_game_info_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/removeGame"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="1"
+        android:background="@drawable/left_corners_round"
+        android:text="@string/remove_game_button"
+        app:backgroundTint="@color/base_red"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/cancelButton"
+        app:layout_constraintStart_toStartOf="@id/playerName"
+        app:layout_constraintTop_toBottomOf="@id/playerName" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/right_corners_round"
+        android:text="@string/cancel_button"
+        app:backgroundTint="@color/base_green"
+        app:layout_constraintBottom_toBottomOf="@id/removeGame"
+        app:layout_constraintEnd_toEndOf="@id/playerName"
+        app:layout_constraintStart_toEndOf="@id/removeGame"
+        app:layout_constraintTop_toTopOf="@id/removeGame" />
+
+    <View
+        android:id="@+id/border"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="@id/content"
+        app:layout_constraintEnd_toEndOf="@id/content"
+        app:layout_constraintStart_toStartOf="@id/content"
+        app:layout_constraintTop_toTopOf="@id/content" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

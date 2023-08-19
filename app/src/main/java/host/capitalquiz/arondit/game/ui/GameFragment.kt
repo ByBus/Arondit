@@ -59,10 +59,10 @@ class GameFragment : Fragment() {
     ): View {
         viewModel.addColors(
             listOf(
-                R.color.base_red,
+                R.color.base_orange,
                 R.color.base_green,
-                R.color.base_blue,
-                R.color.base_orange
+                R.color.base_red,
+                R.color.base_blue
             ).map {
                 ContextCompat.getColor(requireContext(), it)
             })
