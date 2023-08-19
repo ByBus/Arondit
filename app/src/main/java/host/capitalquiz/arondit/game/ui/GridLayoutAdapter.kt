@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.GridLayout
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
 import host.capitalquiz.arondit.R
 
@@ -37,32 +39,28 @@ class GridLayoutAdapter(
         private val adapter = WordAdapter { wordId ->
             wordClickCallback.invoke(wordId, color, id)
         }
-        private var toolbar: MaterialToolbar? = null
+        private var toolbar: LinearLayout
 
         init {
             recyclerView.adapter = adapter
-            val toolbar = itemView.findViewById<MaterialToolbar>(R.id.toolbar)
+            toolbar = itemView.findViewById(R.id.fieldToolbar)
             val bottomToolbar = itemView.findViewById<MaterialCardView>(R.id.bottomToolbar)
             toolbar.setBackgroundColor(color.value)
-            toolbar.title = playerName
-            this.toolbar = toolbar
+            toolbar.findViewById<TextView>(R.id.fieldPlayerName).text = playerName
             bottomToolbar.setBackgroundColor(color.value)
-            toolbar.setOnMenuItemClickListener {
+            itemView.findViewById<ImageButton>(R.id.removePlayerButton).setOnClickListener {
                 removeUserCallback.invoke(id, color)
-                true
             }
-
-            toolbar.setNavigationOnClickListener {
+            itemView.findViewById<ImageButton>(R.id.addPlayerButton).setOnClickListener {
                 addUserCallBack.invoke()
             }
-
-            itemView.findViewById<Button>(R.id.addWord).setOnClickListener {
+            bottomToolbar.findViewById<Button>(R.id.addWord).setOnClickListener {
                 openAddWordDialogCallback.invoke(id, color)
             }
         }
 
         fun updateField(playerWords: List<WordUi>, playerScore: Int) {
-            toolbar?.subtitle = playerScore.toString()
+            toolbar.findViewById<TextView>(R.id.fieldPlayerScore)?.text = playerScore.toString()
             adapter.submitList(playerWords.toMutableList())
         }
 

@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="player_name">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:paddingBottom">0dp</item>
-
-    </style>
-
-    <style name="player_score">
-        <item name="android:textSize">22sp</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large.Inverse</item>
-    </style>
 
     <style name="toggle_button_big">
         <item name="android:layout_width">wrap_content</item>
@@ -107,6 +96,23 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">0</item>
+    </style>
+
+    <style name="PlayerFieldName">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="PlayerFieldScore">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large.Inverse</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
 </resources>

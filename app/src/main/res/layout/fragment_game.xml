@@ -19,7 +19,7 @@
         android:rowCount="2" />
 
     <include
-        app:layout_constraintWidth_max="700dp"
+        app:layout_constraintWidth_max="512dp"
         android:id="@+id/information"
         layout="@layout/info_screen_layout"
         android:layout_width="0dp"

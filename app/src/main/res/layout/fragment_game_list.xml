@@ -2,48 +2,72 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:cardCornerRadius="4dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:cardCornerRadius="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="host.capitalquiz.arondit.game.ui.GameFragment">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            app:navigationIcon="@drawable/sharp_person_add_24"
-            android:id="@+id/toolbar"
+        <LinearLayout
+            android:id="@+id/fieldToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:buttonGravity="center_vertical"
+            android:background="@color/design_default_color_secondary_variant"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="48dp"
+            android:paddingVertical="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:menu="@menu/player_toolbar_menu"
-            app:subtitleCentered="true"
-            app:subtitleTextAppearance="@style/player_score"
-            app:subtitleTextColor="@color/white"
-            app:title="Вика"
-            app:titleMarginTop="0dp"
-            app:subtitle="127"
-            app:titleCentered="true"
-            app:titleTextAppearance="@style/player_name"
-            app:titleTextColor="@color/white" />
+            app:layout_constraintTop_toTopOf="parent">
 
+            <TextView
+                android:id="@+id/fieldPlayerName"
+                tools:text="Вика"
+                style="@style/PlayerFieldName" />
+
+            <TextView
+                android:id="@+id/fieldPlayerScore"
+                tools:text="127"
+                style="@style/PlayerFieldScore" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/addPlayerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:background="@null"
+            android:contentDescription="@string/add_player"
+            android:src="@drawable/sharp_person_add_24"
+            app:layout_constraintBottom_toBottomOf="@id/fieldToolbar"
+            app:layout_constraintStart_toStartOf="@id/fieldToolbar"
+            app:layout_constraintTop_toTopOf="@id/fieldToolbar" />
+
+        <ImageButton
+            android:id="@+id/removePlayerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:background="@null"
+            android:contentDescription="@string/remove_player"
+            android:src="@drawable/round_person_remove_24"
+            app:layout_constraintBottom_toBottomOf="@id/fieldToolbar"
+            app:layout_constraintEnd_toEndOf="@id/fieldToolbar"
+            app:layout_constraintTop_toTopOf="@id/fieldToolbar" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:paddingHorizontal="16dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"
             android:id="@+id/wordsList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/bottomToolbar"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            app:layout_constraintTop_toBottomOf="@+id/fieldToolbar" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/bottomToolbar"

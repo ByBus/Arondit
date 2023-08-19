@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import host.capitalquiz.arondit.databinding.DialogRemoveGameBinding
+import host.capitalquiz.arondit.databinding.DialogRemoveBinding
 
 abstract class YesNoDialog : BottomSheetDialogFragmentWithBorder() {
-    private var _binding: DialogRemoveGameBinding? = null
-    protected val binding get() = _binding!!
+    private var _binding: DialogRemoveBinding? = null
+    private val binding get() = _binding!!
 
     abstract val infoMessageText: String
     abstract val confirmButtonText: String
@@ -23,7 +23,7 @@ abstract class YesNoDialog : BottomSheetDialogFragmentWithBorder() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = DialogRemoveGameBinding.inflate(inflater, container, false)
+        _binding = DialogRemoveBinding.inflate(inflater, container, false)
         return binding.root
     }
 
