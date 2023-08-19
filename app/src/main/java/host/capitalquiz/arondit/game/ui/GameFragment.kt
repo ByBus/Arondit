@@ -9,15 +9,17 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.R
 import host.capitalquiz.arondit.databinding.FragmentGameBinding
+import host.capitalquiz.arondit.game.ui.dialog.GameDialogs
 
 
 @AndroidEntryPoint
-class GameFragment : Fragment() {
+class GameFragment : Fragment(), GameDialogs {
     private val viewModel: GameViewModel by viewModels()
     private var _binding: FragmentGameBinding? = null
     private val binding get() = _binding!!
@@ -27,30 +29,23 @@ class GameFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         gridLayoutAdapter = GridLayoutAdapter(requireContext(),
-            addUserCallBack = { addPlayer() },
+            addUserCallBack = { openAddPlayerDialog() },
             removeUserCallback = { playerId, playerColor ->
-                viewModel.returnColor(playerColor.value)
-                viewModel.deletePlayer(playerId.value)
+                openRemovePlayerDialog(playerId.value, playerColor.value)
             },
             openAddWordDialogCallback = { playerId, playerColor ->
-                findNavController()
-                    .navigate(
-                        GameFragmentDirections.actionAddWordDialog(
-                            playerId.value,
-                            playerColor.value
-                        )
-                    )
+                openAddWordDialog(playerId.value, playerColor.value)
             },
             wordClickCallback = { wordId, playerColor, playerId ->
-                val editWordDialog =
-                    GameFragmentDirections.actionToEditWordDialog(
-                        wordId,
-                        playerColor.value,
-                        playerId.value
-                    )
-                findNavController().navigate(editWordDialog)
+                openEditWordDialog(wordId, playerId.value, playerColor.value)
             }
         )
+        setFragmentResultListener(RESULT_REQUEST_CODE) { _, bundle ->
+            viewModel.deletePlayer(bundle.getLong(REMOVE_PLAYER_ID_KEY))
+            val playerColor = bundle.getInt(REMOVE_PLAYER_COLOR_KEY)
+            viewModel.returnColor(playerColor)
+            gridLayoutAdapter.removeField(playerColor)
+        }
     }
 
     override fun onCreateView(
@@ -78,9 +73,9 @@ class GameFragment : Fragment() {
             bindTo(binding.grid)
         }
 
-        with(binding.information){
+        with(binding.information) {
             infoButton.setOnClickListener {
-                addPlayer()
+                openAddPlayerDialog()
             }
             infoText.text = getString(R.string.no_players_info_text)
             infoImage.setImageResource(R.drawable.knights)
@@ -95,7 +90,27 @@ class GameFragment : Fragment() {
         }
     }
 
-    private fun addPlayer() {
+    override fun openRemovePlayerDialog(playerId: Long, playerColor: Int) {
+        findNavController()
+            .navigate(GameFragmentDirections.actionToRemovePlayerDialog(playerId, playerColor))
+    }
+
+    override fun openAddWordDialog(playerId: Long, playerColor: Int) {
+        findNavController()
+            .navigate(GameFragmentDirections.actionAddWordDialog(playerId, playerColor))
+    }
+
+    override fun openEditWordDialog(wordId: Long, playerId: Long, dialogColor: Int) {
+        val editWordDialog =
+            GameFragmentDirections.actionToEditWordDialog(
+                wordId,
+                dialogColor,
+                playerId
+            )
+        findNavController().navigate(editWordDialog)
+    }
+
+    override fun openAddPlayerDialog() {
         viewModel.borrowColor { color ->
             val addPlayerDialog = GameFragmentDirections.actionToAddPlayerDialog(color)
             findNavController().navigate(addPlayerDialog)
@@ -105,5 +120,11 @@ class GameFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        const val RESULT_REQUEST_CODE = "current game request code"
+        const val REMOVE_PLAYER_ID_KEY = "remove player with id"
+        const val REMOVE_PLAYER_COLOR_KEY = "return player's color"
     }
 }

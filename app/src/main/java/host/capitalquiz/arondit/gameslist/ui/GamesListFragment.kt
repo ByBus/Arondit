@@ -29,7 +29,7 @@ class GamesListFragment : Fragment(), GameAdapter.Callback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setFragmentResultListener(REMOVE_GAME_REQUEST_CODE) { _, bundle ->
+        setFragmentResultListener(RESULT_REQUEST_CODE) { _, bundle ->
             val gameId = bundle.getLong(REMOVE_GAME_ID_KEY)
             viewModel.removeGame(gameId)
         }
@@ -98,7 +98,7 @@ class GamesListFragment : Fragment(), GameAdapter.Callback {
 
 
     companion object {
-        const val REMOVE_GAME_REQUEST_CODE = "remove game"
+        const val RESULT_REQUEST_CODE = "games list request code"
         const val REMOVE_GAME_ID_KEY = "remove game with id"
     }
 }

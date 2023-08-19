@@ -5,7 +5,7 @@
     style="@style/BottomSheetDialogInnerContainerSmall">
 
     <TextView
-        android:id="@+id/playerName"
+        android:id="@+id/infoMessage"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/removeGame"
+        android:id="@+id/confirmButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -29,8 +29,8 @@
         app:backgroundTint="@color/base_red"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/cancelButton"
-        app:layout_constraintStart_toStartOf="@id/playerName"
-        app:layout_constraintTop_toBottomOf="@id/playerName" />
+        app:layout_constraintStart_toStartOf="@id/infoMessage"
+        app:layout_constraintTop_toBottomOf="@id/infoMessage" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancelButton"
@@ -39,10 +39,10 @@
         android:background="@drawable/right_corners_round"
         android:text="@string/cancel_button"
         app:backgroundTint="@color/base_green"
-        app:layout_constraintBottom_toBottomOf="@id/removeGame"
-        app:layout_constraintEnd_toEndOf="@id/playerName"
-        app:layout_constraintStart_toEndOf="@id/removeGame"
-        app:layout_constraintTop_toTopOf="@id/removeGame" />
+        app:layout_constraintBottom_toBottomOf="@id/confirmButton"
+        app:layout_constraintEnd_toEndOf="@id/infoMessage"
+        app:layout_constraintStart_toEndOf="@id/confirmButton"
+        app:layout_constraintTop_toTopOf="@id/confirmButton" />
 
     <View
         android:id="@+id/border"

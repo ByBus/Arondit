@@ -49,7 +49,6 @@ class GridLayoutAdapter(
             bottomToolbar.setBackgroundColor(color.value)
             toolbar.setOnMenuItemClickListener {
                 removeUserCallback.invoke(id, color)
-                detach()
                 true
             }
 
@@ -76,6 +75,7 @@ class GridLayoutAdapter(
             fields.remove(color.value)
             grid.removeView(itemView)
         }
+
     }
 
 
@@ -104,6 +104,10 @@ class GridLayoutAdapter(
             }
             fields[fieldColor]?.updateField(player.words, player.score)
         }
+    }
+
+    fun removeField(color: Int) {
+        fields[color]?.detach()
     }
 }
 

@@ -25,6 +25,9 @@
         <argument
             android:name="gameId"
             app:argType="long" />
+        <action
+            android:id="@+id/action_to_removePlayerDialog"
+            app:destination="@id/removePlayerDialog" />
     </fragment>
     <dialog
         android:id="@+id/addWordDialog"
@@ -78,5 +81,16 @@
         <argument
             android:name="gameId"
             app:argType="long" />
+    </dialog>
+    <dialog
+        android:id="@+id/removePlayerDialog"
+        android:name="host.capitalquiz.arondit.game.ui.dialog.RemovePlayerDialog"
+        android:label="RemovePlayerDialog" >
+        <argument
+            android:name="playerId"
+            app:argType="long" />
+        <argument
+            android:name="playerColor"
+            app:argType="integer" />
     </dialog>
 </navigation>

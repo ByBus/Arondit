@@ -25,6 +25,16 @@ class DataBaseModule {
         GameDataBase::class.java,
     ).build()
 
+//    @Singleton
+//    @Provides
+//    fun provideYourDatabase(
+//        @ApplicationContext context: Context
+//    ): GameDataBase = Room.databaseBuilder(
+//        context,
+//        GameDataBase::class.java,
+//        "games.db"
+//    ).build()
+
     @Provides
     fun provideGameDao(db: GameDataBase): GameDao = db.gameDao()
 

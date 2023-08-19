@@ -30,4 +30,6 @@
     <string name="remove_game_button">УДАЛИТЬ</string>
     <string name="cancel_button">ОТМЕНА</string>
     <string name="remove_game_info_message">Хотите удалить эту игру?</string>
+    <string name="remove_player_button">УДАЛИТЬ</string>
+    <string name="remove_player_info_message">Хотите удалить игрока?</string>
 </resources>
