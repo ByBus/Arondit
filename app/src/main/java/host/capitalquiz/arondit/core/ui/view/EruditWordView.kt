@@ -11,7 +11,6 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -184,10 +183,8 @@ class EruditWordView @JvmOverloads constructor(
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun setTextWithBonuses(text: String, bonuses: List<Int>) {
-        Log.d("EruditWordView1", "setTextWithBonuses: BEFORE ${word.map { it.charToBonus() }} ")
         if (text.equals(toString(), true)) {
             setBonuses(bonuses)
-            Log.d("EruditWordView1", "setTextWithBonuses: AFTER  ${word.map { it.charToBonus() }} ")
             return
         }
         hideAndShow {
@@ -195,7 +192,6 @@ class EruditWordView @JvmOverloads constructor(
             setBonuses(bonuses)
             requestLayout()
         }
-        Log.d("EruditWordView1", "setTextWithBonuses: AFTER  ${word.map { it.charToBonus() }} ")
     }
 
     /**
@@ -262,9 +258,13 @@ class EruditWordView @JvmOverloads constructor(
         radius = blockSize / 6f
         paint.textSize = blockSize * 0.7f
         if (hasMultiplier) {
-            multiplierRect = RectF(0f, 0f, blockSize * word.size, blockSize)
+            updateMultipliyerDrawBounds()
         }
         updateCharsWidths()
+    }
+
+    private fun updateMultipliyerDrawBounds() {
+        multiplierRect = RectF(0f, 0f, blockSize * word.size, blockSize)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -292,6 +292,7 @@ class EruditWordView @JvmOverloads constructor(
         }
         setMeasuredDimension(width, height)
 
+        updateMultipliyerDrawBounds()
         updateCharsWidths()
     }
 
@@ -432,6 +433,7 @@ class EruditWordView @JvmOverloads constructor(
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
             other as Letter
+            if (bonus == 0 && other.bonus == 0) return true
             if (char != other.char) return false
             return true
         }

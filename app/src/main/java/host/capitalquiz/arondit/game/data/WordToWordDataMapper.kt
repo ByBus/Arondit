@@ -16,15 +16,16 @@ class WordToWordDataMapper @Inject constructor() : WordMapperWithParameter<Long,
         return word.map(this)
     }
 
-    override fun map(
+    override fun invoke(
         word: String,
         letterBonuses: List<Int>,
         multiplier: Int,
         id: Long,
     ): WordData {
-        val wordData = WordData(word.uppercase(), letterBonuses, multiplier, playerId).apply {
-            this.id = id
-        }
+        val wordData =
+            WordData(word.uppercase(), letterBonuses, multiplier, playerId).apply {
+                this.id = id
+            }
         return wordData
     }
 }

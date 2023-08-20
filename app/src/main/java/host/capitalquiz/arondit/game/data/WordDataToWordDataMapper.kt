@@ -22,7 +22,7 @@ interface WordDataToWordDataMapper : WordDataMapper<WordData> {
             playerId: Long,
         ): WordData {
             val bonuses = shiftedBonusesForNewWord(newWord, word, letterBonuses)
-            return WordData(newWord.uppercase(), bonuses, multiplier, playerId).apply {
+            return WordData(newWord, bonuses, multiplier, playerId).apply {
                 this.id = id
             }
         }

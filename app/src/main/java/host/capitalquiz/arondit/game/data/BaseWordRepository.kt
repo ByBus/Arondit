@@ -16,6 +16,7 @@ class BaseWordRepository @Inject constructor(
     private val wordMapper: WordDataMapper<Word>,
     private val wordDataMapper: WordMapperWithParameter<Long, Word, WordData>,
     private val wordBonusMapper: WordDataToWordDataMapper,
+    private val wordFormatter: StringFormatter
 ) : WordRepository {
     override suspend fun addWord(playerId: Long, word: Word): Long {
         return wordDao.insert(wordDataMapper.map(word, playerId))
@@ -50,7 +51,7 @@ class BaseWordRepository @Inject constructor(
 
     override suspend fun updateCache(word: String) {
         oneWordCache.read().value?.let { oldWordData ->
-            oneWordCache.save(wordBonusMapper.map(oldWordData, word))
+            oneWordCache.save(wordBonusMapper.map(oldWordData, wordFormatter.format(word)))
         }
     }
 

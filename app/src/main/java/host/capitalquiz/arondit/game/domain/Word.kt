@@ -17,6 +17,6 @@ data class Word(
     }
 
     fun <R> map(mapper: WordMapper<R>): R {
-        return mapper.map(word, letterBonuses, multiplier, id)
+        return mapper(word, letterBonuses, multiplier, id)
     }
 }

@@ -3,7 +3,8 @@ package host.capitalquiz.arondit.game.domain
 interface WordMapper<R> {
 
     fun map(word: Word): R
-    fun map(
+
+    operator fun invoke(
         word: String,
         letterBonuses: List<Int>,
         multiplier: Int,

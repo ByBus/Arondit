@@ -8,6 +8,7 @@ import host.capitalquiz.arondit.core.db.PlayerDataMapper
 import host.capitalquiz.arondit.core.db.WordDataMapper
 import host.capitalquiz.arondit.game.data.BasePlayerRepository
 import host.capitalquiz.arondit.game.data.PlayerDataMapperToPlayer
+import host.capitalquiz.arondit.game.data.StringFormatter
 import host.capitalquiz.arondit.game.data.WordDataToWordMapper
 import host.capitalquiz.arondit.game.domain.Player
 import host.capitalquiz.arondit.game.domain.PlayerInteractor
@@ -42,4 +43,7 @@ abstract class GameModule {
 
     @Binds
     abstract fun bindWordDataToWordMapper(impl: WordDataToWordMapper): WordDataMapper<Word>
+
+    @Binds
+    abstract fun bindStringFormatter(impl: StringFormatter.UnwantedCharToAsteriskReplacer): StringFormatter
 }

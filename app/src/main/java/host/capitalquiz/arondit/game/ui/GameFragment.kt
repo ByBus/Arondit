@@ -52,7 +52,7 @@ class GameFragment : Fragment(), GameDialogs {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        viewModel.addColors(
+        viewModel.addPlayersColors(
             listOf(
                 R.color.base_orange,
                 R.color.base_green,

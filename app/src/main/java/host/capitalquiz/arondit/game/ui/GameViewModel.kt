@@ -28,7 +28,7 @@ class GameViewModel @Inject constructor(
         players.map { it.map(mapper) }
     }
 
-    fun addColors(colors: List<Int>) {
+    fun addPlayersColors(colors: List<Int>) {
         availableColors.clear()
         availableColors.addAll(colors)
     }

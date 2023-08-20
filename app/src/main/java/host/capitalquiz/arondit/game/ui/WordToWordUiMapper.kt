@@ -14,7 +14,7 @@ class WordToWordUiMapper @Inject constructor(
         return word.map(this)
     }
 
-    override fun map(
+    override fun invoke(
         word: String,
         letterBonuses: List<Int>,
         multiplier: Int,
