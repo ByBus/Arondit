@@ -7,12 +7,12 @@ import dagger.hilt.android.components.ViewModelComponent
 import host.capitalquiz.arondit.core.db.WordData
 import host.capitalquiz.arondit.game.data.BaseWordRepository
 import host.capitalquiz.arondit.game.data.WordDataDataSource
-import host.capitalquiz.arondit.game.data.WordDataToWordDataMapper
 import host.capitalquiz.arondit.game.data.WordToWordDataMapper
 import host.capitalquiz.arondit.game.domain.Word
 import host.capitalquiz.arondit.game.domain.WordInteractor
 import host.capitalquiz.arondit.game.domain.WordMapperWithParameter
 import host.capitalquiz.arondit.game.domain.WordRepository
+import host.capitalquiz.arondit.game.domain.WordToWordMapper
 import host.capitalquiz.arondit.game.ui.WordUiMapper
 
 @Module
@@ -35,6 +35,6 @@ abstract class WordDialogModule {
     abstract fun bindWordCacheDataSource(impl: WordDataDataSource.Base): WordDataDataSource
 
     @Binds
-    abstract fun bindWordDataBonusUpdater(impl: WordDataToWordDataMapper.BonusUpdater): WordDataToWordDataMapper
+    abstract fun bindWordBonusUpdater(impl: WordToWordMapper.BonusUpdater): WordToWordMapper
 
 }

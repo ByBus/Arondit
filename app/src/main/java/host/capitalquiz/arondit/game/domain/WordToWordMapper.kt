@@ -1,17 +1,20 @@
-package host.capitalquiz.arondit.game.data
+package host.capitalquiz.arondit.game.domain
 
-import host.capitalquiz.arondit.core.db.WordData
-import host.capitalquiz.arondit.core.db.WordDataMapper
 import javax.inject.Inject
 
-interface WordDataToWordDataMapper : WordDataMapper<WordData> {
-    fun map(wordData: WordData, newWord: String): WordData
 
-    class BonusUpdater @Inject constructor() : WordDataToWordDataMapper {
+interface WordToWordMapper: WordMapper<Word> {
+    fun map(word: Word, newWord: String): Word
+
+    class BonusUpdater @Inject constructor() : WordToWordMapper {
         private var newWord = ""
-        override fun map(wordData: WordData, newWord: String): WordData {
+        override fun map(word: Word, newWord: String): Word {
             this.newWord = newWord
-            return wordData.map(this)
+            return word.map(this)
+        }
+
+        override fun map(word: Word): Word {
+            return word.map(this)
         }
 
         override fun invoke(
@@ -19,13 +22,10 @@ interface WordDataToWordDataMapper : WordDataMapper<WordData> {
             letterBonuses: List<Int>,
             multiplier: Int,
             id: Long,
-            playerId: Long,
             extraPoints: Int
-        ): WordData {
+        ): Word {
             val bonuses = shiftedBonusesForNewWord(newWord, word, letterBonuses)
-            return WordData(newWord, bonuses, multiplier, playerId, extraPoints).apply {
-                this.id = id
-            }
+            return Word(newWord, bonuses, multiplier, id, extraPoints > 0)
         }
 
         private fun shiftedBonusesForNewWord(

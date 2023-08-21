@@ -11,4 +11,5 @@ interface WordMapper<R> {
         id: Long,
         extraPoints: Int
     ): R
+
 }

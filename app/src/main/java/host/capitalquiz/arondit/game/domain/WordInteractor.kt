@@ -1,17 +1,12 @@
 package host.capitalquiz.arondit.game.domain
 
 import androidx.lifecycle.LiveData
+import host.capitalquiz.arondit.game.data.StringFormatter
 import javax.inject.Inject
 
 interface WordInteractor {
 
-    suspend fun addWord(playerId: Long, word: Word): Long
-
     suspend fun deleteWord(wordId: Long)
-
-    suspend fun updateWord(playerId: Long, word: Word)
-
-    suspend fun findWord(wordId: Long): Word
 
     suspend fun updateWord(word: String)
 
@@ -34,22 +29,18 @@ interface WordInteractor {
     class Base @Inject constructor(
         private val wordRepository: WordRepository,
         private val definitionRepository: DefinitionRepository,
+        private val wordFormatter: StringFormatter,
+        private val bonusUpdater: WordToWordMapper
     ) : WordInteractor {
-        override suspend fun addWord(playerId: Long, word: Word): Long =
-            wordRepository.addWord(playerId, word)
 
         override suspend fun deleteWord(wordId: Long) = wordRepository.deleteWord(wordId)
 
-        override suspend fun updateWord(playerId: Long, word: Word) {
-            wordRepository.updateWord(playerId, word)
-        }
-
-        override suspend fun findWord(wordId: Long): Word = wordRepository.selectWord(wordId)
 
         override suspend fun updateWord(word: String) {
-            wordRepository.updateWord(word)
-            val points = wordRepository.cachedValue()?.extraPoints() ?: 0
-            wordRepository.updateExtraPoints(points)
+            wordRepository.cachedValue()?.let {
+                val newWord = bonusUpdater.map(it, wordFormatter.format(word))
+                wordRepository.updateCurrentWord(newWord)
+            }
         }
 
         override fun readCache(): LiveData<Word> = wordRepository.readCache()
@@ -59,15 +50,25 @@ interface WordInteractor {
 
         override suspend fun loadWordToCache(wordId: Long) = wordRepository.loadToCache(wordId)
 
-        override suspend fun updateScore(letterPosition: Int) =
-            wordRepository.changeLetterScore(letterPosition)
+        override suspend fun updateScore(letterPosition: Int) {
+            wordRepository.cachedValue()?.let {
+                val bonuses = it.letterBonuses.toMutableList()
+                bonuses[letterPosition] =
+                    if (bonuses[letterPosition] == 3) 1 else bonuses[letterPosition] + 1
+                wordRepository.updateCurrentWord(it.copy(letterBonuses = bonuses))
+            }
+        }
 
-        override suspend fun updateMultiplier(value: Int) = wordRepository.updateMultiplier(value)
+        override suspend fun updateMultiplier(value: Int) {
+            wordRepository.cachedValue()?.let {
+                wordRepository.updateCurrentWord(it.copy(multiplier = value))
+            }
+        }
 
         override suspend fun updateExtraPoints(value: Boolean) {
-            val points = wordRepository.cachedValue()
-                ?.copy(hasExtraPoints = value)?.extraPoints() ?: 0
-            wordRepository.updateExtraPoints(points)
+            wordRepository.cachedValue()?.let {
+                wordRepository.updateCurrentWord(it.copy(hasExtraPoints = value))
+            }
         }
 
         override suspend fun saveCachedWord() = wordRepository.saveCacheToDb()
