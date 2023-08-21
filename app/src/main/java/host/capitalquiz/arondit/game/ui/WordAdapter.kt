@@ -28,7 +28,7 @@ class WordAdapter(private val wordClickListener: (Long) -> Unit) :
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         override fun bind(item: WordUi) {
             id = item.id
-            item.update(binding.eruditWord, binding.wordScores)
+            item.update(binding.eruditWord, binding.wordScores, binding.extraPoints)
         }
     }
 

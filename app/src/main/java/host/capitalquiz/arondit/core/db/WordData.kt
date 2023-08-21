@@ -1,5 +1,6 @@
 package host.capitalquiz.arondit.core.db
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -18,12 +19,13 @@ data class WordData(
     val letterBonuses: List<Int> = emptyList(),
     val multiplier: Int = 1,
     val playerId: Long,
+    @ColumnInfo(name = "additional_bonus")
+    val extraPoints: Int = 0
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L
-
     fun <R> map(mapper: WordDataMapper<R>): R {
-        return mapper(word, letterBonuses, multiplier, id, playerId)
+        return mapper(word, letterBonuses, multiplier, id, playerId, extraPoints)
     }
 
     fun deepCopy(
@@ -31,12 +33,14 @@ data class WordData(
         letterBonuses: List<Int> = this.letterBonuses,
         multiplier: Int = this.multiplier,
         playerId: Long = this.playerId,
+        extraPoints: Int = this.extraPoints
     ): WordData {
         return copy(
             word = word,
             letterBonuses = letterBonuses,
             multiplier = multiplier,
-            playerId = playerId
+            playerId = playerId,
+            extraPoints = extraPoints
         ).also {
             it.id = id
         }

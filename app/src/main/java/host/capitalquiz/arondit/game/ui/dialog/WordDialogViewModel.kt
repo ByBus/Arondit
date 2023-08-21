@@ -78,4 +78,8 @@ class WordDialogViewModel @Inject constructor(
     fun changeLetterScore(index: Int) {
         viewModelScope.launch { wordInteractor.updateScore(index) }
     }
+
+    fun showExtraScore(value: Boolean) {
+        viewModelScope.launch { wordInteractor.updateExtraPoints(value) }
+    }
 }

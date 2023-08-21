@@ -9,7 +9,8 @@ interface WordUiMapper<R> {
         letterBonuses: List<Int>,
         multiplier: Int,
         id: Long,
-        score: Int
+        score: Int,
+        extraPoints: Int
     ): R
 
 
@@ -20,8 +21,9 @@ interface WordUiMapper<R> {
             multiplier: Int,
             id: Long,
             score: Int,
+            extraPoints: Int
         ): Word {
-            return Word(word, letterBonuses, multiplier, id)
+            return Word(word, letterBonuses, multiplier, id, extraPoints > 0)
         }
     }
 }

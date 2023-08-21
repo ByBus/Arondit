@@ -11,7 +11,7 @@ interface WordInteractor {
 
     suspend fun updateWord(playerId: Long, word: Word)
 
-    suspend fun word(wordId: Long): Word
+    suspend fun findWord(wordId: Long): Word
 
     suspend fun updateWord(word: String)
 
@@ -20,6 +20,8 @@ interface WordInteractor {
     suspend fun updateScore(letterPosition: Int)
 
     suspend fun updateMultiplier(value: Int)
+
+    suspend fun updateExtraPoints(value: Boolean)
 
     suspend fun saveCachedWord()
 
@@ -38,14 +40,20 @@ interface WordInteractor {
 
         override suspend fun deleteWord(wordId: Long) = wordRepository.deleteWord(wordId)
 
-        override suspend fun updateWord(playerId: Long, word: Word) =
+        override suspend fun updateWord(playerId: Long, word: Word) {
             wordRepository.updateWord(playerId, word)
+        }
 
-        override suspend fun word(wordId: Long): Word = wordRepository.selectWord(wordId)
+        override suspend fun findWord(wordId: Long): Word = wordRepository.selectWord(wordId)
 
-        override suspend fun updateWord(word: String) = wordRepository.updateCache(word)
+        override suspend fun updateWord(word: String) {
+            wordRepository.updateWord(word)
+            val points = wordRepository.cachedValue()?.extraPoints() ?: 0
+            wordRepository.updateExtraPoints(points)
+        }
 
         override fun readCache(): LiveData<Word> = wordRepository.readCache()
+
         override suspend fun findDefinition(word: String): WordDefinition =
             definitionRepository.findDefinition(word)
 
@@ -55,6 +63,12 @@ interface WordInteractor {
             wordRepository.changeLetterScore(letterPosition)
 
         override suspend fun updateMultiplier(value: Int) = wordRepository.updateMultiplier(value)
+
+        override suspend fun updateExtraPoints(value: Boolean) {
+            val points = wordRepository.cachedValue()
+                ?.copy(hasExtraPoints = value)?.extraPoints() ?: 0
+            wordRepository.updateExtraPoints(points)
+        }
 
         override suspend fun saveCachedWord() = wordRepository.saveCacheToDb()
 

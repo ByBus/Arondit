@@ -11,6 +11,7 @@ interface WordDataDataSource {
     fun save(word: WordData)
 
     fun isEmpty(): Boolean
+    fun cachedValue(): WordData?
 
 
     class Base @Inject constructor(): WordDataDataSource {
@@ -23,5 +24,6 @@ interface WordDataDataSource {
         }
 
         override fun isEmpty(): Boolean = cachedWord.value == null
+        override fun cachedValue(): WordData? = cachedWord.value
     }
 }

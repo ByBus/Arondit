@@ -49,7 +49,7 @@ class BaseWordRepository @Inject constructor(
         }
     }
 
-    override suspend fun updateCache(word: String) {
+    override suspend fun updateWord(word: String) {
         oneWordCache.read().value?.let { oldWordData ->
             oneWordCache.save(wordBonusMapper.map(oldWordData, wordFormatter.format(word)))
         }
@@ -58,6 +58,12 @@ class BaseWordRepository @Inject constructor(
     override suspend fun updateMultiplier(value: Int) {
         oneWordCache.read().value?.let {
             oneWordCache.save(it.deepCopy(multiplier = value))
+        }
+    }
+
+    override suspend fun updateExtraPoints(value: Int) {
+        oneWordCache.read().value?.let {
+            oneWordCache.save(it.deepCopy(extraPoints = value))
         }
     }
 
@@ -74,4 +80,6 @@ class BaseWordRepository @Inject constructor(
             wordDao.insertOrUpdate(it)
         }
     }
+
+    override fun cachedValue(): Word? = oneWordCache.cachedValue()?.map(wordMapper)
 }

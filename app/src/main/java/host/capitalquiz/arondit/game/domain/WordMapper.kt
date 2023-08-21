@@ -9,5 +9,6 @@ interface WordMapper<R> {
         letterBonuses: List<Int>,
         multiplier: Int,
         id: Long,
+        extraPoints: Int
     ): R
 }

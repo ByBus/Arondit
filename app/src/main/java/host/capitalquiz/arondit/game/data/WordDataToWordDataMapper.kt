@@ -20,9 +20,10 @@ interface WordDataToWordDataMapper : WordDataMapper<WordData> {
             multiplier: Int,
             id: Long,
             playerId: Long,
+            extraPoints: Int
         ): WordData {
             val bonuses = shiftedBonusesForNewWord(newWord, word, letterBonuses)
-            return WordData(newWord, bonuses, multiplier, playerId).apply {
+            return WordData(newWord, bonuses, multiplier, playerId, extraPoints).apply {
                 this.id = id
             }
         }

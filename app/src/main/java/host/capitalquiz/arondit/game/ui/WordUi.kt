@@ -4,6 +4,7 @@ import android.os.Build
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import host.capitalquiz.arondit.core.ui.view.EruditWordView
 
 data class WordUi(
@@ -12,9 +13,10 @@ data class WordUi(
     val multiplier: Int = 1,
     val id: Long = 0,
     val score: Int = 0,
+    val extraPoints: Int
 ) {
     fun <R> map(mapper: WordUiMapper<R>): R {
-        return mapper(word, letterBonuses, multiplier, id, score)
+        return mapper(word, letterBonuses, multiplier, id, score, extraPoints)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -22,9 +24,12 @@ data class WordUi(
         wordView: EruditWordView,
         x2Button: ToggleButton,
         x3Button: ToggleButton,
+        extraPointButton: ToggleButton
     ) {
         x2Button.isChecked = multiplier == 2
         x3Button.isChecked = multiplier == 3
+        extraPointButton.isVisible = extraPoints > 0 || word.length > 7
+        extraPointButton.isChecked = extraPoints > 0
         update(wordView)
     }
 
@@ -35,8 +40,9 @@ data class WordUi(
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun update(eruditWord: EruditWordView, wordScores: TextView) {
+    fun update(eruditWord: EruditWordView, wordScores: TextView, extraPoints: TextView) {
         update(eruditWord)
         wordScores.text = score.toString()
+        extraPoints.isVisible = this.extraPoints > 0
     }
 }

@@ -11,4 +11,5 @@
     <color name="main_menu_letters">#3C3C3C</color>
     <color name="light_gray_text_color">#787878</color>
     <color name="toggle_default_text_color">#5F5F5F</color>
+    <color name="extra_points_badge_color">#FFA726</color>
 </resources>

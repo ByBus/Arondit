@@ -21,9 +21,10 @@ class WordToWordDataMapper @Inject constructor() : WordMapperWithParameter<Long,
         letterBonuses: List<Int>,
         multiplier: Int,
         id: Long,
+        extraPoints: Int,
     ): WordData {
         val wordData =
-            WordData(word.uppercase(), letterBonuses, multiplier, playerId).apply {
+            WordData(word.uppercase(), letterBonuses, multiplier, playerId, extraPoints).apply {
                 this.id = id
             }
         return wordData

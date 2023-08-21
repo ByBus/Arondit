@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:paddingStart="4dp"
     android:paddingVertical="2dp"
+    android:gravity="center_vertical"
     android:orientation="horizontal"
     tools:ignore="RtlSymmetry">
 
@@ -17,7 +18,20 @@
         android:layout_weight="1"
         app:mainColor="@color/letter_block_color"
         app:size="40dp"
-        tools:word="слово" />
+        tools:word="проспект" />
+    <TextView
+        tools:visibility="visible"
+        android:visibility="gone"
+        android:id="@+id/extra_points"
+        android:textStyle="bold"
+        android:text="@string/extra_point"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:background="@drawable/small_round_rectangle"
+        app:backgroundTint="@color/extra_points_badge_color"
+        />
 
     <TextView
         android:id="@+id/wordScores"

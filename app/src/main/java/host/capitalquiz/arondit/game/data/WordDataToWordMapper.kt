@@ -10,8 +10,9 @@ class WordDataToWordMapper @Inject constructor() : WordDataMapper<Word> {
         letterBonuses: List<Int>,
         multiplier: Int,
         id: Long,
-        playerId: Long
+        playerId: Long,
+        extraPoints: Int
     ): Word {
-        return Word(word, letterBonuses, multiplier, id)
+        return Word(word, letterBonuses, multiplier, id, extraPoints > 0)
     }
 }

@@ -10,6 +10,10 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import androidx.transition.ChangeBounds
+import androidx.transition.Fade
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.core.ui.BottomSheetDialogFragmentWithBorder
 import host.capitalquiz.arondit.databinding.DialogFragmentAddWordBinding
@@ -48,19 +52,24 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
 
         viewModel.word.observe(viewLifecycleOwner) { word ->
             with(binding) {
-//                TransitionManager.beginDelayedTransition(binding.content)
-                word.update(eruditWord, x2WordBonusButton, x3WordBonusButton)
+                TransitionManager.beginDelayedTransition(binding.dialogButtons,
+                    TransitionSet().apply {
+                        ordering = TransitionSet.ORDERING_SEQUENTIAL
+                        addTransition(ChangeBounds())
+                        addTransition(Fade(Fade.IN))
+                    })
+                word.update(eruditWord, x2WordBonusButton, x3WordBonusButton, extraPointsButton)
             }
         }
 
-        viewModel.word.observe(viewLifecycleOwner){
+        viewModel.word.observe(viewLifecycleOwner) {
             val editText = binding.wordInput.editText
             if (editText?.text.isNullOrBlank() && it.word.isNotBlank()) {
                 editText?.setText(it.word)
             }
         }
 
-        viewModel.definition.observe(viewLifecycleOwner){ definition ->
+        viewModel.definition.observe(viewLifecycleOwner) { definition ->
             definition.update(binding.glossaryBlock)
         }
 
@@ -78,6 +87,10 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
             setOnClickListener {
                 viewModel.updateWordMultiplier(if (isChecked) 3 else 1)
             }
+        }
+
+        binding.extraPointsButton.setOnClickListener {
+            viewModel.showExtraScore(binding.extraPointsButton.isChecked)
         }
 
         binding.confirmWord.text = view.context.getText(confirmButtonTextRes)

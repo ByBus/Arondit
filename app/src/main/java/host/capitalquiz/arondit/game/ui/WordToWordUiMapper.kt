@@ -19,7 +19,8 @@ class WordToWordUiMapper @Inject constructor(
         letterBonuses: List<Int>,
         multiplier: Int,
         id: Long,
+        extraPoints: Int
     ): WordUi {
-        return WordUi(word, letterBonuses.toList(), multiplier, id, score)
+        return WordUi(word, letterBonuses.toList(), multiplier, id, score, extraPoints)
     }
 }

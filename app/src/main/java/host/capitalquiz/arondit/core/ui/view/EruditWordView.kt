@@ -416,11 +416,11 @@ class EruditWordView @JvmOverloads constructor(
 
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         fun tryClick(event: MotionEvent, bonusConsumer: ((Int) -> Unit)?): Boolean {
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                if (bounds.contains(event.x, event.y)) {
-                    if (bonusConsumer == null) nextBonus() else bonusConsumer(bonus)
-                    return true
-                }
+            val canHandleClick = event.action == MotionEvent.ACTION_DOWN &&
+                    char != '*' && bounds.contains(event.x, event.y)
+            if (canHandleClick) {
+                if (bonusConsumer == null) nextBonus() else bonusConsumer(bonus)
+                return true
             }
             return false
         }

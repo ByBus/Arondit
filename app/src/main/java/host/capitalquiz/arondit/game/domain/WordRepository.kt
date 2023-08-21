@@ -22,11 +22,15 @@ interface WordCache{
 
     suspend fun initCache(playerId: Long)
 
-    suspend fun updateCache(word: String)
+    suspend fun updateWord(word: String)
 
     suspend fun updateMultiplier(value: Int)
+
+    suspend fun updateExtraPoints(value: Int)
 
     suspend fun changeLetterScore(position: Int)
 
     suspend fun saveCacheToDb()
+
+    fun cachedValue(): Word?
 }

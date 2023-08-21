@@ -61,6 +61,11 @@
         <item name="android:textOn">@string/x2</item>
     </style>
 
+    <style name="bonus_toggle_style_plus15" parent="bonus_toggle_style_x3">
+        <item name="android:textOff">@string/plus15</item>
+        <item name="android:textOn">@string/plus15</item>
+    </style>
+
     <style name="BottomSheetDialogInnerContainer">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -115,4 +120,5 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <string name="plus15">+15</string>
 </resources>
