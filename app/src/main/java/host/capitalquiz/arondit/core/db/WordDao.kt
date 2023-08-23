@@ -25,6 +25,15 @@ interface WordDao {
     @Update
     suspend fun updateWord(word: WordData)
 
-    @Query("SELECT EXISTS(SELECT * FROM words WHERE playerId = :playerId AND word like :word)")
-    suspend fun isWordExist(playerId : Long, word: String) : Boolean
+
+    @Query("""
+        SELECT EXISTS(
+            SELECT word
+            FROM words 
+            JOIN players ON players.id = words.playerId 
+            WHERE gameId = (SELECT gameId FROM players WHERE id = :playerId) 
+                AND words.id != :wordId AND word LIKE :word
+        ) AS result
+    """)
+    suspend fun isWordExist(playerId: Long, word: String, wordId: Long): Boolean
 }

@@ -6,9 +6,15 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import host.capitalquiz.arondit.R
 import host.capitalquiz.arondit.core.ui.view.CompositeBorderDrawable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 abstract class BottomSheetDialogFragmentWithBorder : BottomSheetDialogFragment() {
 
@@ -36,5 +42,13 @@ abstract class BottomSheetDialogFragmentWithBorder : BottomSheetDialogFragment()
         val bottomSheet = view.parent as View
         bottomSheet.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
         bottomSheet.elevation = 0f
+    }
+}
+
+inline fun Fragment.observeFlows(crossinline observationFunction: suspend (CoroutineScope) -> Unit) {
+    viewLifecycleOwner.lifecycle.coroutineScope.launch {
+        viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            observationFunction(this)
+        }
     }
 }

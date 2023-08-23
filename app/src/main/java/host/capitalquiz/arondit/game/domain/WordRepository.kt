@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 interface WordRepository : CurrentWordRepository {
 
     suspend fun deleteWord(wordId: Long)
+    suspend fun isWordExist(word: String): Boolean
 
 }
 

@@ -12,7 +12,7 @@ interface WordInteractor {
 
     suspend fun loadWordToCache(wordId: Long)
 
-    suspend fun updateScore(letterPosition: Int)
+    suspend fun cycleLetterScore(letterPosition: Int)
 
     suspend fun switchLetterAsterisk(letterPosition: Int)
 
@@ -20,7 +20,9 @@ interface WordInteractor {
 
     suspend fun updateExtraPoints(value: Boolean)
 
-    suspend fun saveWord()
+    suspend fun saveWord(): Boolean
+
+    suspend fun checkIfWordAlreadyExists(word: String): Boolean
 
     suspend fun initCacheWithPlayer(playerId: Long)
 
@@ -52,7 +54,7 @@ interface WordInteractor {
 
         override suspend fun loadWordToCache(wordId: Long) = wordRepository.loadToCache(wordId)
 
-        override suspend fun updateScore(letterPosition: Int) {
+        override suspend fun cycleLetterScore(letterPosition: Int) {
             wordRepository.cachedValue()?.let {
                 val bonuses = it.letterBonuses.toMutableList()
                 bonuses[letterPosition] =
@@ -81,7 +83,18 @@ interface WordInteractor {
             }
         }
 
-        override suspend fun saveWord() = wordRepository.saveCacheToDb()
+        override suspend fun saveWord(): Boolean {
+            val allowSave = (wordRepository.cachedValue()?.let {
+                checkIfWordAlreadyExists(it.word)
+            } ?: false).not()
+            if (allowSave) {
+                wordRepository.saveCacheToDb()
+            }
+            return allowSave
+        }
+
+        override suspend fun checkIfWordAlreadyExists(word: String): Boolean =
+            wordRepository.isWordExist(word)
 
         override suspend fun initCacheWithPlayer(playerId: Long) =
             wordRepository.initCache(playerId)

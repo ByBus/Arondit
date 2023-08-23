@@ -10,9 +10,11 @@ import host.capitalquiz.arondit.game.domain.WordDefinitionMapper
 import host.capitalquiz.arondit.game.domain.WordInteractor
 import host.capitalquiz.arondit.game.domain.WordMapper
 import host.capitalquiz.arondit.game.ui.WordUi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,6 +36,8 @@ class WordDialogViewModel @Inject constructor(
     val definition: LiveData<WordDefinitionUi>
         get() = _definition.asLiveData(viewModelScope.coroutineContext)
 
+    private val duplicateWordChannel = Channel<Boolean>()
+    val wordSavingResult = duplicateWordChannel.receiveAsFlow()
     init {
         viewModelScope.launch {
             queryFlow
@@ -72,11 +76,14 @@ class WordDialogViewModel @Inject constructor(
     }
 
     fun saveWord() {
-        viewModelScope.launch { wordInteractor.saveWord() }
+        viewModelScope.launch {
+            val isSaved = wordInteractor.saveWord()
+            duplicateWordChannel.send(isSaved)
+        }
     }
 
     fun changeLetterScore(index: Int) {
-        viewModelScope.launch { wordInteractor.updateScore(index) }
+        viewModelScope.launch { wordInteractor.cycleLetterScore(index) }
     }
 
     fun switchLetterAsterisk(index: Int){

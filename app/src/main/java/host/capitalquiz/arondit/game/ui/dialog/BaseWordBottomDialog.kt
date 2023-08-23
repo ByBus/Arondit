@@ -14,8 +14,11 @@ import androidx.transition.ChangeBounds
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import host.capitalquiz.arondit.R
 import host.capitalquiz.arondit.core.ui.BottomSheetDialogFragmentWithBorder
+import host.capitalquiz.arondit.core.ui.observeFlows
 import host.capitalquiz.arondit.databinding.DialogFragmentAddWordBinding
 
 
@@ -101,7 +104,6 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
         binding.confirmWord.setOnClickListener {
             if (!binding.wordInput.editText?.text.isNullOrBlank()) {
                 viewModel.saveWord()
-                dismiss()
             }
         }
 
@@ -110,6 +112,21 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
         }
 
         binding.border.background = CompositeBorderDrawable()
+
+        observeFlows {
+            viewModel.wordSavingResult.collect { saved ->
+                if (saved) {
+                    dismiss()
+                } else {
+                    Snackbar.make(
+                        binding.root,
+                        getString(R.string.this_word_already_used_message), Snackbar.LENGTH_SHORT
+                    ).apply {
+                        animationMode = Snackbar.ANIMATION_MODE_SLIDE
+                    }.show()
+                }
+            }
+        }
     }
 
     override fun onDestroy() {

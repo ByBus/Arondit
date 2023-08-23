@@ -24,7 +24,6 @@ class AddWordDialog : BaseWordBottomDialog() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.wordInput.requestFocus()
     }
 }
