@@ -1,4 +1,4 @@
-package host.capitalquiz.arondit.core.ui.view
+package host.capitalquiz.arondit.core.ui.view.eruditwordview
 
 import android.animation.ValueAnimator
 import android.graphics.drawable.Drawable
@@ -16,9 +16,9 @@ class AnimationStateResolver(
     override val onEnd = { state.onEnd.invoke() }
     override val badge: Drawable? get() = state.badge
     override val showBadge: Boolean get() = state.showBadge
-    override var charRevealing: Int
+    override var charRevealing: Int = 0
         get() = state.charRevealing
-        set(value) {}
+
 
     init {
         colorAnimator?.doOnEnd {

@@ -5,7 +5,7 @@ import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
-import host.capitalquiz.arondit.core.ui.view.EruditWordView
+import host.capitalquiz.arondit.core.ui.view.eruditwordview.EruditWordView
 
 data class WordUi(
     val word: String = "",

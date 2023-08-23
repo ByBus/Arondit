@@ -1,4 +1,4 @@
-package host.capitalquiz.arondit.core.ui.view
+package host.capitalquiz.arondit.core.ui.view.eruditwordview
 
 import android.graphics.drawable.Drawable
 

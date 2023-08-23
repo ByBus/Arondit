@@ -1,4 +1,4 @@
-package host.capitalquiz.arondit.core.ui.view
+package host.capitalquiz.arondit.core.ui.view.eruditwordview
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback

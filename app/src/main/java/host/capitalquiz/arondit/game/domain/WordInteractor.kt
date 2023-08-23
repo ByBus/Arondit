@@ -20,11 +20,11 @@ interface WordInteractor {
 
     suspend fun updateExtraPoints(value: Boolean)
 
-    suspend fun saveCachedWord()
+    suspend fun saveWord()
 
     suspend fun initCacheWithPlayer(playerId: Long)
 
-    fun readCache(): LiveData<Word>
+    fun loadWord(): LiveData<Word>
 
     suspend fun findDefinition(word: String): WordDefinition
 
@@ -45,7 +45,7 @@ interface WordInteractor {
             }
         }
 
-        override fun readCache(): LiveData<Word> = wordRepository.readCache()
+        override fun loadWord(): LiveData<Word> = wordRepository.readCache()
 
         override suspend fun findDefinition(word: String): WordDefinition =
             definitionRepository.findDefinition(word)
@@ -81,7 +81,7 @@ interface WordInteractor {
             }
         }
 
-        override suspend fun saveCachedWord() = wordRepository.saveCacheToDb()
+        override suspend fun saveWord() = wordRepository.saveCacheToDb()
 
         override suspend fun initCacheWithPlayer(playerId: Long) =
             wordRepository.initCache(playerId)

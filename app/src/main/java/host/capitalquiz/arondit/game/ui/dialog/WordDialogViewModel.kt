@@ -26,7 +26,7 @@ class WordDialogViewModel @Inject constructor(
     private val wordDefinitionToUiMapper: WordDefinitionMapper<WordDefinitionUi>,
 ) : ViewModel() {
 
-    private val tempWord = wordInteractor.readCache()
+    private val tempWord = wordInteractor.loadWord()
     val word: LiveData<WordUi> get() = tempWord.map { it.map(wordToUiMapper) }
 
     private val queryFlow = MutableStateFlow("")
@@ -72,7 +72,7 @@ class WordDialogViewModel @Inject constructor(
     }
 
     fun saveWord() {
-        viewModelScope.launch { wordInteractor.saveCachedWord() }
+        viewModelScope.launch { wordInteractor.saveWord() }
     }
 
     fun changeLetterScore(index: Int) {

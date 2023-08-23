@@ -45,7 +45,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/wordInput">
 
-                <host.capitalquiz.arondit.core.ui.view.EruditWordView
+                <host.capitalquiz.arondit.core.ui.view.eruditwordview.EruditWordView
                     android:id="@+id/eruditWord"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
