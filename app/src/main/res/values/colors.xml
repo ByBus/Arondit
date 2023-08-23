@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="base_red">#EF5350</color>
     <color name="base_green">#26A69A</color>
@@ -10,7 +9,6 @@
     <color name="letter_asterisk_block_color">#607D8B</color>
     <color name="main_menu_letters_tile">#ECB913</color>
     <color name="main_menu_letters">#3C3C3C</color>
-    <color name="light_gray_text_color">#787878</color>
     <color name="toggle_default_text_color">#5F5F5F</color>
     <color name="extra_points_badge_color">#FFA726</color>
 </resources>
