@@ -55,6 +55,7 @@
                     app:clickableLetters="true"
                     app:initWithBadges="true"
                     app:mainColor="@color/letter_block_color"
+                    app:asteriskColor="@color/letter_asterisk_block_color"
                     app:size="50dp"
                     app:useDiffUtil="true"
                     tools:word="СИНХРО" />

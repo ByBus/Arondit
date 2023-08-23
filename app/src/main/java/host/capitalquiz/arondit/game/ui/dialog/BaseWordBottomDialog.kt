@@ -77,6 +77,10 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
             viewModel.changeLetterScore(index)
         }
 
+        binding.eruditWord.setLetterLongClickListener { index ->
+            viewModel.switchLetterAsterisk(index)
+        }
+
         with(binding.x2WordBonusButton) {
             setOnClickListener {
                 viewModel.updateWordMultiplier(if (isChecked) 2 else 1)

@@ -16,7 +16,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        app:animateUpdates="false"
         app:mainColor="@color/letter_block_color"
+        app:asteriskColor="@color/letter_asterisk_block_color"
         app:size="40dp"
         tools:word="проспект" />
     <TextView

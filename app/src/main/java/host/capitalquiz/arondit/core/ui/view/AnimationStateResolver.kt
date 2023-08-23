@@ -6,16 +6,19 @@ import androidx.core.animation.doOnEnd
 
 class AnimationStateResolver(
     private val colorHolder: LetterColorHolder,
-    initColor: Int,
     private val colorAnimator: ValueAnimator?,
+    private vararg val noBadgeColor: Int,
 ) : AnimationResolver {
-    private var state: BadgeAnimationState = Forward(initColor)
-    private var nextColor = initColor
+    private var state: BadgeAnimationState = Forward(noBadgeColor[0])
+    private var nextColor = noBadgeColor[0]
 
     override val color get() = state.color
     override val onEnd = { state.onEnd.invoke() }
     override val badge: Drawable? get() = state.badge
     override val showBadge: Boolean get() = state.showBadge
+    override var charRevealing: Int
+        get() = state.charRevealing
+        set(value) {}
 
     init {
         colorAnimator?.doOnEnd {
@@ -36,14 +39,19 @@ class AnimationStateResolver(
 
     private inner class Forward(override var color: Int) : BadgeAnimationState {
         override val showBadge: Boolean
-            get() = nextColor != colorHolder.baseColor
+            get() = nextColor !in noBadgeColor
 
         override val onEnd: () -> Unit = {
-            state = if (nextColor == colorHolder.baseColor)
-                Forward(nextColor)
+            val charReveal = findRevealAnimation(color, nextColor)
+            state = (if (nextColor in noBadgeColor)
+                Forward(nextColor).apply {
+                    charRevealing = charReveal
+                }
             else
-                Reverse(nextColor)
+                Reverse(nextColor))
         }
+
+        override var charRevealing = IDLE
 
         override val badge: Drawable?
             get() = if (nextColor == colorHolder.x2LetterColor)
@@ -59,14 +67,18 @@ class AnimationStateResolver(
         }
     }
 
-    private inner class Reverse(override var color: Int) : BadgeAnimationState {
+    private open inner class Reverse(override var color: Int) : BadgeAnimationState {
         override val showBadge: Boolean
-            get() = color != colorHolder.baseColor
+            get() = color !in noBadgeColor
 
         override val onEnd: () -> Unit = {
+            val charRevealing = findRevealAnimation(color, nextColor)
             state = Forward(color)
+            state.charRevealing = charRevealing
             state.runAnimation()
         }
+
+        override var charRevealing = IDLE
 
         override val badge: Drawable?
             get() = if (color == colorHolder.x2LetterColor)
@@ -87,12 +99,28 @@ class AnimationStateResolver(
         nextColor = value
         runAnimation()
     }
+
+    private fun findRevealAnimation(colorFrom: Int, colorTo: Int): Int {
+        return when {
+            noBadgeColor.size < 2 || colorFrom == colorTo -> IDLE
+            colorFrom == noBadgeColor[1] -> CHAR_HIDING
+            colorTo == noBadgeColor[1] -> CHAR_REVEALING
+            else -> IDLE
+        }
+    }
+
+    companion object {
+        const val CHAR_REVEALING = 1
+        const val IDLE = 0
+        const val CHAR_HIDING = -1
+    }
 }
 
 interface AnimationResolver : BadgeAnimationState {
     fun animateTo(value: Int)
     fun animatedColor(): Int
     fun animatedPosition(): Float
+
 }
 
 interface BadgeAnimationState {
@@ -101,4 +129,6 @@ interface BadgeAnimationState {
     val badge: Drawable?
     fun runAnimation()
     val showBadge: Boolean
+
+    var charRevealing: Int
 }

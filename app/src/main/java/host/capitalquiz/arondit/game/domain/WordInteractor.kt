@@ -14,6 +14,8 @@ interface WordInteractor {
 
     suspend fun updateScore(letterPosition: Int)
 
+    suspend fun switchLetterAsterisk(letterPosition: Int)
+
     suspend fun updateMultiplier(value: Int)
 
     suspend fun updateExtraPoints(value: Boolean)
@@ -55,6 +57,14 @@ interface WordInteractor {
                 val bonuses = it.letterBonuses.toMutableList()
                 bonuses[letterPosition] =
                     if (bonuses[letterPosition] == 3) 1 else bonuses[letterPosition] + 1
+                wordRepository.updateCurrentWord(it.copy(letterBonuses = bonuses))
+            }
+        }
+
+        override suspend fun switchLetterAsterisk(letterPosition: Int) {
+            wordRepository.cachedValue()?.let {
+                val bonuses = it.letterBonuses.toMutableList()
+                bonuses[letterPosition] = if (bonuses[letterPosition] == 0) 1 else 0
                 wordRepository.updateCurrentWord(it.copy(letterBonuses = bonuses))
             }
         }

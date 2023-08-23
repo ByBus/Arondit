@@ -1,6 +1,7 @@
 package host.capitalquiz.arondit.core.ui.view
 
 
+import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,30 +10,33 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
-import android.os.Build
 import android.util.AttributeSet
+import android.view.GestureDetector
+import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import androidx.annotation.DrawableRes
 import androidx.annotation.Px
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.toRect
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import host.capitalquiz.arondit.R
 import kotlin.math.roundToInt
 
+
 class EruditWordView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
 ) : View(context, attrs, defStyleAttr), ColorHolder {
     private var letterClickListener: LetterClickListener? = null
+    private var letterLongClickListener: LetterLongClickListener? = null
 
-    // index = 0 is for base color
-    private val letterColors = intArrayOf(0, LETTER_X2_COLOR, LETTER_X3_COLOR)
+    // index = bonus: 0 is for asterisk color, 1 is for base color
+    private val letterBonusesColors = intArrayOf(0, 0, LETTER_X2_COLOR, LETTER_X3_COLOR)
     private val thicknessColor = (0x70000000).toInt()
     private var textColor = 0
     private var size = 0
@@ -52,12 +56,13 @@ class EruditWordView @JvmOverloads constructor(
     override val x3Drawable by lazy { R.drawable.ic_bonus_x3_strict.loadDrawable(context) }
     override val x2LetterDrawable by lazy { R.drawable.letter_x2_bonus.loadDrawable(context) }
     override val x3LetterDrawable by lazy { R.drawable.letter_x3_bonus.loadDrawable(context) }
+    private val asteriskDrawable by lazy { R.drawable.ic_asterisk6_curved_24.loadDrawable(context) }
 
-    override val baseColor: Int get() = letterColors[0]
+    override val baseColor: Int get() = letterBonusesColors[1]
 
-    override val x2LetterColor: Int get() = letterColors[1]
+    override val x2LetterColor: Int get() = letterBonusesColors[2]
 
-    override val x3LetterColor: Int get() = letterColors[2]
+    override val x3LetterColor: Int get() = letterBonusesColors[3]
 
     override val x2Color = WORD_X2_COLOR
     override val x3Color = WORD_X3_COLOR
@@ -72,7 +77,8 @@ class EruditWordView @JvmOverloads constructor(
             calculateSpaceForBadges = getBoolean(R.styleable.EruditWordView_initWithBadges, false)
             diffUtil = getBoolean(R.styleable.EruditWordView_useDiffUtil, false)
             animateUpdates = getBoolean(R.styleable.EruditWordView_animateUpdates, false)
-            letterColors[0] = getColor(R.styleable.EruditWordView_mainColor, Color.GRAY).also {
+            letterBonusesColors[0] = getColor(R.styleable.EruditWordView_asteriskColor, 0xFF607D8B.toInt())
+            letterBonusesColors[1] = getColor(R.styleable.EruditWordView_mainColor, Color.GRAY).also {
                 paint.color = it
             }
 
@@ -86,13 +92,35 @@ class EruditWordView @JvmOverloads constructor(
 
     private var badgeHeight = 0
 
+    private val gestureDetector = GestureDetector(context, object : SimpleOnGestureListener() {
+
+        override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+            word.forEachIndexed { index, letter ->
+                val bonusConsumer = letterClickListener?.let {
+                    { bonus: Int -> it.onClick(index, bonus) }
+                }
+                if (letter.tryClick(e, bonusConsumer)) return true
+            }
+            return super.onSingleTapConfirmed(e)
+        }
+
+        override fun onLongPress(e: MotionEvent) {
+            word.forEachIndexed { index, letter ->
+                if (letter.tryLongClick(e)) {
+                    letterLongClickListener?.onLongClick(index)
+                }
+            }
+        }
+
+        override fun onDown(e: MotionEvent): Boolean = true
+    }).takeIf { clickableLetters }
+
     /**
      * Update bonus of whole word
      *
      * value: [[1, 3]]
      */
     var multiplier = 1
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         set(value) {
             val newValue = value.coerceIn(1, 3)
             if (field == newValue) return
@@ -111,8 +139,8 @@ class EruditWordView @JvmOverloads constructor(
         }
     private val hasMultiplier get() = multiplier == 2 || multiplier == 3
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private val multiplierBadgeAnimator = ValueAnimator.ofArgb(0, 0).apply {
+    private val multiplierBadgeAnimator = ValueAnimator.ofInt(0, 0).apply {
+        setEvaluator(ArgbEvaluator())
         duration = 250
         interpolator = AccelerateDecelerateInterpolator()
         addUpdateListener {
@@ -120,12 +148,11 @@ class EruditWordView @JvmOverloads constructor(
         }
     }.takeIf { animateUpdates }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private val bonusAnimationState =
         AnimationStateResolver(
             BonusColorAdapter(this@EruditWordView, WORD_X1_COLOR),
-            WORD_X1_COLOR,
             multiplierBadgeAnimator,
+            WORD_X1_COLOR,
         )
 
 
@@ -181,7 +208,6 @@ class EruditWordView @JvmOverloads constructor(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun setTextWithBonuses(text: String, bonuses: List<Int>) {
         if (text.equals(toString(), true)) {
             setBonuses(bonuses)
@@ -207,7 +233,6 @@ class EruditWordView @JvmOverloads constructor(
      * @param letterPosition char position in word started from 0
      * @param bonus value of letter bonus<p> 1 = x1, 2 = x2, 3 = x3. Will be coerced in [[1, 3]] diapason
      */
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun setBonus(letterPosition: Int, bonus: Int) {
         if (letterPosition < word.size) {
             word[letterPosition].setBonus(bonus, true)
@@ -223,7 +248,6 @@ class EruditWordView @JvmOverloads constructor(
      *
      * Values will be coerced in [[1, 3]] diapason
      */
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun setBonuses(values: List<Int>) {
         badgeHeight = badgeHeight()
         for (i in 0..values.lastIndex) {
@@ -301,13 +325,16 @@ class EruditWordView @JvmOverloads constructor(
 
     private fun updateCharsWidths() = word.forEach { it.invalidateCharWidth() }
 
-    inner class Letter(char: Char, private var bonus: Int = 1) {
-        val char = char.uppercaseChar().takeIf { scoresDictionary.containsKey(it) } ?: '*'
+    inner class Letter(private val character: Char, private var bonus: Int = 1) {
+        val char = character.uppercaseChar().takeIf { scoresDictionary.containsKey(it) } ?: '*'
         private var charWidth: Float = 0f
         private val bounds = RectF()
+        private var isFirstShow = true
 
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-        private var colorAnimator = ValueAnimator.ofArgb(0, 0).apply {
+        private fun isAsterisk() = bonus == 0
+
+        private var colorAnimator = ValueAnimator.ofInt(0, 0).apply {
+            setEvaluator(ArgbEvaluator())
             duration = 300
             interpolator = FastOutSlowInInterpolator()
 
@@ -318,24 +345,25 @@ class EruditWordView @JvmOverloads constructor(
             animateUpdates
         }
 
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         private val animationState =
-            AnimationStateResolver(this@EruditWordView, currentColor, colorAnimator)
-        private val currentColor: Int get() = letterColors[bonus - 1]
+            AnimationStateResolver(
+                this@EruditWordView,
+                colorAnimator,
+                currentColor,
+                letterBonusesColors[0]
+            )
+        private val currentColor: Int get() = letterBonusesColors[bonus]
 
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         fun nextBonus() {
-            setBonus(if (bonus == 3) 1 else bonus + 1)
+            setBonus(bonus++ % letterBonusesColors.size)
         }
 
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         fun setBonus(value: Int, forceUpdate: Boolean = true) {
-            bonus = value.coerceIn(1, 3)
+            bonus = value.coerceIn(0, 3)
             animationState.animateTo(currentColor)
             if (forceUpdate && badgeHeight == 0) requestLayout()
         }
 
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         fun draw(canvas: Canvas) {
             val blockColor = animationState.animatedColor()
             if (animationState.showBadge) {
@@ -381,7 +409,19 @@ class EruditWordView @JvmOverloads constructor(
             val yPosition =
                 bounds.bottom - (bounds.width() - textSize) / 2 - paint.descent()
 
-            paint.withColor(textColor) {
+            val asteriskAlpha =
+                if (animationState.charRevealing == AnimationStateResolver.IDLE)
+                    255
+                else
+                    (255 * (1 - animationState.animatedPosition())).roundToInt()
+
+            val textAlpha =
+                if (animationState.charRevealing == AnimationStateResolver.CHAR_REVEALING)
+                    255 - asteriskAlpha
+                else
+                    255
+
+            paint.withColor(ColorUtils.setAlphaComponent(textColor, textAlpha)) {
                 val score = scoresDictionary[char]
                 val scoreTextSize = textSize / 2.5f
                 var scoreXPosition = 0f
@@ -389,37 +429,65 @@ class EruditWordView @JvmOverloads constructor(
                     val scoreString = score.toString()
                     val scoreWidth = measureText(scoreString)
                     scoreXPosition = bounds.right - scoreWidth - offset
-                    canvas.drawText(
-                        scoreString,
-                        scoreXPosition,
-                        yPosition + descent(),
-                        paint
-                    )
+                    if (!(isAsterisk() && animationState.showBadge.not())) {
+                        canvas.drawText(
+                            scoreString,
+                            scoreXPosition,
+                            yPosition + descent(),
+                            paint
+                        )
+                    }
                 }
-                val availableSpace = scoreXPosition - xPosition
-                val scale = if (availableSpace > charWidth) 1f else availableSpace / charWidth
-                drawWithTextScaleX(scale) {
-                    canvas.drawText(char.toString(), xPosition, yPosition, paint)
+
+                if (isAsterisk() && animationState.showBadge.not()) {
+                    bounds.drawWithScale(0.65f) {
+                        val asteriskBounds = this.toRect()
+                        asteriskDrawable?.bounds = asteriskBounds
+                        asteriskDrawable?.draw(canvas)
+                        if (animateUpdates && isFirstShow.not()) {
+                            paint.withColor(
+                                ColorUtils.setAlphaComponent(
+                                    animationState.animatedColor(),
+                                    asteriskAlpha
+                                )
+                            ) {
+                                // impossible to animate the alpha of images because they are singletons
+                                // so fill over them with transparent color
+                                canvas.drawRect(asteriskBounds, this)
+                            }
+                        }
+                    }
+                } else {
+                    val availableSpace = scoreXPosition - xPosition
+                    val scale = if (availableSpace > charWidth) 1f else availableSpace / charWidth
+                    paint.withColor(ColorUtils.setAlphaComponent(textColor, textAlpha)) {
+                        drawWithTextScaleX(scale) {
+                            canvas.drawText(char.toString(), xPosition, yPosition, paint)
+                        }
+                    }
                 }
             }
         }
 
         override fun toString(): String = char.toString()
 
-        fun charToBonus() = "$char=$bonus"
-
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         fun drawInside(newBounds: RectF, canvas: Canvas) {
             bounds.set(newBounds)
             draw(canvas)
         }
 
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         fun tryClick(event: MotionEvent, bonusConsumer: ((Int) -> Unit)?): Boolean {
-            val canHandleClick = event.action == MotionEvent.ACTION_DOWN &&
-                    char != '*' && bounds.contains(event.x, event.y)
-            if (canHandleClick) {
-                if (bonusConsumer == null) nextBonus() else bonusConsumer(bonus)
+            if (char != '*' && bounds.contains(event.x, event.y)) {
+                isFirstShow = false
+                bonusConsumer?.invoke(bonus) ?: nextBonus()
+                return true
+            }
+            return false
+        }
+
+        fun tryLongClick(event: MotionEvent): Boolean {
+            if (char != '*' && bounds.contains(event.x, event.y)) {
+                isFirstShow = false
                 return true
             }
             return false
@@ -438,7 +506,7 @@ class EruditWordView @JvmOverloads constructor(
             return true
         }
 
-        override fun hashCode(): Int = char.hashCode()
+        override fun hashCode(): Int = char.hashCode() + bonus
 
         fun hasBonus(): Boolean = bonus > 1
     }
@@ -449,7 +517,7 @@ class EruditWordView @JvmOverloads constructor(
     ) {
         @SuppressLint("NewApi")
         fun draw(canvas: Canvas) {
-            if(bonusAnimationState.showBadge.not()) return
+            if (bonusAnimationState.showBadge.not()) return
             val halfSize = blockSize / 2
             val offset = bonusAnimationState.animatedPosition() * blockSize
             val r =
@@ -497,15 +565,9 @@ class EruditWordView @JvmOverloads constructor(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (clickableLetters) {
-            word.forEachIndexed { index, letter ->
-                val bonusConsumer = letterClickListener?.let {
-                    { bonus: Int -> it.onClick(index, bonus) }
-                }
-                if (letter.tryClick(event, bonusConsumer)) return true
-            }
+        if (gestureDetector != null) {
+            return gestureDetector.onTouchEvent(event)
         }
         return super.onTouchEvent(event)
     }
@@ -518,8 +580,26 @@ class EruditWordView @JvmOverloads constructor(
         letterClickListener = listener
     }
 
+    /**
+     * Set clickListener to provide long-clicked letter index
+     * @param listener callback for consuming clicked letter index
+     */
+    fun setLetterLongClickListener(listener: LetterLongClickListener) {
+        letterLongClickListener = listener
+    }
+
+    override fun onDetachedFromWindow() {
+        letterClickListener = null
+        letterLongClickListener = null
+        super.onDetachedFromWindow()
+    }
+
     fun interface LetterClickListener {
         fun onClick(index: Int, bonus: Int)
+    }
+
+    fun interface LetterLongClickListener {
+        fun onLongClick(index: Int)
     }
 
     override fun toString(): String {
@@ -540,6 +620,19 @@ class EruditWordView @JvmOverloads constructor(
         private const val WORD_X2_COLOR = 0xFF42A5F5.toInt()
         private const val WORD_X3_COLOR = 0xFFEF5350.toInt()
         private const val WORD_X1_COLOR = Color.TRANSPARENT
+    }
+}
+
+private fun RectF.drawWithScale(scale: Float, function: RectF.() -> Unit?) {
+    val offsetHor = (width() - width() * scale) * 0.5f
+    val offsetVert = (height() - height() * scale) * 0.5f
+    with(
+        top = top + offsetVert,
+        left = left + offsetHor,
+        right = right - offsetHor,
+        bottom = bottom - offsetVert
+    ) {
+        function.invoke(this)
     }
 }
 

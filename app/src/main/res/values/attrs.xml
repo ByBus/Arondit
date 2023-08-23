@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="EruditWordView">
         <attr name="mainColor" format="color"/>
+        <attr name="asteriskColor" format="color"/>
         <attr name="textColor" format="color"/>
         <attr name="size" format="dimension"/>
         <attr name="word" format="string"/>
