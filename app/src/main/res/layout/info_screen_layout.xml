@@ -19,7 +19,7 @@
         android:scaleType="fitCenter"
         style="@style/InfoBlockImage"
         android:adjustViewBounds="true"
-        android:src="@drawable/camp" />
+        android:src="@drawable/img_camp" />
 
     <TextView
         android:id="@+id/infoText"

@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "host.capitalquiz.arondit"
-        minSdk = 19
+        minSdk = 22
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -85,6 +85,7 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-scalars:2.9.0")
     implementation("org.jsoup:jsoup:1.15.4")
+
 }
 
 // Allow references to generated code

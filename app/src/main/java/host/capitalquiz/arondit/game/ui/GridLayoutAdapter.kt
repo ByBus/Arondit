@@ -1,7 +1,6 @@
 package host.capitalquiz.arondit.game.ui
 
 import android.content.Context
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -9,7 +8,6 @@ import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import host.capitalquiz.arondit.R
@@ -77,10 +75,9 @@ class GridLayoutAdapter(
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun createPlayerField(player: PlayerUi) {
         val itemView = LayoutInflater.from(context)
-            .inflate(R.layout.fragment_game_list, grid, false)
+            .inflate(R.layout.fragment_game_list_item, grid, false)
         itemView.layoutParams = GridLayout.LayoutParams(
             GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f),
             GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f)
@@ -93,7 +90,6 @@ class GridLayoutAdapter(
         PlayerField(PlayerId(player.id), PlayerColor(player.color), player.name, itemView).attach()
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun submitList(list: List<PlayerUi>) {
         val actualFieldColors = list.associateBy { it.color }
         actualFieldColors.forEach { (fieldColor, player) ->

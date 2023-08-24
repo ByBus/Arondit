@@ -2,10 +2,8 @@ package host.capitalquiz.arondit.core.ui
 
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
@@ -35,7 +33,6 @@ abstract class BottomSheetDialogFragmentWithBorder : BottomSheetDialogFragment()
         setStyle(STYLE_NORMAL, R.style.DialogStyle)
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //Remove background

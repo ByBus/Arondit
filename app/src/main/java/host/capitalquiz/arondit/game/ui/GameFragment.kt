@@ -1,11 +1,9 @@
 package host.capitalquiz.arondit.game.ui
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -65,7 +63,6 @@ class GameFragment : Fragment(), GameDialogs {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -78,7 +75,7 @@ class GameFragment : Fragment(), GameDialogs {
                 openAddPlayerDialog()
             }
             infoText.text = getString(R.string.no_players_info_text)
-            infoImage.setImageResource(R.drawable.knights)
+            infoImage.setImageResource(R.drawable.img_knights_battle)
             infoButton.text = getString(R.string.add_participant)
         }
 

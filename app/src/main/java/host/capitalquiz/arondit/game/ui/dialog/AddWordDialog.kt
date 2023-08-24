@@ -1,9 +1,7 @@
 package host.capitalquiz.arondit.game.ui.dialog
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.R
@@ -21,7 +19,6 @@ class AddWordDialog : BaseWordBottomDialog() {
         viewModel.initWord(args.playerId)
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.wordInput.requestFocus()
