@@ -151,16 +151,17 @@ class EruditWordView @JvmOverloads constructor(
 
     private fun updateWord(string: String?) {
         if (string == null) return
-        val newWord = string.map { Letter.Base(it, params = params) }
+        var newWord = string.map<Letter> { Letter.Base(it, params = params) }
         if (diffUtil) {
-            val wordUpdater = WordUpdater(word, newWord)
+            val wordCopy = word.toMutableList()
+            val wordUpdater = WordUpdater(wordCopy, newWord)
             val diffUtil = wordUpdater.LetterDiffUtil()
             val diff: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffUtil)
             diff.dispatchUpdatesTo(wordUpdater)
-        } else {
-            word.clear()
-            word.addAll(newWord)
+            newWord = wordCopy
         }
+        word.clear()
+        word.addAll(newWord)
     }
 
 

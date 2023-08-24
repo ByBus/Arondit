@@ -19,8 +19,8 @@ class BaseWordRepository @Inject constructor(
 
     override suspend fun deleteWord(wordId: Long) = wordDao.deleteWordById(wordId)
     override suspend fun isWordExist(word: String): Boolean {
-        val playerId = oneWordCache.cachedValue()?.playerId ?: return false
-        return wordDao.isWordExist(playerId, word)
+        val oldWord = oneWordCache.cachedValue() ?: return false
+        return wordDao.isWordExist(oldWord.playerId, word, oldWord.id)
     }
 
     override suspend fun loadToCache(wordId: Long) {
