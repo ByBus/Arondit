@@ -128,7 +128,7 @@
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:background="@drawable/right_corners_round"
-                    android:contentDescription="@string/delete_word"
+                    android:contentDescription="@string/delete_word_description"
                     android:src="@drawable/round_delete_forever_32"
                     android:visibility="gone"
                     app:backgroundTint="@color/base_red"

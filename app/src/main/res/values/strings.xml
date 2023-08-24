@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Arondit</string>
-    <string name="remove_player">Remove Player</string>
-    <string name="add_player">Add player</string>
+    <string name="remove_player_description">удалить игрока</string>
+    <string name="add_player_description">добавить игрока</string>
     <string name="add_word_dialog_title">Введите новое слово</string>
     <string name="edit_word_dialog_title">Отредактируйте слово</string>
     <string name="your_word_hint">Ваше слово</string>
-    <string name="delete_word">delete word</string>
+    <string name="delete_word_description">удалить слово</string>
     <string name="word">СЛОВО</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="create_new_game">создать новую игру</string>
