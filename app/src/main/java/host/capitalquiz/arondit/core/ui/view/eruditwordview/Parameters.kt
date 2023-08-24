@@ -22,10 +22,10 @@ class Parameters(
     // index = bonus: 0 is for asterisk color, 1 is for base color...
     override val letterBonusesColors = intArrayOf(0, 0, LETTER_X2_COLOR, LETTER_X3_COLOR)
     override val thicknessColor: Int = (0x70000000).toInt()
-    override val x2Drawable by lazy { R.drawable.ic_bonus_x2_strict.loadDrawable(context) }
-    override val x3Drawable by lazy { R.drawable.ic_bonus_x3_strict.loadDrawable(context) }
-    override val x2LetterDrawable by lazy { R.drawable.letter_x2_bonus.loadDrawable(context) }
-    override val x3LetterDrawable by lazy { R.drawable.letter_x3_bonus.loadDrawable(context) }
+    override val x2Drawable by lazy { R.drawable.ic_bonus_x2_strict_24.loadDrawable(context) }
+    override val x3Drawable by lazy { R.drawable.ic_bonus_x3_strict_24.loadDrawable(context) }
+    override val x2LetterDrawable by lazy { R.drawable.ic_letter_bonus_x2_strict_24.loadDrawable(context) }
+    override val x3LetterDrawable by lazy { R.drawable.ic_letter_bonus_x3_strict_24.loadDrawable(context) }
     override val asteriskDrawable by lazy { R.drawable.ic_asterisk6_curved_24.loadDrawable(context) }
     override val paint = Paint()
         .apply {
