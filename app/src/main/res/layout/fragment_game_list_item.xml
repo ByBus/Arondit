@@ -18,7 +18,7 @@
             android:background="@color/design_default_color_secondary_variant"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingHorizontal="48dp"
+            android:paddingHorizontal="56dp"
             android:paddingVertical="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,35 +26,30 @@
 
             <TextView
                 android:id="@+id/fieldPlayerName"
-                tools:text="Вика"
-                style="@style/PlayerFieldName" />
+                style="@style/PlayerFieldName"
+                android:maxLines="1"
+                tools:text="Викушка-Путешественница" />
 
             <TextView
                 android:id="@+id/fieldPlayerScore"
-                tools:text="127"
-                style="@style/PlayerFieldScore" />
+                style="@style/PlayerFieldScore"
+                tools:text="127" />
         </LinearLayout>
 
         <ImageButton
             android:id="@+id/addPlayerButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:background="@null"
+            style="@style/AddPlayerImageButton"
+            android:src="@drawable/ic_knight_add_24"
             android:contentDescription="@string/add_player_description"
-            android:src="@drawable/sharp_person_add_24"
             app:layout_constraintBottom_toBottomOf="@id/fieldToolbar"
             app:layout_constraintStart_toStartOf="@id/fieldToolbar"
             app:layout_constraintTop_toTopOf="@id/fieldToolbar" />
 
         <ImageButton
             android:id="@+id/removePlayerButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:background="@null"
+            style="@style/AddPlayerImageButton"
             android:contentDescription="@string/remove_player_description"
-            android:src="@drawable/round_person_remove_24"
+            android:src="@drawable/ic_knight_remove_24"
             app:layout_constraintBottom_toBottomOf="@id/fieldToolbar"
             app:layout_constraintEnd_toEndOf="@id/fieldToolbar"
             app:layout_constraintTop_toTopOf="@id/fieldToolbar" />
