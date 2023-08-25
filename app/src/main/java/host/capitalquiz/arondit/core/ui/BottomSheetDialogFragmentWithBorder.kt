@@ -4,11 +4,13 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.snackbar.Snackbar
 import host.capitalquiz.arondit.R
 import host.capitalquiz.arondit.core.ui.view.CompositeBorderDrawable
 import kotlinx.coroutines.CoroutineScope
@@ -16,7 +18,7 @@ import kotlinx.coroutines.launch
 
 abstract class BottomSheetDialogFragmentWithBorder : BottomSheetDialogFragment() {
 
-    fun CompositeBorderDrawable() = CompositeBorderDrawable(
+    protected fun CompositeBorderDrawable() = CompositeBorderDrawable(
         requireContext(),
         leftTopCorner = R.drawable.dialog_border_top_left_corner,
         leftVerticalPipe = R.drawable.dialog_border_vertical_pipe,
@@ -40,6 +42,15 @@ abstract class BottomSheetDialogFragmentWithBorder : BottomSheetDialogFragment()
         bottomSheet.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
         bottomSheet.elevation = 0f
     }
+
+    protected fun Snackbar(@StringRes resId: Int): Snackbar =
+        Snackbar.make(
+            requireView(),
+            getString(resId),
+            Snackbar.LENGTH_SHORT
+        ).apply {
+            animationMode = Snackbar.ANIMATION_MODE_SLIDE
+        }
 }
 
 inline fun Fragment.observeFlows(crossinline observationFunction: suspend (CoroutineScope) -> Unit) {

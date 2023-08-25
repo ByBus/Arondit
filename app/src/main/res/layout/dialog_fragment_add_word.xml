@@ -52,11 +52,12 @@
                     android:layout_gravity="center"
                     android:paddingHorizontal="200dp"
                     app:animateUpdates="true"
+                    app:asteriskColor="@color/letter_asterisk_block_color"
                     app:clickableLetters="true"
                     app:initWithBadges="true"
                     app:mainColor="@color/letter_block_color"
-                    app:asteriskColor="@color/letter_asterisk_block_color"
                     app:size="50dp"
+                    app:textColor="@color/letter_block_text_color"
                     app:useDiffUtil="true"
                     tools:word="СИНХРО" />
             </FrameLayout>
@@ -102,14 +103,14 @@
                     tools:checked="false" />
 
                 <ToggleButton
-                    tools:visibility="visible"
-                    android:visibility="gone"
                     android:id="@+id/extra_points_button"
                     style="@style/bonus_toggle_style_plus15"
                     android:layout_width="52dp"
                     android:background="@drawable/all_corners_straight"
+                    android:visibility="gone"
                     app:backgroundTint="@color/background_purple_tint_toggle"
-                    tools:checked="true" />
+                    tools:checked="true"
+                    tools:visibility="visible" />
 
                 <Button
                     android:id="@+id/confirmWord"

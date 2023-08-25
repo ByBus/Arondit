@@ -4,36 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="4dp"
-    android:paddingVertical="2dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:paddingVertical="2dp"
+    android:paddingStart="4dp"
     tools:ignore="RtlSymmetry">
 
     <host.capitalquiz.arondit.core.ui.view.eruditwordview.EruditWordView
-        android:layout_gravity="center_vertical"
         android:id="@+id/eruditWord"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_weight="1"
         app:animateUpdates="false"
-        app:mainColor="@color/letter_block_color"
         app:asteriskColor="@color/letter_asterisk_block_color"
+        app:mainColor="@color/letter_block_color"
         app:size="40dp"
+        app:textColor="@color/letter_block_text_color"
         tools:word="проспект" />
+
     <TextView
-        tools:visibility="visible"
-        android:visibility="gone"
         android:id="@+id/extra_points"
-        android:textStyle="bold"
-        android:text="@string/extra_point"
-        android:textSize="12sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
         android:background="@drawable/small_round_rectangle"
+        android:text="@string/extra_point"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:visibility="gone"
         app:backgroundTint="@color/extra_points_badge_color"
-        />
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/wordScores"

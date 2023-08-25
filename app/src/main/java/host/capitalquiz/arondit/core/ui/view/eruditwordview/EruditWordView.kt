@@ -1,13 +1,10 @@
 package host.capitalquiz.arondit.core.ui.view.eruditwordview
 
 
-import android.animation.ArgbEvaluator
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Rect
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.GestureDetector
@@ -31,14 +28,11 @@ class EruditWordView @JvmOverloads constructor(
     private var letterLongClickListener: LetterLongClickListener? = null
     private var size = 0
     private val tempLetterBounds = RectF()
-    private val gap get() = blockSize * 0.05f
     private val word = mutableListOf<Letter>()
-    private var blockSize = 0f
-    private var multiplierRect: RectF = RectF()
-    private val wordBonus by lazy { WordBonus() }
     private var clickableLetters = false
     private var diffUtil = false
     private var calculateSpaceForBadges = false
+
 
     init {
         context.withStyledAttributes(attrs, R.styleable.EruditWordView) {
@@ -60,27 +54,34 @@ class EruditWordView @JvmOverloads constructor(
         }
     }
 
+    private val wordBonus = WordBonus(params)
+
     private val gestureDetector = GestureDetector(context, object : SimpleOnGestureListener() {
 
         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-            word.forEachIndexed { index, letter ->
-                val bonusConsumer = letterClickListener?.let {
-                    { bonus: Int -> it.onClick(index, bonus) }
-                }
-                if (letter.tryClick(e, bonusConsumer)) return true
+            val result = tryClick(e) { index ->
+                letterClickListener?.onClick(index)
             }
-            return super.onSingleTapConfirmed(e)
+            return if (result) true else super.onSingleTapConfirmed(e)
         }
 
         override fun onLongPress(e: MotionEvent) {
-            word.forEachIndexed { index, letter ->
-                if (letter.tryLongClick(e)) {
-                    letterLongClickListener?.onLongClick(index)
-                }
+            tryClick(e) { index ->
+                letterLongClickListener?.onLongClick(index)
             }
         }
 
         override fun onDown(e: MotionEvent): Boolean = true
+
+        private fun tryClick(e: MotionEvent, clickListener: (Int) -> Unit): Boolean {
+            word.forEachIndexed { index, letter ->
+                if (letter.tryClick(e)) {
+                    clickListener.invoke(index)
+                    return true
+                }
+            }
+            return false
+        }
     }).takeIf { clickableLetters }
 
     /**
@@ -94,35 +95,12 @@ class EruditWordView @JvmOverloads constructor(
             if (field == newValue) return
             val bonusVisibilityChanged = (field == 1 || newValue == 1).not()
             field = newValue
-            bonusAnimationState.animateTo(
-                when (newValue) {
-                    2 -> params.x2Color
-                    3 -> params.x3Color
-                    else -> WORD_X1_COLOR
-                }
-            )
+            wordBonus.setBonus(newValue)
             hideAndShow(bonusVisibilityChanged) {
                 if (!bonusVisibilityChanged) requestLayout()
             }
         }
     private val hasMultiplier get() = multiplier == 2 || multiplier == 3
-
-    private val multiplierBadgeAnimator = ValueAnimator.ofInt(0, 0).apply {
-        setEvaluator(ArgbEvaluator())
-        duration = 250
-        interpolator = AccelerateDecelerateInterpolator()
-        addUpdateListener {
-            invalidate()
-        }
-    }.takeIf { params.animateUpdates }
-
-    private val bonusAnimationState =
-        AnimationStateResolver(
-            BonusColorAdapter(params, WORD_X1_COLOR),
-            multiplierBadgeAnimator,
-            WORD_X1_COLOR,
-        )
-
 
     private fun hideAndShow(skipAnimation: Boolean = false, function: () -> Unit) {
         if (!params.animateUpdates || skipAnimation) {
@@ -229,31 +207,31 @@ class EruditWordView @JvmOverloads constructor(
 
         wordBonus.draw(canvas)
 
-        tempLetterBounds.apply {
-            left = gap
-            top = gap
-            right = blockSize - gap
-            bottom = blockSize - gap
-        }
+        val gap = params.blockSize * GAP_FACTOR
+        tempLetterBounds.set(
+            gap, gap, params.blockSize - gap, params.blockSize - gap
+        )
         word.forEach { letter ->
             letter.drawInside(tempLetterBounds, canvas)
-            tempLetterBounds.offset(blockSize, 0f)
+            tempLetterBounds.offset(params.blockSize, 0f)
         }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        blockSize = height.toFloat() - params.badgeHeight
-        params.radius = blockSize / 6f
-        params.paint.textSize = blockSize * 0.7f
+        with(params) {
+            blockSize = height.toFloat() - badgeHeight
+            radius = blockSize / 6f
+            paint.textSize = blockSize * 0.7f
+        }
         if (hasMultiplier) {
-            updateMultipliyerDrawBounds()
+            updateWordBonusDrawBounds()
         }
         updateCharsWidths()
     }
 
-    private fun updateMultipliyerDrawBounds() {
-        multiplierRect.set(0f, 0f, blockSize * word.size, blockSize)
+    private fun updateWordBonusDrawBounds() {
+        wordBonus.setBounds(0f, 0f, params.blockSize * word.size, params.blockSize)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -281,53 +259,18 @@ class EruditWordView @JvmOverloads constructor(
         }
         setMeasuredDimension(width, height)
 
-        updateMultipliyerDrawBounds()
+        updateWordBonusDrawBounds()
         updateCharsWidths()
     }
 
     private fun badgeHeight() =
-        (if (calculateSpaceForBadges || word.any { it.hasBonus() }) size / BADGE_HEIGHT_OF_BLOCK_HEIGHT else 0f).roundToInt()
+        (if (calculateSpaceForBadges || word.any { it.hasBonus() }) size * BADGE_HEIGHT_FACTOR else 0f).roundToInt()
 
     private fun updateCharsWidths() = word.forEach { it.invalidateCharWidth() }
 
-    inner class WordBonus {
-        fun draw(canvas: Canvas) {
-            with(params) {
-                if (bonusAnimationState.showBadge.not()) return
-                val offset = bonusAnimationState.animatedPosition() * blockSize
-                val r =
-                    (multiplierRect.height() / 3 * bonusAnimationState.animatedPosition()).coerceAtLeast(
-                        params.radius
-                    )
-                paint.withColor(bonusAnimationState.animatedColor()) {
-                    multiplierRect.with(right = multiplierRect.right - r + offset) {
-                        canvas.drawRoundRect(multiplierRect, radius, radius, paint)
-                    }
-                    multiplierRect.with(
-                        left = multiplierRect.right - blockSize + offset,
-                        right = multiplierRect.right + offset
-                    ) {
-                        canvas.drawRoundRect(multiplierRect, r, r, paint)
-                    }
-                }
-                bonusAnimationState.badge?.let { bonusDrawable ->
-                    bonusDrawable.setBounds(
-                        (multiplierRect.right - blockSize + offset).toInt(),
-                        (multiplierRect.top).toInt(),
-                        (multiplierRect.right + offset).toInt(),
-                        (multiplierRect.bottom).toInt()
-                    )
-                    bonusDrawable.draw(canvas)
-                }
-            }
-        }
-    }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (gestureDetector != null) {
-            return gestureDetector.onTouchEvent(event)
-        }
-        return super.onTouchEvent(event)
+        return gestureDetector?.onTouchEvent(event) ?: super.onTouchEvent(event)
     }
 
     /**
@@ -358,7 +301,7 @@ class EruditWordView @JvmOverloads constructor(
     }
 
     fun interface LetterClickListener {
-        fun onClick(index: Int, bonus: Int)
+        fun onClick(index: Int)
     }
 
     fun interface LetterLongClickListener {
@@ -366,8 +309,10 @@ class EruditWordView @JvmOverloads constructor(
     }
 
     companion object {
-        private const val BADGE_HEIGHT_OF_BLOCK_HEIGHT = 2.5f
-        private const val WORD_X1_COLOR = Color.TRANSPARENT
+         /** Letter badge height as a fraction of 'size' parameter*/
+        private const val BADGE_HEIGHT_FACTOR = 0.4f
+        /** Spacing between letter blocks as a fraction of block size*/
+        private const val GAP_FACTOR = 0.05f
     }
 }
 
@@ -383,18 +328,6 @@ fun Paint.withTextSize(size: Float, block: Paint.() -> Unit) {
     textSize = size
     block.invoke(this)
     textSize = temp
-}
-
-private fun Rect.update(
-    top: Int? = null,
-    left: Int? = null,
-    right: Int? = null,
-    bottom: Int? = null,
-) {
-    top?.let { this.top = it }
-    left?.let { this.left = it }
-    right?.let { this.right = it }
-    bottom?.let { this.bottom = it }
 }
 
 fun RectF.with(

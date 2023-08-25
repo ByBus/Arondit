@@ -12,7 +12,6 @@ import androidx.transition.ChangeBounds
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.R
 import host.capitalquiz.arondit.core.ui.BottomSheetDialogFragmentWithBorder
@@ -73,7 +72,7 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
             definition.update(binding.glossaryBlock)
         }
 
-        binding.eruditWord.setLetterClickListener { index, _ ->
+        binding.eruditWord.setLetterClickListener { index ->
             viewModel.changeLetterScore(index)
         }
 
@@ -97,7 +96,7 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
             viewModel.showExtraScore(binding.extraPointsButton.isChecked)
         }
 
-        binding.confirmWord.text = view.context.getText(confirmButtonTextRes)
+        binding.confirmWord.text = getString(confirmButtonTextRes)
         binding.confirmWord.setOnClickListener {
             if (!binding.wordInput.editText?.text.isNullOrBlank()) {
                 viewModel.saveWord()
@@ -112,16 +111,10 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
 
         observeFlows {
             viewModel.wordSavingResult.collect { saved ->
-                if (saved) {
+                if (saved)
                     dismiss()
-                } else {
-                    Snackbar.make(
-                        binding.root,
-                        getString(R.string.this_word_already_used_message), Snackbar.LENGTH_SHORT
-                    ).apply {
-                        animationMode = Snackbar.ANIMATION_MODE_SLIDE
-                    }.show()
-                }
+                else
+                    Snackbar(R.string.this_word_already_used_message).show()
             }
         }
     }

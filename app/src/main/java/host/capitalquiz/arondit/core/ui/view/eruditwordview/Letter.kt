@@ -11,9 +11,9 @@ import androidx.core.graphics.toRect
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import kotlin.math.roundToInt
 
+private const val CHAR_PLACEHOLDER = '*'
 interface Letter {
-    fun tryClick(event: MotionEvent, bonusConsumer: ((Int) -> Unit)?): Boolean
-    fun tryLongClick(event: MotionEvent): Boolean
+    fun tryClick(event: MotionEvent): Boolean
     fun setBonus(bonus: Int, forceUpdate: Boolean)
     fun drawInside(bounds: RectF, canvas: Canvas)
     fun hasBonus(): Boolean
@@ -24,9 +24,7 @@ interface Letter {
         private var bonus: Int = 1,
         private val params: ParametersHolder,
     ) : Letter {
-        val char =
-            character.uppercaseChar().takeIf { params.isAllowedChar(it) }
-                ?: '*'
+        val char = character.uppercaseChar().takeIf { params.isAllowedChar(it) } ?: CHAR_PLACEHOLDER
         private var charWidth: Float = 0f
         private val bounds = RectF()
         private var isFirstDraw = true
@@ -53,10 +51,6 @@ interface Letter {
                 params.letterBonusesColors[0]
             )
         private val currentColor: Int get() = params.letterBonusesColors[bonus]
-
-        private fun nextBonus() {
-            setBonus(bonus++ % params.letterBonusesColors.size, true)
-        }
 
         override fun setBonus(bonus: Int, forceUpdate: Boolean) {
             this.bonus = bonus.coerceIn(0, 3)
@@ -152,7 +146,7 @@ interface Letter {
                                         asteriskAlpha
                                     )
                                 ) {
-                                    // impossible to animate the alpha of images because they are singletons
+                                    // impossible to animate the alpha of drawables because they are singletons
                                     // so fill over them with transparent color
                                     canvas.drawRect(asteriskBounds, this)
                                 }
@@ -179,17 +173,8 @@ interface Letter {
             draw(canvas)
         }
 
-        override fun tryClick(event: MotionEvent, bonusConsumer: ((Int) -> Unit)?): Boolean {
-            if (char != '*' && bounds.contains(event.x, event.y)) {
-                isFirstDraw = false
-                bonusConsumer?.invoke(bonus) ?: nextBonus()
-                return true
-            }
-            return false
-        }
-
-        override fun tryLongClick(event: MotionEvent): Boolean {
-            if (char != '*' && bounds.contains(event.x, event.y)) {
+        override fun tryClick(event: MotionEvent): Boolean {
+            if (char != CHAR_PLACEHOLDER && bounds.contains(event.x, event.y)) {
                 isFirstDraw = false
                 return true
             }
@@ -209,7 +194,7 @@ interface Letter {
             return true
         }
 
-        override fun hashCode(): Int = char.hashCode() + bonus
+        override fun hashCode(): Int = char.hashCode()
 
         override fun hasBonus(): Boolean = bonus > 1
     }
