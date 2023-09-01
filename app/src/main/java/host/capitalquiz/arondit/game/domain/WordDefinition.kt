@@ -4,7 +4,9 @@ interface WordDefinition {
 
     fun <R> map(mapper: WordDefinitionMapper<R>): R
 
-    fun equalTo(word: String): Boolean
+    val isSuccessful: Boolean
+
+    fun isDefinitionOf(word: String): Boolean
     data class Base(
         val word: String,
         val glossary: String,
@@ -14,20 +16,25 @@ interface WordDefinition {
         override fun <R> map(mapper: WordDefinitionMapper<R>): R =
             mapper(word, glossary, definition, articleUrl)
 
-        override fun equalTo(word: String): Boolean = this.word.equals(word, true)
+        override fun isDefinitionOf(word: String): Boolean = this.word.equals(word, true)
+
+        override val isSuccessful = true
     }
 
 
     object Empty : WordDefinition {
         override fun <R> map(mapper: WordDefinitionMapper<R>): R = mapper.invoke(isEmpty = true)
 
-        override fun equalTo(word: String): Boolean = false
+        override fun isDefinitionOf(word: String): Boolean = false
 
+        override val isSuccessful = false
     }
 
     object NotFound : WordDefinition {
         override fun <R> map(mapper: WordDefinitionMapper<R>): R = mapper.invoke(isEmpty = false)
 
-        override fun equalTo(word: String): Boolean = word.isBlank()
+        override fun isDefinitionOf(word: String): Boolean = word.isBlank()
+
+        override val isSuccessful = false
     }
 }

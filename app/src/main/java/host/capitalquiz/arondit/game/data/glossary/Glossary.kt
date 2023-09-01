@@ -1,31 +1,68 @@
 package host.capitalquiz.arondit.game.data.glossary
 
+import host.capitalquiz.arondit.game.di.GufoMeGlossary
+import host.capitalquiz.arondit.game.di.OzhegovGlossary
 import host.capitalquiz.arondit.game.domain.WordDefinition
 import javax.inject.Inject
 
 interface Glossary {
+
+    fun next(glossary: Glossary): Glossary
     fun urlForWord(word: String): String
     suspend fun requestDefinition(word: String): WordDefinition
 
-    class OzhegovSlovarOnlineCom @Inject constructor(
-        private val glossaryApi: GlossaryApi,
-        private val parser: HtmlParser,
-    ) : Glossary {
-        private val baseUrl = "https://ozhegov.slovaronline.com/search"
+    abstract class AbstractGlossary(private val glossaryApi: GlossaryApi, private val parser: HtmlParser) : Glossary {
+        private var nextGlossary: Glossary = EmptyGlossary
 
-        override fun urlForWord(word: String): String = "$baseUrl?s=$word"
+        override fun next(glossary: Glossary): Glossary {
+            nextGlossary = glossary
+            return glossary
+        }
 
         override suspend fun requestDefinition(word: String): WordDefinition {
-            return try {
-                if (word.isBlank()) return WordDefinition.NotFound
+            if (word.isBlank()) return WordDefinition.NotFound
+            val result = try {
                 val htmlResult = glossaryApi.requestWord(urlForWord(word))
                 val definition = parser.parse(htmlResult)
-                definition.takeIf { it.equalTo(word) } ?: WordDefinition.Empty
+                definition.takeIf { it.isDefinitionOf(word) } ?: WordDefinition.Empty
             } catch (e: Exception) {
                 e.printStackTrace()
                 WordDefinition.NotFound
             }
+            return if (result.isSuccessful || nextGlossary == EmptyGlossary)
+                result
+            else
+                nextGlossary.requestDefinition(word)
         }
+    }
+
+    class OzhegovSlovarOnlineCom @Inject constructor(
+        glossaryApi: GlossaryApi,
+        @OzhegovGlossary
+        parser: HtmlParser,
+    ) : AbstractGlossary(glossaryApi, parser) {
+        private val baseUrl = "https://ozhegov.slovaronline.com/search"
+
+        override fun urlForWord(word: String): String = "$baseUrl?s=$word"
+    }
+
+    class GufoMe @Inject constructor(
+        glossaryApi: GlossaryApi,
+        @GufoMeGlossary
+        parser: HtmlParser,
+    ) : AbstractGlossary(glossaryApi, parser){
+        private val baseUrl = "https://gufo.me/search"
+
+        override fun urlForWord(word: String): String = "$baseUrl?term=$word"
+    }
+
+    object EmptyGlossary: Glossary {
+        override fun next(glossary: Glossary): Glossary = this
+
+        override fun urlForWord(word: String): String = ""
+
+        override suspend fun requestDefinition(word: String): WordDefinition = WordDefinition.Empty
+
     }
 }
 

@@ -39,6 +39,17 @@ class WordDefinitionModule {
     @Provides
     @ViewModelScoped
     fun provideGlossaryApi(retrofit: Retrofit): GlossaryApi = retrofit.create()
+
+    @Provides
+    @ViewModelScoped
+    @CompositeGlossary
+    fun provideCompositeGlossary(
+        @OzhegovGlossary glossary1: Glossary,
+        @GufoMeGlossary glossary2: Glossary,
+    ): Glossary {
+        glossary1.next(glossary2)
+        return glossary1
+    }
 }
 
 @Module
@@ -46,10 +57,20 @@ class WordDefinitionModule {
 abstract class WordDefinitionModuleBinds {
 
     @Binds
-    abstract fun bindHttpParser(impl: HtmlParser.OzhegovSlovarOnlineComParser): HtmlParser
+    @OzhegovGlossary
+    abstract fun bindOzhegovHttpParser(impl: HtmlParser.OzhegovSlovarOnlineComParser): HtmlParser
 
     @Binds
-    abstract fun bindGlossary(impl: Glossary.OzhegovSlovarOnlineCom): Glossary
+    @GufoMeGlossary
+    abstract fun bindGufoMeHttpParser(impl: HtmlParser.GufoMeParser): HtmlParser
+
+    @Binds
+    @OzhegovGlossary
+    abstract fun bindOzhegovGlossary(impl: Glossary.OzhegovSlovarOnlineCom): Glossary
+
+    @Binds
+    @GufoMeGlossary
+    abstract fun bindGufoMeGlossary(impl: Glossary.GufoMe): Glossary
 
     @Binds
     abstract fun bindDefinitionRepository(impl: WordDefinitionRepository): DefinitionRepository
