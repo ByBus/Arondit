@@ -36,7 +36,7 @@ class AddPlayerDialog: BottomSheetDialogFragmentWithBorder() {
         binding.confirmPlayer.setOnClickListener {
             val playerName = binding.playerName.editText?.text.toString()
             if (playerName.isNotBlank()) {
-                parentViewModel.addPlayer(Player(name = playerName, color = args.color))
+                parentViewModel.addPlayer(Player(name = playerName.trim(), color = args.color))
                 dismiss()
             }
         }

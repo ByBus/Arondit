@@ -13,9 +13,9 @@
         android:layout_alignBottom="@id/leftHeaderPiece"
         android:layout_toStartOf="@id/leftHeaderPiece"
         android:adjustViewBounds="true"
+        android:contentDescription="@null"
         android:src="@drawable/player_header_left_tint"
-        app:tint="@color/base_red"
-        android:contentDescription="@null" />
+        app:tint="@color/base_red" />
 
     <ImageView
         android:id="@+id/leftHeaderPiece"
@@ -23,10 +23,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/player_header_left"
-        android:contentDescription="@null" />
+        android:contentDescription="@null"
+        android:src="@drawable/player_header_left" />
 
-    <TextView
+    <host.capitalquiz.arondit.core.ui.view.ResponsiveTextDrawView
         android:id="@+id/fieldPlayerName"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -35,16 +35,12 @@
         android:layout_toStartOf="@id/rightHeaderPiece"
         android:layout_toEndOf="@id/leftHeaderPiece"
         android:background="@color/base_red"
-        android:fontFamily="@font/yanone_kaffeesatz_bold"
-        android:gravity="center"
-        android:maxLines="2"
-        android:paddingHorizontal="8dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="16dp"
-        android:textColor="@color/white"
-        android:textSize="32sp"
-        app:autoSizeTextType="uniform"
-        tools:text="Румпельштильцхен" />
+        android:paddingHorizontal="10dp"
+        android:paddingBottom="4dp"
+        app:font="@font/yanone_kaffeesatz_bold"
+        app:normalTextSize="32sp"
+        app:textBaseColor="@color/white"
+        tools:textToDraw="Румпельштильцхен" />
 
     <ImageView
         android:id="@+id/middleHeaderPiece"
@@ -54,9 +50,9 @@
         android:layout_alignBottom="@id/leftHeaderPiece"
         android:layout_toStartOf="@id/rightHeaderPiece"
         android:layout_toEndOf="@id/leftHeaderPiece"
+        android:contentDescription="@null"
         android:scaleType="fitXY"
-        android:src="@drawable/player_header_middle"
-        android:contentDescription="@null" />
+        android:src="@drawable/player_header_middle" />
 
     <ImageView
         android:id="@+id/rightHeaderTintPiece"
@@ -65,9 +61,9 @@
         android:layout_alignStart="@id/rightHeaderPiece"
         android:layout_alignBottom="@id/leftHeaderPiece"
         android:adjustViewBounds="true"
+        android:contentDescription="@null"
         android:src="@drawable/player_header_right_tint"
-        app:tint="@color/base_red"
-        android:contentDescription="@null" />
+        app:tint="@color/base_red" />
 
     <ImageView
         android:id="@+id/rightHeaderPiece"
@@ -76,9 +72,9 @@
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="10dp"
         android:adjustViewBounds="true"
+        android:contentDescription="@null"
         android:scaleType="centerInside"
-        android:src="@drawable/player_header_right"
-        android:contentDescription="@null" />
+        android:src="@drawable/player_header_right" />
 
     <host.capitalquiz.arondit.core.ui.view.HeaderTextView
         android:id="@+id/fieldPlayerScore"

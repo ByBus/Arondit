@@ -7,14 +7,13 @@ import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.annotation.ColorInt
 import host.capitalquiz.arondit.R
 
 class PlayerHeaderView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
 ) : RelativeLayout(context, attrs) {
-    private var playerName: TextView
+    private var playerName: ResponsiveTextDrawView
     private var playerScore: HeaderTextView
     init {
         val view = LayoutInflater.from(context)
@@ -28,7 +27,7 @@ class PlayerHeaderView @JvmOverloads constructor(
     }
 
     fun setName(value: String) {
-        playerName.text = value
+        playerName.setText(value)
     }
 
     fun setColor(@ColorInt value: Int) {
