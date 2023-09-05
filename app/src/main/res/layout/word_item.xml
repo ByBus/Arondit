@@ -11,6 +11,7 @@
     tools:ignore="RtlSymmetry">
 
     <host.capitalquiz.arondit.core.ui.view.eruditwordview.EruditWordView
+
         android:id="@+id/eruditWord"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -24,7 +25,7 @@
         tools:word="проспект" />
 
     <TextView
-        android:id="@+id/extra_points"
+        android:id="@+id/extraPoints"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/small_round_rectangle"

@@ -1,6 +1,8 @@
 package host.capitalquiz.arondit.core.ui.view
 
 
+import android.annotation.SuppressLint
+import android.app.ActionBar.LayoutParams
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -8,6 +10,7 @@ import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.Log
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.withStyledAttributes
 import androidx.core.graphics.drawable.DrawableCompat
@@ -24,6 +27,8 @@ class HeaderTextView @JvmOverloads constructor(
     private lateinit var rightDrawable: Drawable
     private var leftTintDrawable: Drawable? = null
     private var rightTintDrawable: Drawable? = null
+    private var isMatchParent = false
+    private var isTextBehindDrawable = true
 
     private val paint = Paint().apply {
         color = Color.TRANSPARENT
@@ -38,25 +43,29 @@ class HeaderTextView @JvmOverloads constructor(
                 ?: ColorDrawable(Color.TRANSPARENT)
             rightDrawable = getDrawable(R.styleable.HeaderTextView_rightDrawable)
                 ?: ColorDrawable(Color.TRANSPARENT)
-            rightTintDrawable = getDrawable(R.styleable.HeaderTextView_rightDrawableTintBackgroundMask)
-            leftTintDrawable = getDrawable(R.styleable.HeaderTextView_leftDrawableTintBackgroundMask)
+            rightTintDrawable =
+                getDrawable(R.styleable.HeaderTextView_rightDrawableTintBackgroundMask)
+            leftTintDrawable =
+                getDrawable(R.styleable.HeaderTextView_leftDrawableTintBackgroundMask)
         }
 
-        if (background is ColorDrawable) {
+        isTextBehindDrawable = if (background is ColorDrawable) {
             val bgColor = (background as ColorDrawable).color
             paint.color = bgColor
             updateTint(bgColor, leftTintDrawable)
             updateTint(bgColor, rightTintDrawable)
             (background as ColorDrawable).color = Color.TRANSPARENT
+            true
+        } else {
+            false
         }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-
+        isMatchParent = layoutParams.width != LayoutParams.WRAP_CONTENT
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
         val widthSize = MeasureSpec.getSize(widthMeasureSpec)
-
 
         val desiredWidth =
             measuredWidth + desiredWidthOf(leftDrawable) + desiredWidthOf(rightDrawable)
@@ -70,9 +79,11 @@ class HeaderTextView @JvmOverloads constructor(
         setMeasuredDimension(width, measuredHeight)
     }
 
-    private fun desiredWidthOf(drawable: Drawable): Int =
-        (drawable.intrinsicWidth * (measuredHeight.toFloat() / drawable.intrinsicHeight))
+    private fun desiredWidthOf(drawable: Drawable, rawSizes: Boolean = true): Int {
+        val currentWidth = if (rawSizes) measuredHeight else height
+        return (drawable.intrinsicWidth * (currentWidth.toFloat() / drawable.intrinsicHeight))
             .roundToInt()
+    }
 
     override fun setBackgroundColor(color: Int) {
         paint.color = color
@@ -87,23 +98,36 @@ class HeaderTextView @JvmOverloads constructor(
         DrawableCompat.setTint(wrappedDrawable, color)
     }
 
+    override fun draw(canvas: Canvas?) {
+        super.draw(canvas)
+        if (text == "12345") {
+            Log.d("HeaderTextView", "DRAW: $width ${leftDrawable.bounds}")
+        }
+    }
     override fun onDraw(canvas: Canvas) {
         leftDrawable.let {
-            it.setBounds(0, 0, desiredWidthOf(it), measuredHeight)
+            it.setBounds(0, 0, desiredWidthOf(it, false), height)
         }
         rightDrawable.let {
-            it.setBounds(width - desiredWidthOf(it), 0, width, measuredHeight)
+            it.setBounds(width - desiredWidthOf(it, false), 0, width, height)
         }
+
         centerDrawable.setBounds(
             leftDrawable.bounds.right,
             0,
             rightDrawable.bounds.left,
-            measuredHeight
+            height
         )
-        canvas.drawRect(centerDrawable.bounds, paint)
-        canvas.withTranslation(x = leftDrawable.bounds.right.toFloat()) {
-            super.onDraw(canvas)
+
+        if (isTextBehindDrawable) {
+            canvas.drawRect(centerDrawable.bounds, paint)
+            drawTextBlock(canvas)
+            centerDrawable.draw(canvas)
+        } else {
+            centerDrawable.draw(canvas)
+            drawTextBlock(canvas)
         }
+
         leftTintDrawable?.apply {
             bounds = leftDrawable.bounds
             draw(canvas)
@@ -115,8 +139,17 @@ class HeaderTextView @JvmOverloads constructor(
             draw(canvas)
         }
         rightDrawable.draw(canvas)
+    }
 
-        centerDrawable.draw(canvas)
+    @SuppressLint("WrongCall")
+    private fun drawTextBlock(canvas: Canvas) {
+        if (isMatchParent) {
+            super.onDraw(canvas)
+        } else {
+            canvas.withTranslation(x = leftDrawable.bounds.right.toFloat()) {
+                super.onDraw(canvas)
+            }
+        }
     }
 
 }

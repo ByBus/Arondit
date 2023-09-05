@@ -1,90 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardCornerRadius="4dp">
+    tools:context="host.capitalquiz.arondit.game.ui.GameFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
+        android:id="@+id/bottomToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_corners_round"
+        android:paddingHorizontal="32dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:backgroundTint="@color/design_default_color_secondary_variant">
+
+        <Button
+            android:id="@+id/addWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/word"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/border"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="host.capitalquiz.arondit.game.ui.GameFragment">
+        android:layout_marginTop="38dp" />
 
-        <LinearLayout
-            android:id="@+id/fieldToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/design_default_color_secondary_variant"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingHorizontal="56dp"
-            android:paddingVertical="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/wordsList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingTop="38dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/bottomToolbar"
+        app:layout_constraintTop_toTopOf="@+id/border"
+        tools:listitem="@layout/word_item" />
 
-            <TextView
-                android:id="@+id/fieldPlayerName"
-                style="@style/PlayerFieldName"
-                android:maxLines="1"
-                tools:text="Викушка-Путешественница" />
+    <host.capitalquiz.arondit.core.ui.view.PlayerHeaderView
+        android:animateLayoutChanges="true"
+        android:id="@+id/playerHeader"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="78dp"/>
 
-            <TextView
-                android:id="@+id/fieldPlayerScore"
-                style="@style/PlayerFieldScore"
-                tools:text="127" />
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/addPlayerButton"
-            style="@style/AddPlayerImageButton"
-            android:src="@drawable/ic_knight_add_24"
-            android:contentDescription="@string/add_player_description"
-            app:layout_constraintBottom_toBottomOf="@id/fieldToolbar"
-            app:layout_constraintStart_toStartOf="@id/fieldToolbar"
-            app:layout_constraintTop_toTopOf="@id/fieldToolbar" />
-
-        <ImageButton
-            android:id="@+id/removePlayerButton"
-            style="@style/AddPlayerImageButton"
-            android:contentDescription="@string/remove_player_description"
-            android:src="@drawable/ic_knight_remove_24"
-            app:layout_constraintBottom_toBottomOf="@id/fieldToolbar"
-            app:layout_constraintEnd_toEndOf="@id/fieldToolbar"
-            app:layout_constraintTop_toTopOf="@id/fieldToolbar" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/wordsList"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/bottomToolbar"
-            app:layout_constraintTop_toBottomOf="@+id/fieldToolbar" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/bottomToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/design_default_color_secondary_variant"
-            app:cardCornerRadius="2dp"
-            app:contentPadding="4dp"
-            app:contentPaddingLeft="16dp"
-            app:contentPaddingRight="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <Button
-                android:id="@+id/addWord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/word"
-                android:textSize="16sp" />
-        </com.google.android.material.card.MaterialCardView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

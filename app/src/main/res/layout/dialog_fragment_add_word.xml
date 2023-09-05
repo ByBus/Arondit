@@ -103,7 +103,7 @@
                     tools:checked="false" />
 
                 <ToggleButton
-                    android:id="@+id/extra_points_button"
+                    android:id="@+id/extraPointsButton"
                     style="@style/bonus_toggle_style_plus15"
                     android:layout_width="52dp"
                     android:background="@drawable/all_corners_straight"

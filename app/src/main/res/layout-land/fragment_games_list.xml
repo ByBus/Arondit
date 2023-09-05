@@ -42,7 +42,6 @@
             android:src="@drawable/sword_spike" />
 
         <ImageView
-            android:id="@+id/swordBlade"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@id/swordHilt"

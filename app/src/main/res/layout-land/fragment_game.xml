@@ -14,7 +14,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:animateLayoutChanges="true"
         android:columnCount="4"
         android:orientation="horizontal"
         android:padding="2dp"

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="78dp">
+
+    <ImageView
+        android:id="@+id/leftHeaderTintPiece"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/leftHeaderPiece"
+        android:layout_alignBottom="@id/leftHeaderPiece"
+        android:layout_toStartOf="@id/leftHeaderPiece"
+        android:adjustViewBounds="true"
+        android:src="@drawable/player_header_left_tint"
+        app:tint="@color/base_red"
+        android:contentDescription="@null" />
+
+    <ImageView
+        android:id="@+id/leftHeaderPiece"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/player_header_left"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/fieldPlayerName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignTop="@id/leftHeaderPiece"
+        android:layout_alignBottom="@id/leftHeaderPiece"
+        android:layout_toStartOf="@id/rightHeaderPiece"
+        android:layout_toEndOf="@id/leftHeaderPiece"
+        android:background="@color/base_red"
+        android:fontFamily="@font/yanone_kaffeesatz_bold"
+        android:gravity="center"
+        android:maxLines="2"
+        android:paddingHorizontal="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="16dp"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        app:autoSizeTextType="uniform"
+        tools:text="Румпельштильцхен" />
+
+    <ImageView
+        android:id="@+id/middleHeaderPiece"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_alignTop="@id/leftHeaderPiece"
+        android:layout_alignBottom="@id/leftHeaderPiece"
+        android:layout_toStartOf="@id/rightHeaderPiece"
+        android:layout_toEndOf="@id/leftHeaderPiece"
+        android:scaleType="fitXY"
+        android:src="@drawable/player_header_middle"
+        android:contentDescription="@null" />
+
+    <ImageView
+        android:id="@+id/rightHeaderTintPiece"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/rightHeaderPiece"
+        android:layout_alignBottom="@id/leftHeaderPiece"
+        android:adjustViewBounds="true"
+        android:src="@drawable/player_header_right_tint"
+        app:tint="@color/base_red"
+        android:contentDescription="@null" />
+
+    <ImageView
+        android:id="@+id/rightHeaderPiece"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/player_header_right"
+        android:contentDescription="@null" />
+
+    <host.capitalquiz.arondit.core.ui.view.HeaderTextView
+        android:id="@+id/fieldPlayerScore"
+        style="@style/PlayerFieldScore"
+        android:layout_alignBottom="@id/leftHeaderPiece"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-9dp"
+        android:paddingTop="0dp"
+        android:textSize="18sp"
+        app:centerDrawable="@drawable/score_middle"
+        app:leftDrawable="@drawable/score_left"
+        app:leftDrawableTintBackgroundMask="@drawable/score_left_tint"
+        app:rightDrawable="@drawable/score_right"
+        app:rightDrawableTintBackgroundMask="@drawable/score_right_tint"
+        tools:text="1075" />
+
+
+    <ImageButton
+        android:id="@+id/addPlayerButton"
+        style="@style/AddPlayerImageButton"
+        android:layout_alignTop="@id/leftHeaderPiece"
+        android:layout_alignRight="@id/leftHeaderPiece"
+        android:layout_alignBottom="@id/leftHeaderPiece"
+        android:layout_marginRight="-10dp"
+        android:contentDescription="@string/add_player_description"
+        android:src="@drawable/ic_knight_add_24" />
+
+    <ImageButton
+        android:id="@+id/removePlayerButton"
+        style="@style/AddPlayerImageButton"
+        android:layout_alignLeft="@id/rightHeaderPiece"
+        android:layout_alignTop="@id/rightHeaderPiece"
+        android:layout_alignBottom="@id/rightHeaderPiece"
+        android:layout_marginLeft="-10dp"
+        android:contentDescription="@string/remove_player_description"
+        android:src="@drawable/ic_knight_remove_24" />
+
+</RelativeLayout>

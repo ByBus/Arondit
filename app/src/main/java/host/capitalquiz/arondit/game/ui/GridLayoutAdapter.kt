@@ -1,16 +1,20 @@
 package host.capitalquiz.arondit.game.ui
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.GridLayout
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
+import androidx.transition.ChangeBounds
+import androidx.transition.Fade
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import host.capitalquiz.arondit.R
+import host.capitalquiz.arondit.core.ui.view.PlayerHeaderView
 
 
 class GridLayoutAdapter(
@@ -22,9 +26,14 @@ class GridLayoutAdapter(
 ) {
     private lateinit var grid: GridLayout
     private val fields = mutableMapOf<Int, PlayerField>()
+    private var borderDrawable: Drawable? = null
 
     fun bindTo(gridLayout: GridLayout) {
         grid = gridLayout
+    }
+
+    fun addDecorationDrawable(decoration: Drawable) {
+        borderDrawable = decoration
     }
 
     inner class PlayerField(
@@ -37,39 +46,54 @@ class GridLayoutAdapter(
         private val adapter = WordAdapter { wordId ->
             wordClickCallback.invoke(wordId, color, id)
         }
-        private var toolbar: LinearLayout
+        private var header: PlayerHeaderView
 
         init {
             recyclerView.adapter = adapter
-            toolbar = itemView.findViewById(R.id.fieldToolbar)
-            val bottomToolbar = itemView.findViewById<MaterialCardView>(R.id.bottomToolbar)
-            toolbar.setBackgroundColor(color.value)
-            toolbar.findViewById<TextView>(R.id.fieldPlayerName).text = playerName
-            bottomToolbar.setBackgroundColor(color.value)
-            itemView.findViewById<ImageButton>(R.id.removePlayerButton).setOnClickListener {
+            header = itemView.findViewById(R.id.playerHeader)
+            header.setColor(color.value)
+            header.setName(playerName)
+            val bottomToolbar = itemView.findViewById<RelativeLayout>(R.id.bottomToolbar)
+            bottomToolbar.backgroundTintList = ColorStateList.valueOf(color.value)
+            header.removePlayerButton().setOnClickListener {
                 removeUserCallback.invoke(id, color)
             }
-            itemView.findViewById<ImageButton>(R.id.addPlayerButton).setOnClickListener {
+            header.addPlayerButton().setOnClickListener {
                 addUserCallBack.invoke()
             }
             bottomToolbar.findViewById<Button>(R.id.addWord).setOnClickListener {
                 openAddWordDialogCallback.invoke(id, color)
             }
+            borderDrawable?.let {
+                itemView.findViewById<View>(R.id.border)?.background = it
+            }
         }
 
         fun updateField(playerWords: List<WordUi>, playerScore: Int) {
-            toolbar.findViewById<TextView>(R.id.fieldPlayerScore)?.text = playerScore.toString()
+            header.setScore(playerScore)
             adapter.submitList(playerWords.toMutableList())
         }
 
         fun attach() {
+            startTransition()
             grid.addView(itemView)
             fields[color.value] = this
         }
 
         fun detach() {
+            startTransition()
             fields.remove(color.value)
             grid.removeView(itemView)
+        }
+
+        private fun startTransition() {
+//            TransitionManager.beginDelayedTransition(grid)
+            TransitionManager.beginDelayedTransition(grid,
+                TransitionSet().apply {
+                    ordering = TransitionSet.ORDERING_SEQUENTIAL
+                    addTransition(ChangeBounds())
+                    addTransition(Fade(Fade.IN))
+                })
         }
 
     }

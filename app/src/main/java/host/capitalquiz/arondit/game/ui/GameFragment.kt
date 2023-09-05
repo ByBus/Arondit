@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.R
+import host.capitalquiz.arondit.core.ui.view.CompositeBorderDrawable
 import host.capitalquiz.arondit.databinding.FragmentGameBinding
 import host.capitalquiz.arondit.game.ui.dialog.GameDialogs
 
@@ -68,6 +69,16 @@ class GameFragment : Fragment(), GameDialogs {
 
         gridLayoutAdapter.apply {
             bindTo(binding.grid)
+            addDecorationDrawable(
+                CompositeBorderDrawable(
+                    requireContext(),
+                    leftTopCorner = R.drawable.player_border_top_left_corner,
+                    leftBottomCorner = R.drawable.player_border_bottom_left_corner,
+                    leftVerticalPipe = R.drawable.player_border_left_vert_pipe,
+                    topHorizontalPipe = R.drawable.player_border_top_hor_pipe,
+                    bottomHorizontalPipe = R.drawable.player_border_top_hor_pipe
+                )
+            )
         }
 
         with(binding.information) {
