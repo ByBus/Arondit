@@ -12,13 +12,17 @@ import androidx.core.content.withStyledAttributes
 import host.capitalquiz.arondit.R
 import kotlin.math.roundToInt
 
+private const val ONE_LINE_THRESHOLD_FACTOR = 0.6F
+
 class ResponsiveTextDrawView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
 ) : View(context, attrs, defStyleAttr) {
     private val textBounds = Rect()
     private var text = ""
     private var initTextSize = 0f
     private var minimumTextSize = 0f
+    private var availableWidth = 0
+    private var availableHeight = 0
 
     private val paint = Paint().apply {
         style = Paint.Style.FILL
@@ -34,10 +38,12 @@ class ResponsiveTextDrawView @JvmOverloads constructor(
             minimumTextSize = getDimension(R.styleable.ResponsiveTextDrawView_minTextSize, 18f)
             val fontId = getResourceId(R.styleable.ResponsiveTextDrawView_font, 0)
             if (fontId != 0) {
-                paint.typeface = ResourcesCompat.getFont(getContext(), fontId)
+                paint.typeface = ResourcesCompat.getFont(context, fontId)
             }
         }
     }
+
+    private val oneLineMinTextSize = initTextSize * ONE_LINE_THRESHOLD_FACTOR
 
     fun setText(str: String) {
         text = str
@@ -46,23 +52,24 @@ class ResponsiveTextDrawView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        if (text.isBlank()) return
         paint.textSize = initTextSize
-        val availableSpace = width - paddingStart - paddingRight
         val textX = width / 2
         var textY = (height + paddingTop - paddingBottom) / 2
 
         var lineOfText = text
-        val oneLineMinTextSize = initTextSize * 0.5f
-        recalculateTextSize(lineOfText, availableSpace, oneLineMinTextSize)
+
+        recalculateTextSize(oneLineMinTextSize, lineOfText)
         var lineOffset = (paint.descent() + paint.ascent()) / 2
 
-        if (textBounds.width() > availableSpace) {
+        if (isFitInBounds(1).not()) {
             paint.textSize = initTextSize
-            lineOfText = text.substring(0 until text.length / 2)
-            recalculateTextSize(lineOfText, availableSpace, minimumTextSize)
+            val (firstLine, secondLine) = splitLines(text)
+            lineOfText = firstLine
 
-            val secondLine = text.substring(text.length / 2 until text.length)
-            lineOffset = paint.fontSpacing * 0.4f
+            recalculateTextSize(minimumTextSize, firstLine, secondLine)
+
+            lineOffset = lineOffset()
             textY += paint.fontMetrics.descent.toInt()
             canvas.drawText(secondLine, textX.toFloat(), textY.toFloat() + lineOffset, paint)
         }
@@ -70,11 +77,36 @@ class ResponsiveTextDrawView @JvmOverloads constructor(
         canvas.drawText(lineOfText, textX.toFloat(), textY.toFloat() - lineOffset, paint)
     }
 
-    private fun recalculateTextSize(text: String, availableSpace: Int, minSize: Float) {
-        paint.getTextBounds(text, 0, text.length, textBounds)
-        while (paint.textSize > minSize.roundToInt() && availableSpace < textBounds.width()) {
-            paint.textSize--
-            paint.getTextBounds(text, 0, text.length, textBounds)
+    private fun lineOffset() = (paint.descent() - paint.ascent()) / 2
+
+    private fun splitLines(text: String): Pair<String, String> {
+        return if (text.contains(" ")) {
+            text.substringBefore(" ") to
+                    text.substringAfter(" ")
+        } else {
+            text.substring(0 until text.length / 2) to
+                    text.substring(text.length / 2 until text.length)
         }
+    }
+
+    private fun recalculateTextSize(minSize: Float, vararg lines: String) {
+        val longestLine = lines.maxBy { it.length }
+        paint.getTextBounds(longestLine, 0, longestLine.length, textBounds)
+        while (paint.textSize > minSize.roundToInt() && isFitInBounds(lines.size).not()) {
+            paint.textSize--
+            paint.getTextBounds(longestLine, 0, longestLine.length, textBounds)
+        }
+    }
+
+    private fun isFitInBounds(linesCount: Int): Boolean {
+        val totalWidth = textBounds.width()
+        val totalHeight = linesCount * textBounds.height() + lineOffset() * (linesCount - 1)
+        return totalWidth <= availableWidth && totalHeight <= availableHeight
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        availableWidth = measuredWidth - paddingStart - paddingRight
+        availableHeight = measuredHeight - paddingTop - paddingBottom
     }
 }
