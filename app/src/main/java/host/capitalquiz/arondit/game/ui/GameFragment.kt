@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.R
 import host.capitalquiz.arondit.core.ui.view.CompositeBorderDrawable
@@ -45,6 +47,8 @@ class GameFragment : Fragment(), GameDialogs {
             viewModel.returnColor(playerColor)
             gridLayoutAdapter.removeField(playerColor)
         }
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
     override fun onCreateView(
@@ -65,6 +69,8 @@ class GameFragment : Fragment(), GameDialogs {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
         super.onViewCreated(view, savedInstanceState)
 
         gridLayoutAdapter.apply {

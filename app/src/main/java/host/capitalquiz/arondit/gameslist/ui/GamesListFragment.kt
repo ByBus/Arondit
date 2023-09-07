@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.R
 import host.capitalquiz.arondit.core.ui.BorderDrawable
@@ -33,6 +35,8 @@ class GamesListFragment : Fragment(), GameAdapter.Callback {
             val gameId = bundle.getLong(REMOVE_GAME_ID_KEY)
             viewModel.removeGame(gameId)
         }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
     override fun onCreateView(
@@ -44,6 +48,8 @@ class GamesListFragment : Fragment(), GameAdapter.Callback {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
         super.onViewCreated(view, savedInstanceState)
         binding.gamesList.adapter = gameAdapter
         binding.border.background = BorderDrawable(
