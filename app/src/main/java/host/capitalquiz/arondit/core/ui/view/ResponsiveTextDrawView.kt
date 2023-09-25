@@ -55,29 +55,29 @@ class ResponsiveTextDrawView @JvmOverloads constructor(
         if (text.isBlank()) return
         paint.textSize = initTextSize
         val textX = width / 2
-        var textY = (height + paddingTop - paddingBottom) / 2
+        val textY = paddingTop + (height - paddingTop - paddingBottom) / 2
 
         var lineOfText = text
 
+        var twoLinesAdditionalOffset = 0f
         recalculateTextSize(oneLineMinTextSize, lineOfText)
-        var lineOffset = (paint.descent() + paint.ascent()) / 2
-
+        var verticalOffset = verticalOffset()
         if (isFitInBounds(1).not()) {
             paint.textSize = initTextSize
             val (firstLine, secondLine) = splitLines(text)
             lineOfText = firstLine
-
             recalculateTextSize(minimumTextSize, firstLine, secondLine)
 
-            lineOffset = lineOffset()
-            textY += paint.fontMetrics.descent.toInt()
-            canvas.drawText(secondLine, textX.toFloat(), textY.toFloat() + lineOffset, paint)
+            verticalOffset = verticalOffset()
+            twoLinesAdditionalOffset = lineHeight() / 2
+            canvas.drawText(secondLine, textX.toFloat(), textY - verticalOffset + twoLinesAdditionalOffset, paint)
         }
 
-        canvas.drawText(lineOfText, textX.toFloat(), textY.toFloat() - lineOffset, paint)
+        canvas.drawText(lineOfText, textX.toFloat(), textY - verticalOffset - twoLinesAdditionalOffset, paint)
     }
 
-    private fun lineOffset() = (paint.descent() - paint.ascent()) / 2
+    private fun verticalOffset() = (paint.descent() + paint.ascent()) / 2
+    private fun lineHeight() = paint.descent() - paint.ascent()
 
     private fun splitLines(text: String): Pair<String, String> {
         return if (text.contains(" ")) {
@@ -100,7 +100,7 @@ class ResponsiveTextDrawView @JvmOverloads constructor(
 
     private fun isFitInBounds(linesCount: Int): Boolean {
         val totalWidth = textBounds.width()
-        val totalHeight = linesCount * textBounds.height() + lineOffset() * (linesCount - 1)
+        val totalHeight = linesCount * lineHeight()
         return totalWidth <= availableWidth && totalHeight <= availableHeight
     }
 

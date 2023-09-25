@@ -37,11 +37,29 @@
         android:background="@color/base_red"
         android:paddingHorizontal="10dp"
         android:paddingTop="10dp"
-        android:paddingBottom="14dp"
+        android:paddingBottom="20dp"
         app:font="@font/yanone_kaffeesatz_bold"
         app:normalTextSize="32sp"
         app:textBaseColor="@color/white"
         tools:textToDraw="Лёша Спасибо" />
+
+<!--    <ImageView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="10dp"-->
+<!--        android:background="@color/base_green"-->
+<!--        android:layout_alignTop="@id/leftHeaderPiece"-->
+<!--        android:layout_toStartOf="@id/rightHeaderPiece"-->
+<!--        android:layout_toEndOf="@id/leftHeaderPiece"-->
+<!--        />-->
+
+<!--    <ImageView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="20dp"-->
+<!--        android:background="@color/base_green"-->
+<!--        android:layout_alignBottom="@id/leftHeaderPiece"-->
+<!--        android:layout_toStartOf="@id/rightHeaderPiece"-->
+<!--        android:layout_toEndOf="@id/leftHeaderPiece"-->
+<!--        />-->
 
     <ImageView
         android:id="@+id/middleHeaderPiece"
@@ -80,9 +98,10 @@
     <host.capitalquiz.arondit.core.ui.view.HeaderTextView
         android:id="@+id/fieldPlayerScore"
         style="@style/PlayerFieldScore"
+        android:layout_height="27dp"
         android:layout_alignBottom="@id/leftHeaderPiece"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-9dp"
+        android:layout_marginBottom="-10dp"
         android:paddingTop="0dp"
         android:textSize="18sp"
         app:centerDrawable="@drawable/score_middle"
