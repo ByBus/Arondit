@@ -86,6 +86,8 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-scalars:2.9.0")
     implementation("org.jsoup:jsoup:1.15.4")
 
+    implementation("com.github.ByBus:dots-tab-layout:0.8.0") // my library
+
 }
 
 // Allow references to generated code
