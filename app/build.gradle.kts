@@ -88,6 +88,8 @@ dependencies {
 
     implementation("com.github.ByBus:dots-tab-layout:0.8.0") // my library
 
+    implementation("com.airbnb.android:lottie:6.1.0")
+
 }
 
 // Allow references to generated code
