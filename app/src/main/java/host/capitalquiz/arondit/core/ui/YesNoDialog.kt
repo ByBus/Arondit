@@ -1,11 +1,9 @@
 package host.capitalquiz.arondit.core.ui
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import host.capitalquiz.arondit.databinding.DialogRemoveBinding
 
 abstract class YesNoDialog : BottomSheetDialogFragmentWithBorder() {
@@ -27,7 +25,6 @@ abstract class YesNoDialog : BottomSheetDialogFragmentWithBorder() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -46,8 +43,8 @@ abstract class YesNoDialog : BottomSheetDialogFragmentWithBorder() {
         binding.border.background = CompositeBorderDrawable()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }
