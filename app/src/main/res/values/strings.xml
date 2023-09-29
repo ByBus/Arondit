@@ -31,5 +31,19 @@
     <string name="extra_point">+15</string>
     <string name="this_word_already_used_message">Это слово уже было</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- ON BOARDING START -->
+    <string name="onboarding_add_player_hint">Для начала игры вам нужно добавить участников. Либо вы можете удалить кого-нибудь, если он передумал играть.</string>
+    <string name="onboarding_add_player_name1">дон Румата</string>
+    <string name="onboarding_add_player_name2">дон Рэба</string>
+    <string name="onboarding_add_word_hint">Если вы придумали слово, нажмите на кнопку СЛОВО \nВ открывшемся окне вы сможете его записать</string>
+    <string name="onboarding_add_word_highlighted">СЛОВО</string>
+    <string name="onboarding_change_score_hint">Можно изменить бонусы каждой отдельной буквы, просто нажмите на нужную букву\n Если вы применили универсальную фишку - используйте долгое нажатие</string>
+    <string name="onboarding_change_score_example_word">КИРАСА</string>
+    <string name="onboarding_close_button">ЗАКРЫТЬ</string>
+    <string name="onboarding_next_button">Дальше</string>
+    <string-array name="onboarding_input_words">
+        <item>ДАМА</item>
+        <item>КУБОК</item>
+        <item>КЛИНОК</item>
+    </string-array>
 </resources>

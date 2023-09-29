@@ -1,60 +1,82 @@
 package host.capitalquiz.arondit.onboarding
 
+import android.content.Context
+import android.content.pm.ActivityInfo
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import host.capitalquiz.arondit.R
+import androidx.activity.addCallback
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.viewpager2.widget.ViewPager2
+import host.capitalquiz.arondit.databinding.FragmentOnBoardingBinding as OnBoardingBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [OnBoardingFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class OnBoardingFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class OnBoardingFragment : BindingFragment<OnBoardingBinding>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override val viewInflater: Inflater<OnBoardingBinding> = OnBoardingBinding::inflate
+    private val viewModel by viewModels<OnBoardingViewModel>()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val fragmentsAdapter = OnBoardingAdapter(this)
+        val pager = binding.pager.apply {
+            offscreenPageLimit = 1
+            adapter = fragmentsAdapter
+        }
+        binding.pagination.attachTo(pager, viewLifecycleOwner)
+
+        binding.nextButton.setOnClickListener {
+            pager.currentItem++
+        }
+
+        viewModel.currentPage.observe(viewLifecycleOwner) {
+            val nextButtonVisibility = it < fragmentsAdapter.itemCount - 1
+            binding.nextButton.isVisible = nextButtonVisibility
+            binding.closeButton.isVisible = nextButtonVisibility.not()
+        }
+
+        binding.closeButton.setOnClickListener {
+
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.pager.registerOnPageChangeCallback(callback)
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            val pager = binding.pager
+            if (pager.currentItem == 0) {
+                isEnabled = false
+                this.remove()
+                parentFragmentManager.popBackStack()
+            } else {
+                pager.currentItem--
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_on_boarding, container, false)
+    override fun onStop() {
+        super.onStop()
+        binding.pager.unregisterOnPageChangeCallback(callback)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment OnBoardingFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            OnBoardingFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private val callback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageScrollStateChanged(state: Int) {
+            super.onPageScrollStateChanged(state)
+            if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                viewModel.updateCurrent(binding.pager.currentItem)
             }
+        }
     }
 }

@@ -51,8 +51,8 @@ class AddPlayerDialog: BottomSheetDialogFragmentWithBorder() {
         super.onDismiss(dialog)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }

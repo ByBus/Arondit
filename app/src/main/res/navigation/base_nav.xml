@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/gamesListFragment">
+    app:startDestination="@id/onBoardingFragment">
 
     <fragment
         android:id="@+id/gameFragment"
@@ -92,4 +92,9 @@
             android:name="playerColor"
             app:argType="integer" />
     </dialog>
+    <fragment
+        android:id="@+id/onBoardingFragment"
+        android:name="host.capitalquiz.arondit.onboarding.OnBoardingFragment"
+        android:label="fragment_on_boarding"
+        tools:layout="@layout/fragment_on_boarding" />
 </navigation>

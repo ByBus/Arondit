@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
+    android:transitionOrdering="together">
+    <fade
+        android:duration="100"
+        android:fadingMode="fade_out"
+        android:interpolator="@android:interpolator/accelerate_quad" />
+    <fade
+        android:duration="600"
+        android:fadingMode="fade_in"
+        android:interpolator="@android:interpolator/accelerate_decelerate" />
+
+</transitionSet>

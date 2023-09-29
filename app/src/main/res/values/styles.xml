@@ -82,22 +82,6 @@
         <item name="android:layout_weight">0</item>
     </style>
 
-    <style name="PlayerFieldName">
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
-        <item name="android:fontFamily">@font/yanone_kaffeesatz_bold</item>
-        <item name="android:textSize">32sp</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">64dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingStart">66dp</item>
-        <item name="android:paddingEnd">66dp</item>
-        <item name="android:maxLines">2</item>
-        <item name="android:paddingBottom">16dp</item>
-        <item name="android:background">@color/design_default_color_secondary_variant</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
-
     <style name="PlayerFieldScore">
         <item name="android:background">@color/design_default_color_secondary_variant</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large.Inverse</item>
