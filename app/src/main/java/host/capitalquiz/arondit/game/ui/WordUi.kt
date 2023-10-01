@@ -1,9 +1,7 @@
 package host.capitalquiz.arondit.game.ui
 
-import android.os.Build
 import android.widget.TextView
 import android.widget.ToggleButton
-import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import host.capitalquiz.arondit.core.ui.view.eruditwordview.EruditWordView
 
@@ -19,7 +17,6 @@ data class WordUi(
         return mapper(word, letterBonuses, multiplier, id, score, extraPoints)
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun update(
         wordView: EruditWordView,
         x2Button: ToggleButton,
@@ -33,13 +30,11 @@ data class WordUi(
         update(wordView)
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun update(wordView: EruditWordView) {
         wordView.setTextWithBonuses(word, letterBonuses)
         wordView.multiplier = multiplier
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun update(eruditWord: EruditWordView, wordScores: TextView, extraPoints: TextView) {
         update(eruditWord)
         wordScores.text = score.toString()

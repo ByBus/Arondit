@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="8dp"
     tools:background="#B3B3B3"
-    tools:context=".onboarding.HowToAddPlayerFragment">
+    tools:context=".onboarding.ui.HowToAddPlayerFragment">
 
     <host.capitalquiz.arondit.core.ui.view.PlayerHeaderView
         app:layout_constraintStart_toStartOf="parent"
@@ -36,6 +36,7 @@
         tools:visibility="visible" />
 
     <TextView
+        app:layout_constraintWidth_max="360dp"
         android:id="@+id/infoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

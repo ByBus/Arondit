@@ -1,4 +1,4 @@
-package host.capitalquiz.arondit.onboarding
+package host.capitalquiz.arondit.core.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

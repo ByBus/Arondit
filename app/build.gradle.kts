@@ -90,6 +90,7 @@ dependencies {
 
     implementation("com.airbnb.android:lottie:6.1.0")
 
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 }
 
 // Allow references to generated code

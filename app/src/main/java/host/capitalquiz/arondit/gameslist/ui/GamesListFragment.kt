@@ -1,34 +1,28 @@
 package host.capitalquiz.arondit.gameslist.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.R
+import host.capitalquiz.arondit.core.ui.BindingFragment
 import host.capitalquiz.arondit.core.ui.BorderDrawable
-import host.capitalquiz.arondit.databinding.FragmentGamesListBinding
+import host.capitalquiz.arondit.core.ui.Inflater
+import host.capitalquiz.arondit.core.ui.observeFlows
+import host.capitalquiz.arondit.databinding.FragmentGamesListBinding as GamesBinding
 
 @AndroidEntryPoint
-class GamesListFragment : Fragment(), GameAdapter.Callback {
+class GamesListFragment : BindingFragment<GamesBinding>(), GameAdapter.Callback,
+    GamesListFragmentNavigation {
+
+    override val viewInflater: Inflater<GamesBinding> = GamesBinding::inflate
     private val viewModel: GamesListViewModel by viewModels()
-    private var _binding: FragmentGamesListBinding? = null
-    private val binding get() = _binding!!
-    private val gameAdapter = GameAdapter(object : GameAdapter.Callback {
-        override fun onGameClick(gameId: Long) =
-            this@GamesListFragment.onGameClick(gameId)
-
-        override fun onGameLongClick(gameId: Long) =
-            this@GamesListFragment.onGameLongClick(gameId)
-    })
-
+    private val gameAdapter = GameAdapter(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFragmentResultListener(RESULT_REQUEST_CODE) { _, bundle ->
@@ -37,14 +31,6 @@ class GamesListFragment : Fragment(), GameAdapter.Callback {
         }
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = FragmentGamesListBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,34 +60,31 @@ class GamesListFragment : Fragment(), GameAdapter.Callback {
             gameAdapter.submitList(it)
         }
 
-        viewModel.navigateToGameScreen.observe(viewLifecycleOwner) {
-            if (it) {
-                viewModel.resetNavigation()
-                val gameId = viewModel.newGameId.value!!
-                navigateToGame(gameId)
+        observeFlows {
+            viewModel.navigationState.collect { navState ->
+                navState.navigate(this)
             }
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    override fun onGameClick(gameId: Long) = viewModel.showGame(gameId)
 
-    override fun onGameClick(gameId: Long) {
-        navigateToGame(gameId)
-    }
+    override fun onGameLongClick(gameId: Long) = viewModel.showRemoveGameDialog(gameId)
 
-    override fun onGameLongClick(gameId: Long) {
+    override fun navigateToRemoveGameDialog(gameId: Long) {
         findNavController()
             .navigate(GamesListFragmentDirections.actionToRemoveGameDialog(gameId))
     }
 
-    private fun navigateToGame(gameId: Long) {
+    override fun navigateToGame(gameId: Long) {
         findNavController()
             .navigate(GamesListFragmentDirections.actionToGameFragment(gameId))
     }
 
+    override fun navigateToOnBoarding(gameId: Long) {
+        findNavController()
+            .navigate(GamesListFragmentDirections.actionToOnBoardingFragment())
+    }
 
     companion object {
         const val RESULT_REQUEST_CODE = "games list request code"

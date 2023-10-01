@@ -48,8 +48,8 @@ class LottieCursorWrapper(private val cursor: LottieAnimationView) {
     }
 
     fun moveToAndShow(
-        duration: Long = 400L,
         coordinatesProducer: () -> PointF,
+        duration: Long = 400L,
     ) {
         val (x, y) = coordinatesProducer.invoke()
         currentTranslation.set(x - (cursor.left + cursor.width * 0.5f), y - cursor.top)

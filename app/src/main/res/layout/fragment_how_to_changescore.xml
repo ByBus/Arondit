@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="8dp"
-    tools:context=".onboarding.HowToChangeWordScoreFragment">
+    tools:context=".onboarding.ui.HowToChangeWordScoreFragment">
 
     <host.capitalquiz.arondit.core.ui.view.eruditwordview.EruditWordView
         android:id="@+id/eruditWord"
@@ -30,6 +30,7 @@
         tools:word="КИРАСА" />
 
     <TextView
+        app:layout_constraintWidth_max="360dp"
         android:id="@+id/infoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

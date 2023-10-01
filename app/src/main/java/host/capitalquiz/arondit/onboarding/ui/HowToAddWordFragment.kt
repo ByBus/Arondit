@@ -1,4 +1,4 @@
-package host.capitalquiz.arondit.onboarding
+package host.capitalquiz.arondit.onboarding.ui
 
 import android.graphics.Color
 import android.graphics.PointF
@@ -10,25 +10,23 @@ import android.util.TypedValue
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.viewModels
 import androidx.transition.TransitionInflater
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import host.capitalquiz.arondit.R
 import host.capitalquiz.arondit.core.ui.CommandScheduler
+import host.capitalquiz.arondit.core.ui.Inflater
 import host.capitalquiz.arondit.core.ui.RoundedRectangleSpan
 import host.capitalquiz.arondit.core.ui.Scale
 import host.capitalquiz.arondit.core.ui.view.CompositeBorderDrawable
 import host.capitalquiz.arondit.core.ui.view.LottieCursorWrapper
 import host.capitalquiz.arondit.databinding.FragmentHowToAddWordBinding as AddWordBinding
 
-private const val POSITION_IN_VIEWPAGER = 1
 
-class HowToAddWordFragment : BindingFragment<AddWordBinding>() {
+class HowToAddWordFragment : BaseOnBoardingFragment<AddWordBinding>() {
 
+    override val positionInViewPager = 1
     override val viewInflater: Inflater<AddWordBinding> = AddWordBinding::inflate
-    private val viewModel by viewModels<OnBoardingViewModel>(ownerProducer = { requireParentFragment() })
-    private val scheduler = CommandScheduler()
     private val cursor by lazy { LottieCursorWrapper(binding.handCursor) }
     private val transition by lazy {
         (TransitionInflater.from(requireContext())
@@ -85,48 +83,42 @@ class HowToAddWordFragment : BindingFragment<AddWordBinding>() {
             if (notBlank) binding.eruditWord.setText(string)
         }
 
-        viewModel.currentPage.observe(viewLifecycleOwner) {
-            if (it == POSITION_IN_VIEWPAGER) launchAnimation()
-        }
-
     }
 
     override fun onPause() {
         super.onPause()
         binding.addWord.isVisible = true
         binding.inputWordWindow.isVisible = false
-        scheduler.cancel()
+        cursor.hide(0L)
         binding.typeWriter.stop()
     }
 
-    private fun launchAnimation() {
+    override fun CommandScheduler.animationSchedule() {
         val wordsToType = resources.getStringArray(R.array.onboarding_input_words)
-        scheduler.schedule {
-            pause(200L)
-            repeat(3)
-            command { cursor.moveToAndShow { buttonCoordinates() } }
-            command(100L) { binding.addWord.isPressed = true }
-            command { cursor.click() }
-            command(100L) {
-                TransitionManager.beginDelayedTransition(binding.root, transition)
-                binding.addWord.isPressed = false
-                binding.addWord.isVisible = false
-                binding.inputWordWindow.isVisible = true
-            }
-            command { cursor.hide() }
-            command { iteration ->
-                binding.typeWriter.type(wordsToType[iteration], 300L)
-            }
-            command(3500L) {
-                TransitionManager.beginDelayedTransition(binding.root, transition)
-                binding.addWord.isVisible = true
-                binding.inputWordWindow.isVisible = false
-            }
-            command(1000L) { binding.typeWriter.setText("") }
-        }.execute()
+        pause(200L)
+        repeatBelow(3)
+        command { cursor.moveToAndShow(::addWordButtonCenterPosition) }
+        command(300L) { cursor.click() }
+        command(100L) { binding.addWord.isPressed = true }
+        command(200L) {
+            TransitionManager.beginDelayedTransition(binding.root, transition)
+            binding.addWord.isPressed = false
+            binding.addWord.isVisible = false
+            binding.inputWordWindow.isVisible = true
+        }
+        command { cursor.hide() }
+        command { iteration ->
+            binding.typeWriter.type(wordsToType[iteration], 300L)
+        }
+        command(3500L) {
+            TransitionManager.beginDelayedTransition(binding.root, transition)
+            binding.addWord.isVisible = true
+            binding.inputWordWindow.isVisible = false
+        }
+        command(1000L) { binding.typeWriter.setText("") }
     }
 
-    private fun buttonCoordinates(): PointF {
+    private fun addWordButtonCenterPosition(): PointF {
         val addButton = binding.addWord
         val x = addButton.left + addButton.width / 2
         val y = addButton.top + addButton.height / 2

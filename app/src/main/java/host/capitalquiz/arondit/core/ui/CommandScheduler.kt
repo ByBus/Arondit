@@ -28,22 +28,26 @@ class CommandScheduler {
     fun execute() = nextCommand.run()
 
     fun cancel() {
-        queue.clear()
-        handler.removeCallbacks(nextCommand)
+        isInfinite = false
         repeatCount = 0
         totalIterations = 0
+        queue.clear()
+        handler.removeCallbacks(nextCommand)
     }
 
     fun CommandScheduler.infinite() {
-        isInfinite = true
-        queue.offer{
+        queue.offer {
+            isInfinite = true
             nextCommand.run()
         }
     }
 
-    fun CommandScheduler.repeat(@IntRange(from = 1) times: Int) {
-        totalIterations = times
-        repeatCount = 0
+    fun CommandScheduler.repeatBelow(@IntRange(from = 1) times: Int) {
+        queue.offer {
+            totalIterations = times
+            repeatCount = 0
+            nextCommand.run()
+        }
         queue.offer {
             repeatCount++
             nextCommand.run()

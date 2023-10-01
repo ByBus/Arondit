@@ -4,9 +4,12 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import host.capitalquiz.arondit.core.datastore.SettingsLocalDataSource
+import host.capitalquiz.arondit.core.datastore.SettingsReadDataSource
 import host.capitalquiz.arondit.core.db.GameDataMapper
 import host.capitalquiz.arondit.core.db.PlayerDataMapper
 import host.capitalquiz.arondit.core.db.WordDataMapper
+import host.capitalquiz.arondit.gameslist.data.BaseSettingsRepository
 import host.capitalquiz.arondit.gameslist.data.GameDataToGameMapper
 import host.capitalquiz.arondit.gameslist.data.GamesListRepository
 import host.capitalquiz.arondit.gameslist.data.PlayerDataToPlayerInfoMapper
@@ -15,6 +18,7 @@ import host.capitalquiz.arondit.gameslist.domain.GameMapper
 import host.capitalquiz.arondit.gameslist.domain.GamesListInteractor
 import host.capitalquiz.arondit.gameslist.domain.GamesRepository
 import host.capitalquiz.arondit.gameslist.domain.PlayerInfo
+import host.capitalquiz.arondit.gameslist.domain.SettingsReadRepository
 import host.capitalquiz.arondit.gameslist.domain.WordDataToScoreMapper
 import host.capitalquiz.arondit.gameslist.ui.GameToGameUiMapper
 import host.capitalquiz.arondit.gameslist.ui.GameUi
@@ -40,5 +44,13 @@ abstract class GamesListModule {
 
     @Binds
     abstract fun bindGameToGameUiMapper(impl: GameToGameUiMapper): GameMapper<GameUi>
+
+
+    @Binds
+    abstract fun bindSettingsRepository(impl: BaseSettingsRepository): SettingsReadRepository
+
+
+    @Binds
+    abstract fun bindSettingsReadOnlyDataSource(impl: SettingsLocalDataSource.BaseDataStore): SettingsReadDataSource
 
 }

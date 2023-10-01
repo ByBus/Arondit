@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".onboarding.OnBoardingFragment">
+    android:transitionGroup="true"
+    android:background="@color/white"
+    tools:context=".onboarding.ui.OnBoardingFragment">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"
@@ -20,11 +22,11 @@
         android:id="@+id/pagination"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
         android:gravity="center"
         android:paddingVertical="32dp"
-        android:background="#00FFFFFF"
-        app:dotSize="16dp"
         app:baseColor="?attr/colorPrimary"
+        app:dotSize="16dp"
         app:dotStrokeWidth="2dp"
         app:dotsClickable="true"
         app:dotsHorizontalPadding="8dp"

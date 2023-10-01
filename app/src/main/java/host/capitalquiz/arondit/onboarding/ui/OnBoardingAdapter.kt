@@ -1,4 +1,4 @@
-package host.capitalquiz.arondit.onboarding
+package host.capitalquiz.arondit.onboarding.ui
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter

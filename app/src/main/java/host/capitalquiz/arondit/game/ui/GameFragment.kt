@@ -1,29 +1,27 @@
 package host.capitalquiz.arondit.game.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.R
+import host.capitalquiz.arondit.core.ui.BindingFragment
+import host.capitalquiz.arondit.core.ui.Inflater
 import host.capitalquiz.arondit.core.ui.view.CompositeBorderDrawable
 import host.capitalquiz.arondit.databinding.FragmentGameBinding
 import host.capitalquiz.arondit.game.ui.dialog.GameDialogs
 
 
 @AndroidEntryPoint
-class GameFragment : Fragment(), GameDialogs {
+class GameFragment : BindingFragment<FragmentGameBinding>(), GameDialogs {
+    override val viewInflater: Inflater<FragmentGameBinding> = FragmentGameBinding::inflate
     private val viewModel: GameViewModel by viewModels()
-    private var _binding: FragmentGameBinding? = null
-    private val binding get() = _binding!!
 
     private lateinit var gridLayoutAdapter: GridLayoutAdapter
 
@@ -48,13 +46,10 @@ class GameFragment : Fragment(), GameDialogs {
             gridLayoutAdapter.removeField(playerColor)
         }
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.addPlayersColors(
             listOf(
                 R.color.base_orange,
@@ -64,11 +59,7 @@ class GameFragment : Fragment(), GameDialogs {
             ).map {
                 ContextCompat.getColor(requireContext(), it)
             })
-        _binding = FragmentGameBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
         super.onViewCreated(view, savedInstanceState)
@@ -129,11 +120,6 @@ class GameFragment : Fragment(), GameDialogs {
             val addPlayerDialog = GameFragmentDirections.actionToAddPlayerDialog(color)
             findNavController().navigate(addPlayerDialog)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {
