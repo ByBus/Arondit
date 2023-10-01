@@ -17,13 +17,8 @@ import host.capitalquiz.arondit.R
 import host.capitalquiz.arondit.core.ui.view.PlayerHeaderView
 
 
-class GridLayoutAdapter(
-    private val context: Context,
-    private val addUserCallBack: () -> Unit,
-    private val removeUserCallback: (PlayerId, PlayerColor) -> Unit,
-    private val openAddWordDialogCallback: (PlayerId, PlayerColor) -> Unit,
-    private val wordClickCallback: (id: Long, PlayerColor, PlayerId) -> Unit,
-) {
+class GridLayoutAdapter(private val listener: Listener) {
+
     private lateinit var grid: GridLayout
     private val fields = mutableMapOf<Int, PlayerField>()
     private var borderDrawable: Drawable? = null
@@ -44,7 +39,7 @@ class GridLayoutAdapter(
     ) {
         private val recyclerView = itemView.findViewById<RecyclerView>(R.id.wordsList)
         private val adapter = WordAdapter { wordId ->
-            wordClickCallback.invoke(wordId, color, id)
+            listener.onWordClick(wordId, id, color)
         }
         private var header: PlayerHeaderView
 
@@ -56,13 +51,13 @@ class GridLayoutAdapter(
             val bottomToolbar = itemView.findViewById<RelativeLayout>(R.id.bottomToolbar)
             bottomToolbar.backgroundTintList = ColorStateList.valueOf(color.value)
             header.removePlayerButton().setOnClickListener {
-                removeUserCallback.invoke(id, color)
+                listener.onRemovePlayerClick(id, color)
             }
             header.addPlayerButton().setOnClickListener {
-                addUserCallBack.invoke()
+                listener.onAddPlayerClick()
             }
             bottomToolbar.findViewById<Button>(R.id.addWord).setOnClickListener {
-                openAddWordDialogCallback.invoke(id, color)
+                listener.onAddWordClick(id, color)
             }
             borderDrawable?.let {
                 itemView.findViewById<View>(R.id.border)?.background = it
@@ -87,7 +82,6 @@ class GridLayoutAdapter(
         }
 
         private fun startTransition() {
-//            TransitionManager.beginDelayedTransition(grid)
             TransitionManager.beginDelayedTransition(grid,
                 TransitionSet().apply {
                     ordering = TransitionSet.ORDERING_SEQUENTIAL
@@ -99,7 +93,7 @@ class GridLayoutAdapter(
     }
 
 
-    private fun createPlayerField(player: PlayerUi) {
+    private fun createPlayerField(context: Context, player: PlayerUi) {
         val itemView = LayoutInflater.from(context)
             .inflate(R.layout.fragment_game_list_item, grid, false)
         itemView.layoutParams = GridLayout.LayoutParams(
@@ -114,11 +108,11 @@ class GridLayoutAdapter(
         PlayerField(PlayerId(player.id), PlayerColor(player.color), player.name, itemView).attach()
     }
 
-    fun submitList(list: List<PlayerUi>) {
+    fun submitList(context: Context, list: List<PlayerUi>) {
         val actualFieldColors = list.associateBy { it.color }
         actualFieldColors.forEach { (fieldColor, player) ->
             if (fields.containsKey(fieldColor).not()) {
-                createPlayerField(player)
+                createPlayerField(context, player)
             }
             fields[fieldColor]?.updateField(player.words, player.score)
         }
@@ -126,6 +120,13 @@ class GridLayoutAdapter(
 
     fun removeField(color: Int) {
         fields[color]?.detach()
+    }
+
+    interface Listener {
+        fun onAddPlayerClick()
+        fun onRemovePlayerClick(playerId: PlayerId, playerColor: PlayerColor)
+        fun onAddWordClick(playerId: PlayerId, playerColor: PlayerColor)
+        fun onWordClick(wordId: Long, playerId: PlayerId, playerColor: PlayerColor)
     }
 }
 

@@ -27,7 +27,7 @@ class HowToAddWordFragment : BaseOnBoardingFragment<AddWordBinding>() {
 
     override val positionInViewPager = 1
     override val viewInflater: Inflater<AddWordBinding> = AddWordBinding::inflate
-    private val cursor by lazy { LottieCursorWrapper(binding.handCursor) }
+    private var cursor: LottieCursorWrapper? = null
     private val transition by lazy {
         (TransitionInflater.from(requireContext())
             .inflateTransition(R.transition.onboarding_add_word) as TransitionSet)
@@ -36,6 +36,7 @@ class HowToAddWordFragment : BaseOnBoardingFragment<AddWordBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        cursor = LottieCursorWrapper(binding.handCursor)
 
         binding.inputWordWindow.background = CompositeBorderDrawable(
             requireContext(),
@@ -89,16 +90,21 @@ class HowToAddWordFragment : BaseOnBoardingFragment<AddWordBinding>() {
         super.onPause()
         binding.addWord.isVisible = true
         binding.inputWordWindow.isVisible = false
-        cursor.hide(0L)
+        cursor?.hide(0L)
         binding.typeWriter.stop()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cursor = null
     }
 
     override fun CommandScheduler.animationSchedule() {
         val wordsToType = resources.getStringArray(R.array.onboarding_input_words)
         pause(200L)
         repeatBelow(3)
-        command { cursor.moveToAndShow(::addWordButtonCenterPosition) }
-        command(300L) { cursor.click() }
+        command { cursor?.moveToAndShow(::addWordButtonCenterPosition) }
+        command(300L) { cursor?.click() }
         command(100L) { binding.addWord.isPressed = true }
         command(200L) {
             TransitionManager.beginDelayedTransition(binding.root, transition)
@@ -106,7 +112,7 @@ class HowToAddWordFragment : BaseOnBoardingFragment<AddWordBinding>() {
             binding.addWord.isVisible = false
             binding.inputWordWindow.isVisible = true
         }
-        command { cursor.hide() }
+        command { cursor?.hide() }
         command { iteration ->
             binding.typeWriter.type(wordsToType[iteration], 300L)
         }

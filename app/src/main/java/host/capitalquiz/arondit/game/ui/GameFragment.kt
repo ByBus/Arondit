@@ -15,36 +15,26 @@ import host.capitalquiz.arondit.core.ui.BindingFragment
 import host.capitalquiz.arondit.core.ui.Inflater
 import host.capitalquiz.arondit.core.ui.view.CompositeBorderDrawable
 import host.capitalquiz.arondit.databinding.FragmentGameBinding
-import host.capitalquiz.arondit.game.ui.dialog.GameDialogs
 
 
 @AndroidEntryPoint
-class GameFragment : BindingFragment<FragmentGameBinding>(), GameDialogs {
+class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.Listener {
     override val viewInflater: Inflater<FragmentGameBinding> = FragmentGameBinding::inflate
     private val viewModel: GameViewModel by viewModels()
 
-    private lateinit var gridLayoutAdapter: GridLayoutAdapter
+    private var gridLayoutAdapter: GridLayoutAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        gridLayoutAdapter = GridLayoutAdapter(requireContext(),
-            addUserCallBack = { openAddPlayerDialog() },
-            removeUserCallback = { playerId, playerColor ->
-                openRemovePlayerDialog(playerId.value, playerColor.value)
-            },
-            openAddWordDialogCallback = { playerId, playerColor ->
-                openAddWordDialog(playerId.value, playerColor.value)
-            },
-            wordClickCallback = { wordId, playerColor, playerId ->
-                openEditWordDialog(wordId, playerId.value, playerColor.value)
-            }
-        )
+        gridLayoutAdapter = GridLayoutAdapter(this)
+
         setFragmentResultListener(RESULT_REQUEST_CODE) { _, bundle ->
             viewModel.deletePlayer(bundle.getLong(REMOVE_PLAYER_ID_KEY))
             val playerColor = bundle.getInt(REMOVE_PLAYER_COLOR_KEY)
             viewModel.returnColor(playerColor)
-            gridLayoutAdapter.removeField(playerColor)
+            gridLayoutAdapter?.removeField(playerColor)
         }
+
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
     }
@@ -64,7 +54,7 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GameDialogs {
         view.doOnPreDraw { startPostponedEnterTransition() }
         super.onViewCreated(view, savedInstanceState)
 
-        gridLayoutAdapter.apply {
+        gridLayoutAdapter?.apply {
             bindTo(binding.grid)
             addDecorationDrawable(
                 CompositeBorderDrawable(
@@ -80,7 +70,7 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GameDialogs {
 
         with(binding.information) {
             infoButton.setOnClickListener {
-                openAddPlayerDialog()
+                onAddPlayerClick()
             }
             infoText.text = getString(R.string.no_players_info_text)
             infoImage.setImageResource(R.drawable.img_knights_battle)
@@ -91,35 +81,43 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GameDialogs {
             viewModel.removeUsedColors(players.map { it.color })
             binding.information.root.isVisible = players.isEmpty()
             binding.grid.isVisible = players.isNotEmpty()
-            gridLayoutAdapter.submitList(players)
+            gridLayoutAdapter?.submitList(requireContext(), players)
         }
     }
 
-    override fun openRemovePlayerDialog(playerId: Long, playerColor: Int) {
-        findNavController()
-            .navigate(GameFragmentDirections.actionToRemovePlayerDialog(playerId, playerColor))
+    override fun onDestroyView() {
+        super.onDestroyView()
+        gridLayoutAdapter = null
     }
 
-    override fun openAddWordDialog(playerId: Long, playerColor: Int) {
-        findNavController()
-            .navigate(GameFragmentDirections.actionAddWordDialog(playerId, playerColor))
+    override fun onAddPlayerClick() {
+        viewModel.borrowColor { color ->
+            val addPlayerDialog =
+                GameFragmentDirections.actionToAddPlayerDialog(color)
+            findNavController().navigate(addPlayerDialog)
+        }
     }
 
-    override fun openEditWordDialog(wordId: Long, playerId: Long, dialogColor: Int) {
+    override fun onRemovePlayerClick(playerId: PlayerId, playerColor: PlayerColor) {
+        val removePlayerDialog =
+            GameFragmentDirections.actionToRemovePlayerDialog(playerId.value, playerColor.value)
+        findNavController().navigate(removePlayerDialog)
+    }
+
+    override fun onAddWordClick(playerId: PlayerId, playerColor: PlayerColor) {
+        val addWordDialog =
+            GameFragmentDirections.actionAddWordDialog(playerId.value, playerColor.value)
+        findNavController().navigate(addWordDialog)
+    }
+
+    override fun onWordClick(wordId: Long, playerId: PlayerId, playerColor: PlayerColor) {
         val editWordDialog =
             GameFragmentDirections.actionToEditWordDialog(
                 wordId,
-                dialogColor,
-                playerId
+                playerColor.value,
+                playerId.value
             )
         findNavController().navigate(editWordDialog)
-    }
-
-    override fun openAddPlayerDialog() {
-        viewModel.borrowColor { color ->
-            val addPlayerDialog = GameFragmentDirections.actionToAddPlayerDialog(color)
-            findNavController().navigate(addPlayerDialog)
-        }
     }
 
     companion object {

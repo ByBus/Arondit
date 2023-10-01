@@ -21,7 +21,7 @@ class HowToAddPlayerFragment : BaseOnBoardingFragment<AddPlayerBinding>() {
 
     override val positionInViewPager = 0
     override val viewInflater: Inflater<AddPlayerBinding> = AddPlayerBinding::inflate
-    private val cursor by lazy { LottieCursorWrapper(binding.handCursor) }
+    private var cursor: LottieCursorWrapper? = null
     private val transition by lazy {
         (TransitionInflater.from(requireContext())
             .inflateTransition(R.transition.onboarding_add_player_header) as TransitionSet)
@@ -34,6 +34,7 @@ class HowToAddPlayerFragment : BaseOnBoardingFragment<AddPlayerBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        cursor = LottieCursorWrapper(binding.handCursor)
 
         with(binding) {
             playerHeader1.setScore(42)
@@ -46,15 +47,20 @@ class HowToAddPlayerFragment : BaseOnBoardingFragment<AddPlayerBinding>() {
 
     override fun onPause() {
         super.onPause()
-        cursor.hide(0L)
+        cursor?.hide(0L)
         binding.playerHeader2.isVisible = false
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cursor = null
     }
 
     override fun CommandScheduler.animationSchedule() {
         pause(100L)
         repeatBelow(3)
-        command(400L) { cursor.moveToAndShow(::addButtonCenterPosition) }
-        command(400L) { cursor.click() }
+        command(400L) { cursor?.moveToAndShow(::addButtonCenterPosition) }
+        command(400L) { cursor?.click() }
         command(100L) {
             binding.playerHeader1.addPlayerButton().startAnimation(clickAnimation)
         }
@@ -62,8 +68,8 @@ class HowToAddPlayerFragment : BaseOnBoardingFragment<AddPlayerBinding>() {
             TransitionManager.beginDelayedTransition(binding.root, transition)
             binding.playerHeader2.isVisible = true
         }
-        command(800L) { cursor.move(x = 580f) }
-        command(500L) { cursor.click() }
+        command(800L) { cursor?.move(x = 580f) }
+        command(500L) { cursor?.click() }
         command(100L) {
             binding.playerHeader2.removePlayerButton().startAnimation(clickAnimation)
         }
@@ -71,7 +77,7 @@ class HowToAddPlayerFragment : BaseOnBoardingFragment<AddPlayerBinding>() {
             TransitionManager.beginDelayedTransition(binding.root, transition)
             binding.playerHeader2.isVisible = false
         }
-        command(800L) { cursor.hide() }
+        command(800L) { cursor?.hide() }
     }
 
     private fun addButtonCenterPosition(): PointF {

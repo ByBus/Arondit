@@ -22,7 +22,6 @@ class GamesListFragment : BindingFragment<GamesBinding>(), GameAdapter.Callback,
 
     override val viewInflater: Inflater<GamesBinding> = GamesBinding::inflate
     private val viewModel: GamesListViewModel by viewModels()
-    private val gameAdapter = GameAdapter(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFragmentResultListener(RESULT_REQUEST_CODE) { _, bundle ->
@@ -37,6 +36,8 @@ class GamesListFragment : BindingFragment<GamesBinding>(), GameAdapter.Callback,
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
         super.onViewCreated(view, savedInstanceState)
+        val gameAdapter = GameAdapter(this)
+
         binding.gamesList.adapter = gameAdapter
         binding.border.background = BorderDrawable(
             requireContext(),
