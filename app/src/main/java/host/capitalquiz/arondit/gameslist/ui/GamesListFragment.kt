@@ -13,7 +13,7 @@ import host.capitalquiz.arondit.R
 import host.capitalquiz.arondit.core.ui.BindingFragment
 import host.capitalquiz.arondit.core.ui.BorderDrawable
 import host.capitalquiz.arondit.core.ui.Inflater
-import host.capitalquiz.arondit.core.ui.observeFlows
+import host.capitalquiz.arondit.core.ui.collect
 import host.capitalquiz.arondit.databinding.FragmentGamesListBinding as GamesBinding
 
 @AndroidEntryPoint
@@ -61,10 +61,8 @@ class GamesListFragment : BindingFragment<GamesBinding>(), GameAdapter.Callback,
             gameAdapter.submitList(it)
         }
 
-        observeFlows {
-            viewModel.navigationState.collect { navState ->
-                navState.navigate(this)
-            }
+        viewModel.navigationState.collect(viewLifecycleOwner) { navState ->
+            navState.navigate(this)
         }
     }
 
