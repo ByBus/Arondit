@@ -9,11 +9,8 @@ class OnBoardingRepository @Inject constructor(
 ) : SettingsRepository {
 
     override val showOnBoarding = storage.showOnBoardingScreen
-    override suspend fun clear() {
-        storage.clear()
-    }
 
-    override suspend fun disableOnBoarding() {
-        storage.enableOnBoardingScreen(false)
-    }
+    override suspend fun clear() = storage.clear()
+
+    override suspend fun disableOnBoarding() = storage.enableOnBoardingScreen(false)
 }

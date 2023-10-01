@@ -15,7 +15,7 @@ import androidx.transition.TransitionSet
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.R
 import host.capitalquiz.arondit.core.ui.BottomSheetDialogFragmentWithBorder
-import host.capitalquiz.arondit.core.ui.observeFlows
+import host.capitalquiz.arondit.core.ui.collect
 import host.capitalquiz.arondit.databinding.DialogFragmentAddWordBinding
 
 
@@ -109,13 +109,11 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
 
         binding.border.background = CompositeBorderDrawable()
 
-        observeFlows {
-            viewModel.wordSavingResult.collect { saved ->
-                if (saved)
-                    dismiss()
-                else
-                    Snackbar(R.string.this_word_already_used_message).show()
-            }
+        viewModel.wordSavingResult.collect(viewLifecycleOwner) { saved ->
+            if (saved)
+                dismiss()
+            else
+                Snackbar(R.string.this_word_already_used_message).show()
         }
     }
 

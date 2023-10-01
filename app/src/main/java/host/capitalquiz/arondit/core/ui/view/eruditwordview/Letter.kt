@@ -6,12 +6,14 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import android.view.MotionEvent
+import androidx.annotation.ColorInt
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.toRect
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import kotlin.math.roundToInt
 
 private const val CHAR_PLACEHOLDER = '*'
+
 interface Letter {
     fun tryClick(event: MotionEvent): Boolean
     fun setBonus(bonus: Int, forceUpdate: Boolean)
@@ -27,7 +29,6 @@ interface Letter {
         val char = character.uppercaseChar().takeIf { params.isAllowedChar(it) } ?: CHAR_PLACEHOLDER
         private var charWidth: Float = 0f
         private val bounds = RectF()
-        private var isFirstDraw = true
 
         private fun isAsterisk() = bonus == 0
 
@@ -58,33 +59,33 @@ interface Letter {
             if (forceUpdate && params.badgeHeight == 0) params.requestLayout()
         }
 
-        fun draw(canvas: Canvas) {
-            val blockColor = animationState.animatedColor()
-            if (animationState.showBadge) {
-                params.paint.withColor(blockColor) {
-                    val smallRadius = params.radius / 3
-                    val animationPosition = animationState.animatedPosition()
-                    val currentPos = params.badgeHeight * animationPosition
-                    val top = bounds.bottom - params.badgeHeight + currentPos
-                    val left = bounds.left + smallRadius
-                    val right = bounds.right - smallRadius
-                    val bottom = bounds.bottom + currentPos
-                    bounds.with(top, left, right, bottom) {
-                        canvas.drawRoundRect(this, smallRadius, smallRadius, params.paint)
-                    }
-                    animationState.badge?.let {
-                        it.setBounds(
-                            left.toInt(),
-                            top.toInt(),
-                            right.toInt(),
-                            bottom.toInt()
-                        )
-                        it.draw(canvas)
+        private fun draw(canvas: Canvas) {
+            with(params) {
+                val blockColor = animationState.animatedColor()
+                if (animationState.showBadge) {
+                    paint.withColor(blockColor) {
+                        val smallRadius = radius / 3
+                        val animationPosition = animationState.animatedPosition()
+                        val currentPos = badgeHeight * animationPosition
+                        val top = bounds.bottom - badgeHeight + currentPos
+                        val left = bounds.left + smallRadius
+                        val right = bounds.right - smallRadius
+                        val bottom = bounds.bottom + currentPos
+                        bounds.with(top, left, right, bottom) {
+                            canvas.drawRoundRect(this, smallRadius, smallRadius, paint)
+                        }
+                        animationState.badge?.let {
+                            it.setBounds(
+                                left.toInt(),
+                                top.toInt(),
+                                right.toInt(),
+                                bottom.toInt()
+                            )
+                            it.draw(canvas)
+                        }
                     }
                 }
-            }
 
-            with(params) {
                 paint.withColor(ColorUtils.compositeColors(thicknessColor, blockColor)) {
                     bounds.with(top = bounds.top + 1f) {
                         canvas.drawRoundRect(this, radius, radius, paint)
@@ -104,11 +105,7 @@ interface Letter {
                 val yPosition =
                     bounds.bottom - (bounds.width() - textSize) / 2 - paint.descent()
 
-                val asteriskAlpha =
-                    if (animationState.charRevealing == AnimationStateResolver.IDLE)
-                        255
-                    else
-                        (255 * (1 - animationState.animatedPosition())).roundToInt()
+                val asteriskAlpha = (255f * (1f - animationState.animatedPosition())).roundToInt()
 
                 val textAlpha =
                     if (animationState.charRevealing == AnimationStateResolver.CHAR_REVEALING)
@@ -116,50 +113,41 @@ interface Letter {
                     else
                         255
 
-                paint.withColor(ColorUtils.setAlphaComponent(textColor, textAlpha)) {
-                    val score = params.scoreOfChar(char)
+                val drawAsterisk = isAsterisk() && animationState.showBadge.not()
+
+                if (drawAsterisk) {
+                    bounds.drawWithScale(0.65f) {
+                        val asteriskBounds = this.toRect()
+                        asteriskDrawable?.bounds = asteriskBounds
+                        asteriskDrawable?.draw(canvas)
+                        paint.withColor(
+                            animationState.animatedColor().withAlpha(asteriskAlpha)
+                        ) {
+                            // impossible to animate the alpha of drawables because they are singletons
+                            // so fill over them with transparent color
+                            canvas.drawRect(asteriskBounds, this)
+                        }
+                    }
+                } else {
                     val scoreTextSize = textSize / 2.5f
+                    val score = scoreOfChar(char).toString()
                     var scoreXPosition = 0f
-                    withTextSize(scoreTextSize) {
-                        val scoreString = score.toString()
-                        val scoreWidth = measureText(scoreString)
-                        scoreXPosition = bounds.right - scoreWidth - offset
-                        if (!(isAsterisk() && animationState.showBadge.not())) {
+                    paint.withColor(textColor.withAlpha(textAlpha)) {
+                        withTextSize(scoreTextSize) {
+                            val scoreWidth = measureText(score)
+                            scoreXPosition = bounds.right - scoreWidth - offset
                             canvas.drawText(
-                                scoreString,
+                                score,
                                 scoreXPosition,
                                 yPosition + descent(),
                                 paint
                             )
                         }
-                    }
-
-                    if (isAsterisk() && animationState.showBadge.not()) {
-                        bounds.drawWithScale(0.65f) {
-                            val asteriskBounds = this.toRect()
-                            asteriskDrawable?.bounds = asteriskBounds
-                            asteriskDrawable?.draw(canvas)
-                            if (animateUpdates && isFirstDraw.not()) {
-                                paint.withColor(
-                                    ColorUtils.setAlphaComponent(
-                                        animationState.animatedColor(),
-                                        asteriskAlpha
-                                    )
-                                ) {
-                                    // impossible to animate the alpha of drawables because they are singletons
-                                    // so fill over them with transparent color
-                                    canvas.drawRect(asteriskBounds, this)
-                                }
-                            }
-                        }
-                    } else {
                         val availableSpace = scoreXPosition - xPosition
                         val scale =
                             if (availableSpace > charWidth) 1f else availableSpace / charWidth
-                        paint.withColor(ColorUtils.setAlphaComponent(textColor, textAlpha)) {
-                            drawWithTextScaleX(scale) {
-                                canvas.drawText(char.toString(), xPosition, yPosition, paint)
-                            }
+                        drawWithTextScaleX(scale) {
+                            canvas.drawText(char.toString(), xPosition, yPosition, paint)
                         }
                     }
                 }
@@ -174,11 +162,7 @@ interface Letter {
         }
 
         override fun tryClick(event: MotionEvent): Boolean {
-            if (char != CHAR_PLACEHOLDER && bounds.contains(event.x, event.y)) {
-                isFirstDraw = false
-                return true
-            }
-            return false
+            return char != CHAR_PLACEHOLDER && bounds.contains(event.x, event.y)
         }
 
         override fun invalidateCharWidth() {
@@ -223,3 +207,6 @@ private fun Paint.drawWithTextScaleX(widthScale: Float, block: Paint.() -> Unit)
     block.invoke(this)
     textScaleX = temp
 }
+
+private fun @receiver:ColorInt Int.withAlpha(alpha: Int): Int =
+    ColorUtils.setAlphaComponent(this, alpha)

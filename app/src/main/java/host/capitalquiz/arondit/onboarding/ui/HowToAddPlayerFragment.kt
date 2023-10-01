@@ -57,7 +57,9 @@ class HowToAddPlayerFragment : BaseOnBoardingFragment<AddPlayerBinding>() {
     }
 
     override fun CommandScheduler.animationSchedule() {
+        var distanceBetweenButtons = 0f
         pause(100L)
+        command { distanceBetweenButtons = distanceBetweenAddAndRemoveButtons() }
         repeatBelow(3)
         command(400L) { cursor?.moveToAndShow(::addButtonCenterPosition) }
         command(400L) { cursor?.click() }
@@ -68,7 +70,7 @@ class HowToAddPlayerFragment : BaseOnBoardingFragment<AddPlayerBinding>() {
             TransitionManager.beginDelayedTransition(binding.root, transition)
             binding.playerHeader2.isVisible = true
         }
-        command(800L) { cursor?.move(x = 580f) }
+        command(800L) { cursor?.move(x = distanceBetweenButtons) }
         command(500L) { cursor?.click() }
         command(100L) {
             binding.playerHeader2.removePlayerButton().startAnimation(clickAnimation)
@@ -78,6 +80,12 @@ class HowToAddPlayerFragment : BaseOnBoardingFragment<AddPlayerBinding>() {
             binding.playerHeader2.isVisible = false
         }
         command(800L) { cursor?.hide() }
+    }
+
+    private fun distanceBetweenAddAndRemoveButtons(): Float {
+        return with(binding.playerHeader1) {
+            (removePlayerButton().left - addPlayerButton( ).left).toFloat()
+        }
     }
 
     private fun addButtonCenterPosition(): PointF {
