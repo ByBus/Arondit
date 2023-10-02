@@ -16,21 +16,19 @@
         android:paddingHorizontal="200dp"
         app:animateUpdates="true"
         app:asteriskColor="@color/letter_asterisk_block_color"
-        app:clickableLetters="true"
+        app:clickableLetters="false"
         app:initWithBadges="true"
         app:layout_constraintBottom_toTopOf="@id/infoText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
         app:mainColor="@color/letter_block_color"
         app:size="50dp"
         app:textColor="@color/letter_block_text_color"
-        app:useDiffUtil="true"
+        app:useDiffUtil="false"
         tools:word="КИРАСА" />
 
     <TextView
-        app:layout_constraintWidth_max="360dp"
         android:id="@+id/infoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +42,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintWidth_max="360dp" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/hand_cursor"

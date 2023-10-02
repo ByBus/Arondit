@@ -31,7 +31,6 @@ class HeaderTextView @JvmOverloads constructor(
     private var isTextBehindDrawable = true
 
     private val paint = Paint().apply {
-        color = Color.TRANSPARENT
         style = Paint.Style.FILL
     }
 
@@ -54,7 +53,7 @@ class HeaderTextView @JvmOverloads constructor(
             paint.color = bgColor
             updateTint(bgColor, leftTintDrawable)
             updateTint(bgColor, rightTintDrawable)
-            (background as ColorDrawable).color = Color.TRANSPARENT
+            background.setTint(Color.TRANSPARENT)
             true
         } else {
             false
@@ -98,13 +97,9 @@ class HeaderTextView @JvmOverloads constructor(
         DrawableCompat.setTint(wrappedDrawable, color)
     }
 
-    override fun draw(canvas: Canvas?) {
-        super.draw(canvas)
-        if (text == "12345") {
-            Log.d("HeaderTextView", "DRAW: $width ${leftDrawable.bounds}")
-        }
-    }
+
     override fun onDraw(canvas: Canvas) {
+        Log.d("HeaderTextView", "$paint ${paint.color}: ")
         leftDrawable.let {
             it.setBounds(0, 0, desiredWidthOf(it, false), height)
         }
