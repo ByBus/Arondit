@@ -1,6 +1,6 @@
 package host.capitalquiz.arondit.gameslist.domain
 
-import host.capitalquiz.arondit.core.db.WordDataMapper
+import host.capitalquiz.core.db.WordDataMapper
 import javax.inject.Inject
 
 

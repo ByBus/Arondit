@@ -39,7 +39,6 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-
     buildFeatures {
         viewBinding = true
     }
@@ -62,25 +61,17 @@ dependencies {
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
 
-    implementation(libs.room)
-    annotationProcessor(libs.room.compiler)
-
-    // To use Kotlin annotation processing tool (kapt)
-    kapt(libs.room.compiler)
-
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation(libs.room.ktx)
-
     implementation(libs.coroutines)
-
-    implementation(libs.serialization)
 
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.hilt.compiler)
 
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.scalars)
-    implementation(libs.jsoup)
+    implementation(libs.serialization)
+    implementation(libs.room)
+    annotationProcessor(libs.room.compiler)
+    kapt(libs.room.compiler)
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation(libs.room.ktx)
 
     implementation(libs.pager.dots.indicator) // my library
 
@@ -89,6 +80,7 @@ dependencies {
     implementation(libs.datastore)
 
     api(project(":core"))
+    implementation(project(":features:game"))
 }
 
 // Allow references to generated code

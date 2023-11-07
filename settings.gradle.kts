@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 rootProject.name = "Arondit"
 include(":app")
 include(":core")
+include(":features:game")

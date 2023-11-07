@@ -5,107 +5,48 @@
     app:startDestination="@id/gamesListFragment">
 
     <fragment
-        android:id="@+id/gameFragment"
-        android:name="host.capitalquiz.arondit.game.ui.GameFragment"
-        android:label="GameFragment" >
-        <action
-            android:id="@+id/actionAddWordDialog"
-            app:destination="@id/addWordDialog"
-            app:launchSingleTop="false" />
-        <action
-            android:id="@+id/action_to_addPlayerDialog"
-            app:destination="@id/addPlayerDialog" />
-        <action
-            android:id="@+id/action_gameFragment_to_addWordDialog"
-            app:destination="@id/addWordDialog" />
-        <action
-            android:id="@+id/action_to_editWordDialog"
-            app:destination="@id/editWordDialog" />
-        <argument
-            android:name="gameId"
-            app:argType="long" />
-        <action
-            android:id="@+id/action_to_removePlayerDialog"
-            app:destination="@id/removePlayerDialog" />
-    </fragment>
-    <dialog
-        android:id="@+id/addWordDialog"
-        android:name="host.capitalquiz.arondit.game.ui.dialog.AddWordDialog"
-        android:label="AddWordDialog" >
-        <argument
-            android:name="playerId"
-            app:argType="long" />
-        <argument
-            android:name="dialogColor"
-            app:argType="integer" />
-    </dialog>
-    <fragment
         android:id="@+id/gamesListFragment"
         android:name="host.capitalquiz.arondit.gameslist.ui.GamesListFragment"
         android:label="fragment_games_list"
-        tools:layout="@layout/fragment_games_list" >
-        <action
-            android:id="@+id/action_to_gameFragment"
-            app:destination="@id/gameFragment" />
+        tools:layout="@layout/fragment_games_list">
         <action
             android:id="@+id/action_to_removeGameDialog"
             app:destination="@id/removeGameDialog" />
         <action
             android:id="@+id/action_to_onBoardingFragment"
             app:destination="@id/onBoardingFragment" />
+        <action
+            android:id="@+id/action_to_game_fragment"
+            app:destination="@id/game_nav_graph">
+            <argument
+                android:name="gameId"
+                app:argType="long" />
+        </action>
     </fragment>
-    <dialog
-        android:id="@+id/addPlayerDialog"
-        android:name="host.capitalquiz.arondit.game.ui.dialog.AddPlayerDialog"
-        android:label="AddPlayerDialog" >
-        <argument
-            android:name="color"
-            app:argType="integer" />
-    </dialog>
-    <dialog
-        android:id="@+id/editWordDialog"
-        android:name="host.capitalquiz.arondit.game.ui.dialog.EditWordDialog"
-        android:label="EditWordDialog" >
-        <argument
-            android:name="wordId"
-            app:argType="long" />
-        <argument
-            android:name="dialogColor"
-            app:argType="integer" />
-        <argument
-            android:name="playerId"
-            app:argType="long" />
-    </dialog>
     <dialog
         android:id="@+id/removeGameDialog"
         android:name="host.capitalquiz.arondit.gameslist.ui.RemoveGameDialog"
-        android:label="RemoveGameDialog" >
+        android:label="RemoveGameDialog">
         <argument
             android:name="gameId"
             app:argType="long" />
-    </dialog>
-    <dialog
-        android:id="@+id/removePlayerDialog"
-        android:name="host.capitalquiz.arondit.game.ui.dialog.RemovePlayerDialog"
-        android:label="RemovePlayerDialog" >
-        <argument
-            android:name="playerId"
-            app:argType="long" />
-        <argument
-            android:name="playerColor"
-            app:argType="integer" />
     </dialog>
     <fragment
         android:id="@+id/onBoardingFragment"
         android:name="host.capitalquiz.arondit.onboarding.ui.OnBoardingFragment"
         android:label="fragment_on_boarding"
-        tools:layout="@layout/fragment_on_boarding" >
-        <action
-            android:id="@+id/action_to_gameFragment"
-            app:destination="@id/gameFragment"
-            app:popUpTo="@id/gamesListFragment" />
+        tools:layout="@layout/fragment_on_boarding">
         <argument
             android:name="gameId"
             app:argType="long" />
+        <action
+            android:id="@+id/action_to_gameFragment"
+            app:destination="@id/game_nav_graph"
+            app:popUpTo="@id/gamesListFragment">
+            <argument
+                android:name="gameId"
+                app:argType="long" />
+        </action>
     </fragment>
+    <include app:graph="@navigation/game_nav_graph" />
 </navigation>

@@ -7,11 +7,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import host.capitalquiz.arondit.core.db.GameDao
-import host.capitalquiz.arondit.core.db.GameDataBase
-import host.capitalquiz.arondit.core.db.GameDataBase.Companion.MIGRATION_1_2
-import host.capitalquiz.arondit.core.db.PlayerDao
-import host.capitalquiz.arondit.core.db.WordDao
+import host.capitalquiz.core.db.GameDao
+import host.capitalquiz.core.db.GameDataBase
+import host.capitalquiz.core.db.GameDataBase.Companion.MIGRATION_1_2
+import host.capitalquiz.core.db.PlayerDao
+import host.capitalquiz.core.db.WordDao
 import javax.inject.Singleton
 
 @Module

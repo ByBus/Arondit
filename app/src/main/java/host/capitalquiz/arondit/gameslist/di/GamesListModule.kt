@@ -6,9 +6,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import host.capitalquiz.arondit.core.datastore.SettingsLocalDataSource
 import host.capitalquiz.arondit.core.datastore.SettingsReadDataSource
-import host.capitalquiz.arondit.core.db.GameDataMapper
-import host.capitalquiz.arondit.core.db.PlayerDataMapper
-import host.capitalquiz.arondit.core.db.WordDataMapper
+import host.capitalquiz.core.db.GameDataMapper
+import host.capitalquiz.core.db.PlayerDataMapper
+import host.capitalquiz.core.db.WordDataMapper
 import host.capitalquiz.arondit.gameslist.data.BaseSettingsRepository
 import host.capitalquiz.arondit.gameslist.data.GameDataToGameMapper
 import host.capitalquiz.arondit.gameslist.data.GamesListRepository

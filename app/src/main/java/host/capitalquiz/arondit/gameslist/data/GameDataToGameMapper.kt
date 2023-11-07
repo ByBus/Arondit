@@ -1,9 +1,9 @@
 package host.capitalquiz.arondit.gameslist.data
 
-import host.capitalquiz.arondit.core.db.GameData
-import host.capitalquiz.arondit.core.db.GameDataMapper
-import host.capitalquiz.arondit.core.db.PlayerDataMapper
-import host.capitalquiz.arondit.core.db.PlayerWithWordsData
+import host.capitalquiz.core.db.GameData
+import host.capitalquiz.core.db.GameDataMapper
+import host.capitalquiz.core.db.PlayerDataMapper
+import host.capitalquiz.core.db.PlayerWithWordsData
 import host.capitalquiz.arondit.gameslist.domain.Game
 import host.capitalquiz.arondit.gameslist.domain.PlayerInfo
 import javax.inject.Inject

@@ -4,9 +4,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import host.capitalquiz.arondit.game.di.DefaultDispatcher
-import host.capitalquiz.arondit.game.di.IoDispatcher
-import host.capitalquiz.arondit.game.di.MainDispatcher
+import host.capitalquiz.game.di.DefaultDispatcher
+import host.capitalquiz.game.di.IoDispatcher
+import host.capitalquiz.game.di.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 

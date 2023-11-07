@@ -2,9 +2,9 @@ package host.capitalquiz.arondit.gameslist.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
-import host.capitalquiz.arondit.core.db.GameDataMapper
-import host.capitalquiz.arondit.core.db.GameDao
-import host.capitalquiz.arondit.core.db.GameData
+import host.capitalquiz.core.db.GameDataMapper
+import host.capitalquiz.core.db.GameDao
+import host.capitalquiz.core.db.GameData
 import host.capitalquiz.arondit.gameslist.domain.Game
 import host.capitalquiz.arondit.gameslist.domain.GamesRepository
 import java.util.Date

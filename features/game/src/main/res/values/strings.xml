@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_players_info_text">Для начала новой партии вам нужно добавить участников\nУчаствовать могут до 4-х игроков</string>
+    <string name="add_participant">ДОБАВИТЬ УЧАСТНИКА</string>
+    <string name="remove_player_info_message">Хотите удалить игрока?</string>
+    <string name="remove_player_button">УДАЛИТЬ</string>
+    <string name="cancel_button">ОТМЕНА</string>
+    <string name="edit_word_dialog_title">Отредактируйте слово</string>
+    <string name="save">СОХРАНИТЬ</string>
+    <string name="this_word_already_used_message">Это слово уже было</string>
+</resources>
