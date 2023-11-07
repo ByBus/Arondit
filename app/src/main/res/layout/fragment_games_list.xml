@@ -48,7 +48,7 @@
             android:adjustViewBounds="true"
             android:src="@drawable/sword_hilt" />
 
-        <host.capitalquiz.arondit.core.ui.view.eruditwordview.EruditWordView
+        <host.capitalquiz.core.ui.view.eruditwordview.EruditWordView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

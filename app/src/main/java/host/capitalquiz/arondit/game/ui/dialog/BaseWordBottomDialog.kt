@@ -13,10 +13,10 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import dagger.hilt.android.AndroidEntryPoint
-import host.capitalquiz.arondit.R
-import host.capitalquiz.arondit.core.ui.BottomSheetDialogFragmentWithBorder
-import host.capitalquiz.arondit.core.ui.collect
+import host.capitalquiz.core.R as RCore
 import host.capitalquiz.arondit.databinding.DialogFragmentAddWordBinding
+import host.capitalquiz.core.ui.BottomSheetDialogFragmentWithBorder
+import host.capitalquiz.core.ui.collect
 
 
 @AndroidEntryPoint
@@ -113,7 +113,7 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
             if (saved)
                 dismiss()
             else
-                Snackbar(R.string.this_word_already_used_message).show()
+                Snackbar(RCore.string.this_word_already_used_message).show()
         }
     }
 

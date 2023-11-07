@@ -48,7 +48,7 @@
         app:layout_constraintTop_toTopOf="@+id/border"
         tools:listitem="@layout/word_item" />
 
-    <host.capitalquiz.arondit.core.ui.view.PlayerHeaderView
+    <host.capitalquiz.core.ui.view.PlayerHeaderView
         android:animateLayoutChanges="true"
         android:id="@+id/playerHeader"
         app:layout_constraintTop_toTopOf="parent"

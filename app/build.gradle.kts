@@ -87,6 +87,8 @@ dependencies {
     implementation(libs.lottie)
 
     implementation(libs.datastore)
+
+    api(project(":core"))
 }
 
 // Allow references to generated code

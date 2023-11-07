@@ -6,22 +6,25 @@ import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.R
-import host.capitalquiz.arondit.core.ui.BindingFragment
-import host.capitalquiz.arondit.core.ui.BorderDrawable
-import host.capitalquiz.arondit.core.ui.Inflater
-import host.capitalquiz.arondit.core.ui.collect
+import host.capitalquiz.core.ui.BindingFragment
+import host.capitalquiz.core.ui.BorderDrawable
+import host.capitalquiz.core.ui.Inflater
+import host.capitalquiz.core.ui.collect
+import javax.inject.Inject
 import host.capitalquiz.arondit.databinding.FragmentGamesListBinding as GamesBinding
 
 @AndroidEntryPoint
-class GamesListFragment : BindingFragment<GamesBinding>(), GameAdapter.Callback,
-    GamesListFragmentNavigation {
+class GamesListFragment : BindingFragment<GamesBinding>(), GameAdapter.Callback {
 
     override val viewInflater: Inflater<GamesBinding> = GamesBinding::inflate
     private val viewModel: GamesListViewModel by viewModels()
+
+    @Inject
+    lateinit var navigation: GamesListNavigation
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFragmentResultListener(RESULT_REQUEST_CODE) { _, bundle ->
@@ -62,28 +65,13 @@ class GamesListFragment : BindingFragment<GamesBinding>(), GameAdapter.Callback,
         }
 
         viewModel.navigationState.collect(viewLifecycleOwner) { navState ->
-            navState.navigate(this)
+            navState.navigate(navigation)
         }
     }
 
     override fun onGameClick(gameId: Long) = viewModel.showGame(gameId)
 
     override fun onGameLongClick(gameId: Long) = viewModel.showRemoveGameDialog(gameId)
-
-    override fun navigateToRemoveGameDialog(gameId: Long) {
-        findNavController()
-            .navigate(GamesListFragmentDirections.actionToRemoveGameDialog(gameId))
-    }
-
-    override fun navigateToGame(gameId: Long) {
-        findNavController()
-            .navigate(GamesListFragmentDirections.actionToGameFragment(gameId))
-    }
-
-    override fun navigateToOnBoarding(gameId: Long) {
-        findNavController()
-            .navigate(GamesListFragmentDirections.actionToOnBoardingFragment())
-    }
 
     companion object {
         const val RESULT_REQUEST_CODE = "games list request code"

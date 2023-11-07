@@ -14,12 +14,11 @@ import androidx.transition.TransitionInflater
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import host.capitalquiz.arondit.R
-import host.capitalquiz.arondit.core.ui.CommandScheduler
-import host.capitalquiz.arondit.core.ui.Inflater
-import host.capitalquiz.arondit.core.ui.RoundedRectangleSpan
-import host.capitalquiz.arondit.core.ui.Scale
-import host.capitalquiz.arondit.core.ui.view.CompositeBorderDrawable
-import host.capitalquiz.arondit.core.ui.view.LottieCursorWrapper
+import host.capitalquiz.core.ui.CommandScheduler
+import host.capitalquiz.core.ui.Inflater
+import host.capitalquiz.core.ui.RoundedRectangleSpan
+import host.capitalquiz.core.ui.Scale
+import host.capitalquiz.core.ui.view.CompositeBorderDrawable
 import host.capitalquiz.arondit.databinding.FragmentHowToAddWordBinding as AddWordBinding
 
 

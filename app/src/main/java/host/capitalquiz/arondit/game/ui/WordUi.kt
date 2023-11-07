@@ -3,7 +3,7 @@ package host.capitalquiz.arondit.game.ui
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.core.view.isVisible
-import host.capitalquiz.arondit.core.ui.view.eruditwordview.EruditWordView
+import host.capitalquiz.core.ui.view.eruditwordview.EruditWordView
 
 data class WordUi(
     val word: String = "",

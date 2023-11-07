@@ -8,7 +8,7 @@
     tools:background="#B3B3B3"
     tools:context=".onboarding.ui.HowToAddPlayerFragment">
 
-    <host.capitalquiz.arondit.core.ui.view.PlayerHeaderView
+    <host.capitalquiz.core.ui.view.PlayerHeaderView
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/playerHeader2"
@@ -21,7 +21,7 @@
         android:layout_marginBottom="8dp"
         android:clickable="false" />
 
-    <host.capitalquiz.arondit.core.ui.view.PlayerHeaderView
+    <host.capitalquiz.core.ui.view.PlayerHeaderView
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/guideline"

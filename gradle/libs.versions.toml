@@ -11,6 +11,7 @@ nav-version = "2.6.0"
 room-version = "2.5.2"
 coroutines-ver = "1.6.4"
 serialization-ver = "1.5.1"
+serialization = "1.8.20"
 hilt = "2.44"
 retrofit = "2.9.0"
 jsoup = "1.15.4"
@@ -20,6 +21,8 @@ datastore = "1.0.0"
 junit-ver = "4.13.2"
 espresso-ver = "3.5.1"
 junit-android-ver = "1.1.5"
+agp = "8.1.0"
+org-jetbrains-kotlin-android = "1.8.20"
 
 [libraries]
 androidx-ktx = { module = "androidx.core:core-ktx", version.ref = "ktx" }
@@ -33,6 +36,7 @@ fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragm
 
 navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "nav-version" }
 navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "nav-version" }
+navigation-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "nav-version" }
 
 room = { module = "androidx.room:room-runtime", version.ref = "room-version" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room-version" }
@@ -40,6 +44,7 @@ room-ktx = { module = "androidx.room:room-ktx", version.ref = "room-version" }
 
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines-ver" }
 serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization-ver" }
+serialization-plugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "serialization" }
 
 dagger-hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
@@ -60,3 +65,6 @@ android-junit = {module = "androidx.test.ext:junit", version.ref = "junit-androi
 android-espresso = {module = "androidx.test.espresso:espresso-core", version.ref = "espresso-ver"}
 
 [plugins]
+com-android-library = { id = "com.android.library", version.ref = "agp" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
+com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }

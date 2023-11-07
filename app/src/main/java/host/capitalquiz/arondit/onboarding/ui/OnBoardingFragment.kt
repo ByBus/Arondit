@@ -13,8 +13,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
-import host.capitalquiz.arondit.core.ui.BindingFragment
-import host.capitalquiz.arondit.core.ui.Inflater
+import host.capitalquiz.core.ui.BindingFragment
+import host.capitalquiz.core.ui.Inflater
 import host.capitalquiz.arondit.databinding.FragmentOnBoardingBinding as OnBoardingBinding
 
 

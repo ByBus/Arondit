@@ -11,10 +11,11 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.arondit.R
-import host.capitalquiz.arondit.core.ui.BindingFragment
-import host.capitalquiz.arondit.core.ui.Inflater
-import host.capitalquiz.arondit.core.ui.view.CompositeBorderDrawable
 import host.capitalquiz.arondit.databinding.FragmentGameBinding
+import host.capitalquiz.core.ui.BindingFragment
+import host.capitalquiz.core.ui.Inflater
+import host.capitalquiz.core.ui.view.CompositeBorderDrawable
+import host.capitalquiz.core.R as RCore
 
 
 @AndroidEntryPoint
@@ -42,10 +43,10 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.addPlayersColors(
             listOf(
-                R.color.base_orange,
-                R.color.base_green,
-                R.color.base_red,
-                R.color.base_blue
+                RCore.color.base_orange,
+                RCore.color.base_green,
+                RCore.color.base_red,
+                RCore.color.base_blue
             ).map {
                 ContextCompat.getColor(requireContext(), it)
             })
@@ -59,11 +60,11 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
             addDecorationDrawable(
                 CompositeBorderDrawable(
                     requireContext(),
-                    leftTopCorner = R.drawable.player_border_top_left_corner,
-                    leftBottomCorner = R.drawable.player_border_bottom_left_corner,
-                    leftVerticalPipe = R.drawable.player_border_left_vert_pipe,
-                    topHorizontalPipe = R.drawable.player_border_top_hor_pipe,
-                    bottomHorizontalPipe = R.drawable.player_border_top_hor_pipe
+                    leftTopCorner = RCore.drawable.player_border_top_left_corner,
+                    leftBottomCorner = RCore.drawable.player_border_bottom_left_corner,
+                    leftVerticalPipe = RCore.drawable.player_border_left_vert_pipe,
+                    topHorizontalPipe = RCore.drawable.player_border_top_hor_pipe,
+                    bottomHorizontalPipe = RCore.drawable.player_border_top_hor_pipe
                 )
             )
         }
@@ -86,8 +87,8 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         gridLayoutAdapter = null
+        super.onDestroyView()
     }
 
     override fun onAddPlayerClick() {

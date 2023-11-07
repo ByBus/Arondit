@@ -1,6 +1,6 @@
 package host.capitalquiz.arondit.game.ui.dialog
 
-import host.capitalquiz.arondit.core.ui.view.GlossaryView
+import host.capitalquiz.arondit.game.ui.GlossaryView
 
 interface WordDefinitionUi {
     fun update(glossaryView: GlossaryView)

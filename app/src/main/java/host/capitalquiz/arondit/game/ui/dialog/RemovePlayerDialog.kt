@@ -3,9 +3,9 @@ package host.capitalquiz.arondit.game.ui.dialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.navArgs
-import host.capitalquiz.arondit.R
-import host.capitalquiz.arondit.core.ui.YesNoDialog
+import host.capitalquiz.core.R
 import host.capitalquiz.arondit.game.ui.GameFragment
+import host.capitalquiz.core.ui.YesNoDialog
 
 class RemovePlayerDialog : YesNoDialog() {
     private val args by navArgs<RemovePlayerDialogArgs>()

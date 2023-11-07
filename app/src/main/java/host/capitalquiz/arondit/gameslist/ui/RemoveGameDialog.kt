@@ -4,8 +4,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import host.capitalquiz.arondit.R
-import host.capitalquiz.arondit.core.ui.YesNoDialog
+import host.capitalquiz.core.R
+import host.capitalquiz.core.ui.YesNoDialog
 
 @AndroidEntryPoint
 class RemoveGameDialog : YesNoDialog() {

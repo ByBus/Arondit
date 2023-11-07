@@ -10,10 +10,10 @@ import androidx.transition.TransitionInflater
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import host.capitalquiz.arondit.R
-import host.capitalquiz.arondit.core.ui.CommandScheduler
-import host.capitalquiz.arondit.core.ui.CustomSlideBottom
-import host.capitalquiz.arondit.core.ui.Inflater
-import host.capitalquiz.arondit.core.ui.view.LottieCursorWrapper
+import host.capitalquiz.core.ui.CommandScheduler
+import host.capitalquiz.core.R as RCore
+import host.capitalquiz.core.ui.CustomSlideBottom
+import host.capitalquiz.core.ui.Inflater
 import host.capitalquiz.arondit.databinding.FragmentHowToAddPlayerBinding as AddPlayerBinding
 
 
@@ -38,10 +38,10 @@ class HowToAddPlayerFragment : BaseOnBoardingFragment<AddPlayerBinding>() {
 
         with(binding) {
             playerHeader1.setScore(42)
-            playerHeader1.setName(getString(R.string.onboarding_add_player_name1))
+            playerHeader1.setName(getString(RCore.string.onboarding_add_player_name1))
             playerHeader2.setScore(0)
-            playerHeader2.setName(getString(R.string.onboarding_add_player_name2))
-            playerHeader2.setColor(ContextCompat.getColor(requireActivity(), R.color.base_blue))
+            playerHeader2.setName(getString(RCore.string.onboarding_add_player_name2))
+            playerHeader2.setColor(ContextCompat.getColor(requireActivity(), RCore.color.base_blue))
         }
     }
 

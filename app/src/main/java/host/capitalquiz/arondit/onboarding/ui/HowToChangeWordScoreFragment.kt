@@ -4,10 +4,9 @@ package host.capitalquiz.arondit.onboarding.ui
 import android.graphics.PointF
 import android.os.Bundle
 import android.view.View
-import host.capitalquiz.arondit.R
-import host.capitalquiz.arondit.core.ui.CommandScheduler
-import host.capitalquiz.arondit.core.ui.Inflater
-import host.capitalquiz.arondit.core.ui.view.LottieCursorWrapper
+import host.capitalquiz.core.ui.CommandScheduler
+import host.capitalquiz.core.R
+import host.capitalquiz.core.ui.Inflater
 import host.capitalquiz.arondit.databinding.FragmentHowToChangescoreBinding as ChangeScoreBinding
 
 

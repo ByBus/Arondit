@@ -14,7 +14,7 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import host.capitalquiz.arondit.R
-import host.capitalquiz.arondit.core.ui.view.PlayerHeaderView
+import host.capitalquiz.core.ui.view.PlayerHeaderView
 
 
 class GridLayoutAdapter(private val listener: Listener) {

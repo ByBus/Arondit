@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import host.capitalquiz.arondit.R
+import host.capitalquiz.core.R
 
 
 @AndroidEntryPoint

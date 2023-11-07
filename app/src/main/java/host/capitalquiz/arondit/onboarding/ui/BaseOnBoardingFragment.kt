@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.viewbinding.ViewBinding
-import host.capitalquiz.arondit.core.ui.BindingFragment
-import host.capitalquiz.arondit.core.ui.CommandScheduler
+import host.capitalquiz.core.ui.BindingFragment
+import host.capitalquiz.core.ui.CommandScheduler
 
 abstract class BaseOnBoardingFragment<VB : ViewBinding> : BindingFragment<VB>() {
     protected val viewModel by viewModels<OnBoardingViewModel>(ownerProducer = { requireParentFragment() })

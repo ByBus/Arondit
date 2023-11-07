@@ -52,7 +52,7 @@
         app:layout_constraintStart_toStartOf="@id/content"
         app:layout_constraintTop_toTopOf="@id/content" />
 
-    <host.capitalquiz.arondit.core.ui.view.HeaderTextView
+    <host.capitalquiz.core.ui.view.HeaderTextView
         android:id="@+id/dialogHeader"
         style="@style/BottomSheetDialogCompositeHeader"
         android:text="@string/new_player"

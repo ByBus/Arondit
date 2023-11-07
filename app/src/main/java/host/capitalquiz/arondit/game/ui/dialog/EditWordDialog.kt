@@ -5,7 +5,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import host.capitalquiz.arondit.R
+import host.capitalquiz.core.R
 
 @AndroidEntryPoint
 class EditWordDialog : BaseWordBottomDialog() {

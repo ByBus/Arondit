@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Arondit</string>
+    <string name="remove_player_description">удалить игрока</string>
+    <string name="add_player_description">добавить игрока</string>
+    <string name="add_word_dialog_title">Введите новое слово</string>
+    <string name="edit_word_dialog_title">Отредактируйте слово</string>
+    <string name="your_word_hint">Ваше слово</string>
+    <string name="delete_word_description">удалить слово</string>
+    <string name="word">СЛОВО</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="create_new_game">создать новую игру</string>
+    <string name="new_game">Новая игра</string>
+    <string name="please_add_participants">Откройте игру и добавьте участников</string>
+    <string name="no_players">НЕТ ИГРОКОВ</string>
+    <string name="new_player">Новый игрок</string>
+    <string name="player_name">имя</string>
+    <string name="no_games_info_text">У вас нет прошлых игр\nПожалуйста нажмите кнопку чтобы начать игру</string>
+    <string name="start_new_game">НАЧАТЬ НОВУЮ ИГРУ</string>
+    <string name="no_players_info_text">Для начала новой партии вам нужно добавить участников\nУчаствовать могут до 4-х игроков</string>
+    <string name="add_participant">ДОБАВИТЬ УЧАСТНИКА</string>
+    <string name="add_word_button">ДОБАВИТЬ</string>
+    <string name="add_player_button">ДОБАВИТЬ</string>
+    <string name="save">СОХРАНИТЬ</string>
+    <string name="x2">X2</string>
+    <string name="x3">X3</string>
+    <string name="remove_game_button">УДАЛИТЬ</string>
+    <string name="cancel_button">ОТМЕНА</string>
+    <string name="remove_game_info_message">Хотите удалить эту игру?</string>
+    <string name="remove_player_button">УДАЛИТЬ</string>
+    <string name="remove_player_info_message">Хотите удалить игрока?</string>
+    <string name="extra_point">+15</string>
+    <string name="this_word_already_used_message">Это слово уже было</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <!-- ON BOARDING START -->
+    <string name="onboarding_add_player_hint">Для начала игры вам нужно добавить участников. Либо вы можете удалить кого-нибудь, если он передумал играть.</string>
+    <string name="onboarding_add_player_name1">дон Румата</string>
+    <string name="onboarding_add_player_name2">дон Рэба</string>
+    <string name="onboarding_add_word_hint">Если вы придумали слово, нажмите на кнопку СЛОВО \nВ открывшемся окне вы сможете его записать</string>
+    <string name="onboarding_add_word_highlighted">СЛОВО</string>
+    <string name="onboarding_change_score_hint">Можно изменить бонусы каждой отдельной буквы, просто нажмите на нужную букву\n Если вы применили универсальную фишку - используйте долгое нажатие</string>
+    <string name="onboarding_change_score_example_word">КИРАСА</string>
+    <string name="onboarding_close_button">ЗАКРЫТЬ</string>
+    <string name="onboarding_next_button">Дальше</string>
+    <string-array name="onboarding_input_words">
+        <item>ДАМА</item>
+        <item>КУБОК</item>
+        <item>КЛИНОК</item>
+    </string-array>
+</resources>

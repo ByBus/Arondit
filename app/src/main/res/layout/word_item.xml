@@ -10,7 +10,7 @@
     android:paddingStart="4dp"
     tools:ignore="RtlSymmetry">
 
-    <host.capitalquiz.arondit.core.ui.view.eruditwordview.EruditWordView
+    <host.capitalquiz.core.ui.view.eruditwordview.EruditWordView
 
         android:id="@+id/eruditWord"
         android:layout_width="0dp"

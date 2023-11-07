@@ -106,7 +106,6 @@
             app:popUpTo="@id/gamesListFragment" />
         <argument
             android:name="gameId"
-            app:argType="long"
-            android:defaultValue="1L" />
+            app:argType="long" />
     </fragment>
 </navigation>

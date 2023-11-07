@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,14 +16,12 @@ class OnBoardingViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _currentPage = MutableLiveData(0)
-    val currentPage: LiveData<Int> = _currentPage
+    val currentPage: LiveData<Int> = _currentPage.distinctUntilChanged()
 
     val showOnBoarding = settings.showOnBoarding.asLiveData()
 
     fun updateCurrent(currentItem: Int) {
-        if (_currentPage.value != currentItem) {
-            _currentPage.value = currentItem
-        }
+        _currentPage.value = currentItem
     }
 
     fun closeOnBoarding() {
