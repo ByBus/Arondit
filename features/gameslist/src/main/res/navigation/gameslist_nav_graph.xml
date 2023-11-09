@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/gameslist_nav_graph"
+    app:startDestination="@id/gamesListFragment">
+
+    <fragment
+        android:id="@+id/gamesListFragment"
+        android:name="host.capitalquiz.gameslist.ui.GamesListFragment"
+        android:label="GamesListFragment" >
+        <action
+            android:id="@+id/action_to_removeGameDialog"
+            app:destination="@id/removeGameDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/removeGameDialog"
+        android:name="host.capitalquiz.gameslist.ui.RemoveGameDialog"
+        android:label="RemoveGameDialog" >
+        <argument
+            android:name="gameId"
+            app:argType="long" />
+    </dialog>
+</navigation>

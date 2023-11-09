@@ -2,40 +2,32 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/gamesListFragment">
+    android:id="@+id/base_navigation"
+    app:startDestination="@id/gameslist_nav_graph">
 
-    <fragment
-        android:id="@+id/gamesListFragment"
-        android:name="host.capitalquiz.arondit.gameslist.ui.GamesListFragment"
-        android:label="fragment_games_list"
-        tools:layout="@layout/fragment_games_list">
-        <action
-            android:id="@+id/action_to_removeGameDialog"
-            app:destination="@id/removeGameDialog" />
-        <action
-            android:id="@+id/action_to_game_fragment"
-            app:destination="@id/game_nav_graph">
-            <argument
-                android:name="gameId"
-                app:argType="long" />
-        </action>
-        <action
-            android:id="@+id/action_to_onBoardingFragment"
-            app:destination="@id/onboarding_nav_graph">
-            <argument
-                android:name="gameId"
-                app:argType="long" />
-        </action>
-    </fragment>
-    <dialog
-        android:id="@+id/removeGameDialog"
-        android:name="host.capitalquiz.arondit.gameslist.ui.RemoveGameDialog"
-        android:label="RemoveGameDialog">
+    <include app:graph="@navigation/game_nav_graph" />
+    <include app:graph="@navigation/onboarding_nav_graph" />
+    <include app:graph="@navigation/gameslist_nav_graph" />
+
+
+    <action
+        android:id="@+id/action_to_game"
+        app:destination="@id/game_nav_graph">
         <argument
             android:name="gameId"
             app:argType="long" />
-    </dialog>
-    <include app:graph="@navigation/game_nav_graph" />
-    <include app:graph="@navigation/onboarding_nav_graph"/>
+    </action>
+
+    <action
+        android:id="@+id/action_to_games_list"
+        app:destination="@id/gameslist_nav_graph" />
+
+    <action
+        android:id="@+id/action_to_onboarding"
+        app:destination="@id/onboarding_nav_graph">
+        <argument
+            android:name="gameId"
+            app:argType="long" />
+    </action>
 
 </navigation>
