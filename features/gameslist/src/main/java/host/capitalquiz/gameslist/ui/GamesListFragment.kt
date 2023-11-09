@@ -60,6 +60,9 @@ class GamesListFragment : BindingFragment<GamesBinding>(), GameAdapter.Callback 
 
         viewModel.games.observe(viewLifecycleOwner) {
             binding.information.root.isVisible = it.isEmpty()
+            if (binding.information.root.isVisible) {
+                binding.information.infoImage.setImageResource(R.drawable.img_camp)
+            }
             binding.gamesLayout.isVisible = it.isNotEmpty()
             gameAdapter.submitList(it)
         }

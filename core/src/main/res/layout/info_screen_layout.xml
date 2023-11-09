@@ -18,7 +18,7 @@
         android:scaleType="fitCenter"
         style="@style/InfoBlockImage"
         android:adjustViewBounds="true"
-        android:src="@drawable/img_camp" />
+        tools:src="@tools:sample/backgrounds/scenic" />
 
     <TextView
         android:id="@+id/infoText"

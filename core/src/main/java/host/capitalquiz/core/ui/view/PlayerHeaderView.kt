@@ -10,6 +10,7 @@ import android.widget.RelativeLayout
 import androidx.annotation.ColorInt
 import host.capitalquiz.core.R
 
+
 class PlayerHeaderView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
 ) : RelativeLayout(context, attrs) {

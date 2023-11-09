@@ -14,7 +14,6 @@ import androidx.transition.TransitionInflater
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import host.capitalquiz.onboarding.R
-import host.capitalquiz.core.R as RCore
 import host.capitalquiz.core.ui.CommandScheduler
 import host.capitalquiz.core.ui.Inflater
 import host.capitalquiz.core.ui.RoundedRectangleSpan
@@ -38,17 +37,12 @@ class HowToAddWordFragment : BaseOnBoardingFragment<AddWordBinding>() {
         super.onViewCreated(view, savedInstanceState)
         cursor = LottieCursorWrapper(binding.handCursor)
 
-        binding.inputWordWindow.background = CompositeBorderDrawable(
-            requireContext(),
-            leftTopCorner = RCore.drawable.dialog_border_top_left_corner,
-            leftVerticalPipe = RCore.drawable.dialog_border_vertical_pipe,
-            leftBottomCorner = RCore.drawable.dialog_border_bottom_left_corner,
-            bottomHorizontalPipe = RCore.drawable.dialog_border_horizontal_pipe,
-            topHorizontalPipe = RCore.drawable.dialog_border_top_hor_pipe,
-            topHorizontalDecorTile = RCore.drawable.dialog_border_top_hor_pipe_pattern
-        ).apply {
-            moveDecorSides(-15, 15)
-        }
+        binding.inputWordWindow.background = CompositeBorderDrawable
+            .baseDialog(
+                requireContext()
+            ).apply {
+                moveDecorSides(-15, 15)
+            }
 
         val text = getString(R.string.onboarding_add_word_hint)
         val spannableString = SpannableString(text)

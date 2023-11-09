@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.withRotation
 import androidx.core.graphics.withTranslation
+import host.capitalquiz.core.R
 
 class CompositeBorderDrawable(
     context: Context,
@@ -111,6 +112,19 @@ class CompositeBorderDrawable(
     override fun getOpacity() = PixelFormat.OPAQUE
 
     override fun setColorFilter(colorFilter: ColorFilter?) {}
+
+    companion object {
+        fun baseDialog(context: Context): CompositeBorderDrawable =
+            CompositeBorderDrawable(
+                context,
+                leftTopCorner = R.drawable.dialog_border_top_left_corner,
+                leftVerticalPipe = R.drawable.dialog_border_vertical_pipe,
+                leftBottomCorner = R.drawable.dialog_border_bottom_left_corner,
+                bottomHorizontalPipe = R.drawable.dialog_border_horizontal_pipe,
+                topHorizontalPipe = R.drawable.dialog_border_top_hor_pipe,
+                topHorizontalDecorTile = R.drawable.dialog_border_top_hor_pipe_pattern
+            )
+    }
 
 }
 

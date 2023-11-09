@@ -12,17 +12,10 @@ import host.capitalquiz.core.ui.view.CompositeBorderDrawable
 
 abstract class BottomSheetDialogFragmentWithBorder : BottomSheetDialogFragment() {
 
-    protected fun CompositeBorderDrawable() = CompositeBorderDrawable(
-        requireContext(),
-        leftTopCorner = R.drawable.dialog_border_top_left_corner,
-        leftVerticalPipe = R.drawable.dialog_border_vertical_pipe,
-        leftBottomCorner = R.drawable.dialog_border_bottom_left_corner,
-        bottomHorizontalPipe = R.drawable.dialog_border_horizontal_pipe,
-        topHorizontalPipe = R.drawable.dialog_border_top_hor_pipe,
-        topHorizontalDecorTile = R.drawable.dialog_border_top_hor_pipe_pattern
-    ).apply {
-        moveDecorSides(-15, 15)
-    }
+    protected fun CompositeBorderDrawable() = CompositeBorderDrawable.baseDialog(requireContext())
+        .apply {
+            moveDecorSides(-15, 15)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
