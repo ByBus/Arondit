@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import host.capitalquiz.arondit.core.datastore.SettingsLocalDataSource
-import host.capitalquiz.arondit.core.datastore.SettingsReadDataSource
+import host.capitalquiz.core.datastore.SettingsLocalDataSource
+import host.capitalquiz.core.datastore.SettingsReadDataSource
 import host.capitalquiz.core.db.GameDataMapper
 import host.capitalquiz.core.db.PlayerDataMapper
 import host.capitalquiz.core.db.WordDataMapper
@@ -25,32 +25,30 @@ import host.capitalquiz.arondit.gameslist.ui.GameUi
 
 @Module
 @InstallIn(ViewModelComponent::class)
-abstract class GamesListModule {
+interface GamesListModule {
 
     @Binds
-    abstract fun bindGamesListInteractor(impl: GamesListInteractor.Base): GamesListInteractor
+    fun bindGamesListInteractor(impl: GamesListInteractor.Base): GamesListInteractor
 
     @Binds
-    abstract fun bindGamesListRepository(impl: GamesListRepository): GamesRepository
+    fun bindGamesListRepository(impl: GamesListRepository): GamesRepository
 
     @Binds
-    abstract fun bindGameDataToGameMapper(impl: GameDataToGameMapper): GameDataMapper<Game>
+    fun bindGameDataToGameMapper(impl: GameDataToGameMapper): GameDataMapper<Game>
 
     @Binds
-    abstract fun bindPlayerDataToPlayerInfoMapper(impl: PlayerDataToPlayerInfoMapper): PlayerDataMapper<PlayerInfo>
+    fun bindPlayerDataToPlayerInfoMapper(impl: PlayerDataToPlayerInfoMapper): PlayerDataMapper<PlayerInfo>
 
     @Binds
-    abstract fun bindWordDataToScoreMapper(impl: WordDataToScoreMapper): WordDataMapper<Int>
+    fun bindWordDataToScoreMapper(impl: WordDataToScoreMapper): WordDataMapper<Int>
 
     @Binds
-    abstract fun bindGameToGameUiMapper(impl: GameToGameUiMapper): GameMapper<GameUi>
-
-
-    @Binds
-    abstract fun bindSettingsRepository(impl: BaseSettingsRepository): SettingsReadRepository
-
+    fun bindGameToGameUiMapper(impl: GameToGameUiMapper): GameMapper<GameUi>
 
     @Binds
-    abstract fun bindSettingsReadOnlyDataSource(impl: SettingsLocalDataSource.BaseDataStore): SettingsReadDataSource
+    fun bindSettingsRepository(impl: BaseSettingsRepository): SettingsReadRepository
+
+    @Binds
+    fun bindSettingsReadOnlyDataSource(impl: SettingsLocalDataSource.BaseDataStore): SettingsReadDataSource
 
 }

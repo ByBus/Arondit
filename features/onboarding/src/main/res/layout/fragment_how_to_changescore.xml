@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="8dp"
+    tools:context="host.capitalquiz.onboarding.ui.HowToChangeWordScoreFragment">
+
+    <host.capitalquiz.core.ui.view.eruditwordview.EruditWordView
+        android:id="@+id/eruditWord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="200dp"
+        app:animateUpdates="true"
+        app:asteriskColor="@color/letter_asterisk_block_color"
+        app:clickableLetters="false"
+        app:initWithBadges="true"
+        app:layout_constraintBottom_toTopOf="@id/infoText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mainColor="@color/letter_block_color"
+        app:size="50dp"
+        app:textColor="@color/letter_block_text_color"
+        app:useDiffUtil="false"
+        tools:word="КИРАСА" />
+
+    <TextView
+        android:id="@+id/infoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/yanone_kaffeesatz_bold"
+        android:gravity="center"
+        android:text="@string/onboarding_change_score_hint"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintWidth_max="360dp" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/hand_cursor"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline"
+        app:lottie_rawRes="@raw/press"
+        tools:alpha="0.8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

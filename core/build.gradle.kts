@@ -54,6 +54,7 @@ dependencies {
     kapt(libs.room.compiler)
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.room.ktx)
+    implementation(libs.datastore)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.android.junit)

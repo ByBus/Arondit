@@ -18,3 +18,4 @@ rootProject.name = "Arondit"
 include(":app")
 include(":core")
 include(":features:game")
+include(":features:onboarding")

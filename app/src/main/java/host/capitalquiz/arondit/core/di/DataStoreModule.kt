@@ -13,6 +13,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import host.capitalquiz.core.datastore.SettingsLocalDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -36,4 +37,8 @@ class DataStoreModule {
             produceFile = { appContext.preferencesDataStoreFile(SETTINGS) }
         )
     }
+
+    @Provides
+    fun provideSettingsDataStore(datastore: DataStore<Preferences>): SettingsLocalDataSource =
+        SettingsLocalDataSource.BaseDataStore(datastore)
 }

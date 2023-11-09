@@ -13,11 +13,15 @@
             android:id="@+id/action_to_removeGameDialog"
             app:destination="@id/removeGameDialog" />
         <action
-            android:id="@+id/action_to_onBoardingFragment"
-            app:destination="@id/onBoardingFragment" />
-        <action
             android:id="@+id/action_to_game_fragment"
             app:destination="@id/game_nav_graph">
+            <argument
+                android:name="gameId"
+                app:argType="long" />
+        </action>
+        <action
+            android:id="@+id/action_to_onBoardingFragment"
+            app:destination="@id/onboarding_nav_graph">
             <argument
                 android:name="gameId"
                 app:argType="long" />
@@ -31,22 +35,7 @@
             android:name="gameId"
             app:argType="long" />
     </dialog>
-    <fragment
-        android:id="@+id/onBoardingFragment"
-        android:name="host.capitalquiz.arondit.onboarding.ui.OnBoardingFragment"
-        android:label="fragment_on_boarding"
-        tools:layout="@layout/fragment_on_boarding">
-        <argument
-            android:name="gameId"
-            app:argType="long" />
-        <action
-            android:id="@+id/action_to_gameFragment"
-            app:destination="@id/game_nav_graph"
-            app:popUpTo="@id/gamesListFragment">
-            <argument
-                android:name="gameId"
-                app:argType="long" />
-        </action>
-    </fragment>
     <include app:graph="@navigation/game_nav_graph" />
+    <include app:graph="@navigation/onboarding_nav_graph"/>
+
 </navigation>
