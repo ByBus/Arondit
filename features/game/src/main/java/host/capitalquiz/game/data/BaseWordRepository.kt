@@ -14,10 +14,11 @@ class BaseWordRepository @Inject constructor(
     private val oneWordCache: WordDataDataSource,
     private val wordDao: WordDao,
     private val wordMapper: WordDataMapper<Word>,
-    private val wordDataMapper: WordMapperWithParameter<Long, Word, WordData>,
+    private val wordDataMapper: WordMapperWithParameter<Long, WordData>,
 ) : WordRepository {
 
     override suspend fun deleteWord(wordId: Long) = wordDao.deleteWordById(wordId)
+
     override suspend fun isWordExist(word: String): Boolean {
         val oldWord = oneWordCache.cachedValue() ?: return false
         return wordDao.isWordExist(oldWord.playerId, word, oldWord.id)

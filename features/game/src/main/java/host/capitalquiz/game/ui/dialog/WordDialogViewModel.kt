@@ -6,9 +6,12 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import host.capitalquiz.game.domain.GameRuleInteractor
+import host.capitalquiz.game.domain.GameRuleSimple
 import host.capitalquiz.game.domain.WordDefinitionMapper
 import host.capitalquiz.game.domain.WordInteractor
 import host.capitalquiz.game.domain.WordMapper
+import host.capitalquiz.game.domain.WordMapperWithParameter
 import host.capitalquiz.game.ui.WordUi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,12 +27,16 @@ private const val TEXT_INPUT_DEBOUNCE_MILLIS = 500L
 @HiltViewModel
 class WordDialogViewModel @Inject constructor(
     private val wordInteractor: WordInteractor,
-    private val wordToUiMapper: WordMapper<WordUi>,
+    private val wordToUiMapper: WordMapperWithParameter<GameRuleSimple, WordUi>,
+    private val ruleInteractor: GameRuleInteractor,
     private val wordDefinitionToUiMapper: WordDefinitionMapper<WordDefinitionUi>,
 ) : ViewModel() {
 
     private val tempWord = wordInteractor.loadWord()
-    val word: LiveData<WordUi> get() = tempWord.map { it.map(wordToUiMapper) }
+    val word: LiveData<WordUi> get() = tempWord.map {
+    val rule = ruleInteractor.getLastGameRule()
+        wordToUiMapper.map(it, rule)
+    }
 
     private val queryFlow = MutableStateFlow("")
     private val _definition = MutableStateFlow<WordDefinitionUi>(WordDefinitionUi.NoDefinition)

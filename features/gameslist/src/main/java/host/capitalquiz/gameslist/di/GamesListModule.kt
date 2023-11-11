@@ -7,8 +7,9 @@ import dagger.hilt.android.components.ViewModelComponent
 import host.capitalquiz.core.datastore.SettingsLocalDataSource
 import host.capitalquiz.core.datastore.SettingsReadDataSource
 import host.capitalquiz.core.db.GameDataMapper
-import host.capitalquiz.core.db.PlayerDataMapper
-import host.capitalquiz.core.db.WordDataMapper
+import host.capitalquiz.core.db.GameRuleData
+import host.capitalquiz.core.db.PlayerDataMapperWithParameter
+import host.capitalquiz.core.db.WordDataMapperWithParameter
 import host.capitalquiz.gameslist.data.BaseSettingsRepository
 import host.capitalquiz.gameslist.data.GameDataToGameMapper
 import host.capitalquiz.gameslist.data.GamesListRepository
@@ -37,10 +38,10 @@ interface GamesListModule {
     fun bindGameDataToGameMapper(impl: GameDataToGameMapper): GameDataMapper<Game>
 
     @Binds
-    fun bindPlayerDataToPlayerInfoMapper(impl: PlayerDataToPlayerInfoMapper): PlayerDataMapper<PlayerInfo>
+    fun bindPlayerDataToPlayerInfoMapper(impl: PlayerDataToPlayerInfoMapper): PlayerDataMapperWithParameter<GameRuleData, PlayerInfo>
 
     @Binds
-    fun bindWordDataToScoreMapper(impl: WordDataToScoreMapper): WordDataMapper<Int>
+    fun bindWordDataToScoreMapper(impl: WordDataToScoreMapper): WordDataMapperWithParameter<Map<Char, Int>, Int>
 
     @Binds
     fun bindGameToGameUiMapper(impl: GameToGameUiMapper): GameMapper<GameUi>

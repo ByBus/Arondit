@@ -33,16 +33,15 @@ interface WordInteractor {
     class Base @Inject constructor(
         private val wordRepository: WordRepository,
         private val definitionRepository: DefinitionRepository,
-        private val wordFormatter: StringFormatter,
-        private val bonusUpdater: WordToWordMapper
+        private val bonusUpdater: WordToWordMapper,
+        private val gameRuleInteractor: GameRuleInteractor
     ) : WordInteractor {
 
         override suspend fun deleteWord(wordId: Long) = wordRepository.deleteWord(wordId)
 
-
         override suspend fun updateWord(word: String) {
             wordRepository.cachedValue()?.let {
-                val newWord = bonusUpdater.map(it, wordFormatter.format(word))
+                val newWord = bonusUpdater.map(it, word, gameRuleInteractor.getLastGameRule())
                 wordRepository.updateCurrentWord(newWord)
             }
         }

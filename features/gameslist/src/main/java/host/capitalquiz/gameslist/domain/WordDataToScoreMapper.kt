@@ -1,11 +1,18 @@
 package host.capitalquiz.gameslist.domain
 
-import host.capitalquiz.core.db.WordDataMapper
+import host.capitalquiz.core.db.WordData
+import host.capitalquiz.core.db.WordDataMapperWithParameter
 import javax.inject.Inject
 
 
-class WordDataToScoreMapper @Inject constructor(private val dictionary: Map<Char, Int>) :
-    WordDataMapper<Int> {
+class WordDataToScoreMapper @Inject constructor() : WordDataMapperWithParameter<@JvmSuppressWildcards Map<Char, Int>, Int> {
+    private var dictionary = mapOf<Char, Int>()
+
+    override fun map(word: WordData, param: Map<Char, Int>): Int {
+        dictionary = param
+        return word.map(this)
+    }
+
     override fun invoke(
         word: String,
         letterBonuses: List<Int>,

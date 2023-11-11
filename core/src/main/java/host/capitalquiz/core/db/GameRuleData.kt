@@ -11,4 +11,8 @@ data class GameRuleData(
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L
+
+    fun <R> map(mapper: GameRuleDataMapper<R>): R {
+        return mapper(name, points, readOnly, id)
+    }
 }

@@ -5,14 +5,10 @@ import host.capitalquiz.game.domain.Word
 import host.capitalquiz.game.domain.WordMapperWithParameter
 import javax.inject.Inject
 
-class WordToWordDataMapper @Inject constructor() : WordMapperWithParameter<Long, Word, WordData> {
+class WordToWordDataMapper @Inject constructor() : WordMapperWithParameter<Long, WordData> {
     private var playerId: Long = 0
     override fun map(word: Word, playerId: Long): WordData {
         this.playerId = playerId
-        return word.map(this)
-    }
-
-    override fun map(word: Word): WordData {
         return word.map(this)
     }
 

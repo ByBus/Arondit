@@ -1,11 +1,11 @@
 package host.capitalquiz.game.domain
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface PlayerInteractor {
 
-    fun findAllPlayersOfGame(gameId: Long): LiveData<List<Player>>
+    fun findAllPlayersOfGame(gameId: Long): Flow<List<Player>>
 
     suspend fun createPlayer(player: Player, gameId: Long): Long
 
@@ -14,7 +14,7 @@ interface PlayerInteractor {
     class Base @Inject constructor(
         private val playerRepository: PlayerRepository,
     ): PlayerInteractor {
-        override fun findAllPlayersOfGame(gameId: Long): LiveData<List<Player>> {
+        override fun findAllPlayersOfGame(gameId: Long): Flow<List<Player>> {
             return playerRepository.allPlayersOfGame(gameId)
         }
 

@@ -3,17 +3,16 @@ package host.capitalquiz.game.domain
 import javax.inject.Inject
 
 
-interface WordToWordMapper: WordMapper<Word> {
-    fun map(word: Word, newWord: String): Word
+interface WordToWordMapper : WordMapper<Word> {
+    fun map(word: Word, newWord: String, gameRule: GameRuleSimple): Word
 
     class BonusUpdater @Inject constructor() : WordToWordMapper {
         private var newWord = ""
-        override fun map(word: Word, newWord: String): Word {
-            this.newWord = newWord
-            return word.map(this)
-        }
+        private lateinit var gameRule: GameRuleSimple
 
-        override fun map(word: Word): Word {
+        override fun map(word: Word, newWord: String, gameRule: GameRuleSimple): Word {
+            this.newWord = newWord.uppercase()
+            this.gameRule = gameRule
             return word.map(this)
         }
 
@@ -22,9 +21,13 @@ interface WordToWordMapper: WordMapper<Word> {
             letterBonuses: List<Int>,
             multiplier: Int,
             id: Long,
-            extraPoints: Int
+            extraPoints: Int,
         ): Word {
             val bonuses = shiftedBonusesForNewWord(newWord, word, letterBonuses)
+            newWord.withIndex().forEach { (i, char) ->
+                if (gameRule.dictionary.containsKey(char).not())
+                    bonuses[i] = -1
+            }
             return Word(newWord, bonuses, multiplier, id, extraPoints > 0)
         }
 

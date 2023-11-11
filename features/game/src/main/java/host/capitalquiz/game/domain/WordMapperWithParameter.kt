@@ -1,5 +1,5 @@
 package host.capitalquiz.game.domain
 
-interface WordMapperWithParameter<T, I, R> : WordMapper<R>{
-    fun map(word: I, param: T): R
+interface WordMapperWithParameter<P, R> : WordMapper<R>{
+    fun map(word: Word, param: P): R
 }

@@ -8,11 +8,11 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
-import host.capitalquiz.gameslist.R
 import host.capitalquiz.core.ui.BindingFragment
 import host.capitalquiz.core.ui.BorderDrawable
 import host.capitalquiz.core.ui.Inflater
 import host.capitalquiz.core.ui.collect
+import host.capitalquiz.gameslist.R
 import javax.inject.Inject
 import host.capitalquiz.gameslist.databinding.FragmentGamesListBinding as GamesBinding
 
@@ -70,6 +70,7 @@ class GamesListFragment : BindingFragment<GamesBinding>(), GameAdapter.Callback 
         viewModel.navigationState.collect(viewLifecycleOwner) { navState ->
             navState.navigate(navigation)
         }
+
     }
 
     override fun onGameClick(gameId: Long) = viewModel.showGame(gameId)

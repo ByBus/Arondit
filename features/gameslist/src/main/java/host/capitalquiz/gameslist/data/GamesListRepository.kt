@@ -17,7 +17,7 @@ class GamesListRepository @Inject constructor(
     override fun allGames(): LiveData<List<Game>> {
         return gameDao.allGames().map { games ->
             games.map {
-                mapper.invoke(it.game, it.players)
+                mapper.invoke(it.game, it.players, it.gameRule)
             }
         }
     }

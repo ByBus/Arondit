@@ -9,5 +9,8 @@ interface WordDataMapper<R> {
         playerId: Long,
         extraPoints: Int,
     ): R
+}
 
+interface WordDataMapperWithParameter<P, R> : WordDataMapper<R> {
+    fun map(word: WordData, param: P): R
 }

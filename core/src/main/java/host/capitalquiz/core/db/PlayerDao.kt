@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlayerDao {
@@ -18,7 +19,7 @@ interface PlayerDao {
 
     @Transaction
     @Query("SELECT * FROM players WHERE gameId=:id")
-    fun allPlayerByGameId(id: Long): LiveData<List<PlayerWithWordsData>>
+    fun allPlayerByGameId(id: Long): Flow<List<PlayerWithWordsData>>
 
     @Query("DELETE FROM players WHERE id=:id")
     suspend fun deletePlayerById(id: Long)

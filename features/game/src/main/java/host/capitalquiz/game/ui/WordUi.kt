@@ -30,7 +30,7 @@ data class WordUi(
         update(wordView)
     }
 
-    fun update(wordView: EruditWordView) {
+    private fun update(wordView: EruditWordView) {
         wordView.setTextWithBonuses(word, letterBonuses)
         wordView.multiplier = multiplier
     }

@@ -11,6 +11,7 @@ import host.capitalquiz.core.db.GameDao
 import host.capitalquiz.core.db.GameDataBase
 import host.capitalquiz.core.db.GameDataBase.Companion.MIGRATION_1_2
 import host.capitalquiz.core.db.GameDataBase.Companion.MIGRATION_2_3
+import host.capitalquiz.core.db.GameRuleDao
 import host.capitalquiz.core.db.PlayerDao
 import host.capitalquiz.core.db.WordDao
 import javax.inject.Singleton
@@ -37,6 +38,7 @@ class DataBaseModule {
         "games.db"
     )
         .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+        .createFromAsset("games.db")
         .build()
 
     @Provides
@@ -47,6 +49,9 @@ class DataBaseModule {
 
     @Provides
     fun provideWordDao(db: GameDataBase): WordDao = db.wordDao()
+
+    @Provides
+    fun provideGameRuleDao(db: GameDataBase): GameRuleDao = db.gameRuleDao()
 
     @Provides
     @Singleton

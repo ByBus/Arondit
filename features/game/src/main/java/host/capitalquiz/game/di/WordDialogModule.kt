@@ -17,24 +17,24 @@ import host.capitalquiz.game.ui.WordUiMapper
 
 @Module
 @InstallIn(ViewModelComponent::class)
-abstract class WordDialogModule {
+interface WordDialogModule {
 
     @Binds
-    abstract fun bindWordInteractor(impl: WordInteractor.Base) : WordInteractor
+    fun bindWordInteractor(impl: WordInteractor.Base): WordInteractor
 
     @Binds
-    abstract fun bindWordRepository(impl: BaseWordRepository): WordRepository
+    fun bindWordRepository(impl: BaseWordRepository): WordRepository
 
     @Binds
-    abstract fun bindWordToWordDataMapperWithId(impl: WordToWordDataMapper): WordMapperWithParameter<Long, Word, WordData>
+    fun bindWordToWordDataMapperWithId(impl: WordToWordDataMapper): WordMapperWithParameter<Long, WordData>
 
     @Binds
-    abstract fun bindWordToUiMapper(impl: WordUiMapper.Base): WordUiMapper<Word>
+    fun bindWordToUiMapper(impl: WordUiMapper.Base): WordUiMapper<Word>
 
     @Binds
-    abstract fun bindWordCacheDataSource(impl: WordDataDataSource.Base): WordDataDataSource
+    fun bindWordCacheDataSource(impl: WordDataDataSource.Base): WordDataDataSource
 
     @Binds
-    abstract fun bindWordBonusUpdater(impl: WordToWordMapper.BonusUpdater): WordToWordMapper
+    fun bindWordBonusUpdater(impl: WordToWordMapper.BonusUpdater): WordToWordMapper
 
 }
