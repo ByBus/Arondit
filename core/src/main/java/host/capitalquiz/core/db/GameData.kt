@@ -7,7 +7,7 @@ import androidx.room.Relation
 import java.util.Date
 
 @Entity(tableName = "games")
-data class GameData(val date: Date) {
+data class GameData(val date: Date, val ruleId: Long = 0L) {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L
 

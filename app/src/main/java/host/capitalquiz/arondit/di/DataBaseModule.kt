@@ -10,6 +10,7 @@ import dagger.hilt.components.SingletonComponent
 import host.capitalquiz.core.db.GameDao
 import host.capitalquiz.core.db.GameDataBase
 import host.capitalquiz.core.db.GameDataBase.Companion.MIGRATION_1_2
+import host.capitalquiz.core.db.GameDataBase.Companion.MIGRATION_2_3
 import host.capitalquiz.core.db.PlayerDao
 import host.capitalquiz.core.db.WordDao
 import javax.inject.Singleton
@@ -35,7 +36,7 @@ class DataBaseModule {
         GameDataBase::class.java,
         "games.db"
     )
-        .addMigrations(MIGRATION_1_2)
+        .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
         .build()
 
     @Provides

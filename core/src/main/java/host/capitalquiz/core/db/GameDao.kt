@@ -12,6 +12,9 @@ interface GameDao {
     @Insert
     suspend fun insert(gameData: GameData): Long
 
+    @Query("UPDATE games SET ruleId=:ruleId WHERE id = :gameId")
+    suspend fun updateGameRule(gameId: Long, ruleId: Long)
+
     @Transaction
     @Query("SELECT * FROM games")
     fun allGames(): LiveData<List<GameWithPlayersData>>
