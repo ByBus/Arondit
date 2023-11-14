@@ -33,7 +33,6 @@ class EruditWordView @JvmOverloads constructor(
     private var diffUtil = false
     private var calculateSpaceForBadges = false
 
-
     init {
         context.withStyledAttributes(attrs, R.styleable.EruditWordView) {
             calculateSpaceForBadges = getBoolean(R.styleable.EruditWordView_initWithBadges, false)
@@ -50,7 +49,7 @@ class EruditWordView @JvmOverloads constructor(
             clickableLetters =
                 getBoolean(R.styleable.EruditWordView_clickableLetters, false)
             size = getDimensionPixelSize(R.styleable.EruditWordView_size, 100)
-            updateWord(getString(R.styleable.EruditWordView_word))
+            updateWord(getString(R.styleable.EruditWordView_word), emptyList())
         }
     }
 
@@ -127,9 +126,9 @@ class EruditWordView @JvmOverloads constructor(
             .start()
     }
 
-    private fun updateWord(string: String?) {
+    private fun updateWord(string: String?, points: List<Int>) {
         if (string == null) return
-        var newWord = string.map<Letter> { Letter.Base(it, params = params) }
+        var newWord = string.mapIndexed<Letter> { i, char -> Letter.Base(char, params = params, point = points.getOrNull(i)) }
         if (diffUtil) {
             val wordCopy = word.toMutableList()
             val wordUpdater = WordUpdater(wordCopy, newWord)
@@ -146,21 +145,21 @@ class EruditWordView @JvmOverloads constructor(
     /**
      * Updates word chars
      */
-    fun setText(text: String) {
+    fun setText(text: String, points: List<Int> = emptyList()) {
         if (text.equals(toString(), true)) return
         hideAndShow {
-            updateWord(text)
+            updateWord(text, points)
             requestLayout()
         }
     }
 
-    fun setTextWithBonuses(text: String, bonuses: List<Int>) {
+    fun setTextWithBonuses(text: String, bonuses: List<Int>, points: List<Int> = emptyList()) {
         if (text.equals(toString(), true)) {
             setBonuses(bonuses)
             return
         }
         hideAndShow {
-            updateWord(text)
+            updateWord(text, points)
             setBonuses(bonuses)
             requestLayout()
         }

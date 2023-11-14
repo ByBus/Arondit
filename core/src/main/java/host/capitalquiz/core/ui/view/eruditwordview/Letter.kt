@@ -25,8 +25,11 @@ interface Letter {
         character: Char,
         private var bonus: Int = 1,
         private val params: ParametersHolder,
+        private var point: Int? = null
     ) : Letter {
-        val char = character.uppercaseChar().takeIf { params.isAllowedChar(it) } ?: CHAR_PLACEHOLDER
+        private val character = character.uppercaseChar()
+        private var allowedChar = true
+        val char get() = character.takeIf { allowedChar } ?: CHAR_PLACEHOLDER
         private var charWidth: Float = 0f
         private val bounds = RectF()
 
@@ -54,7 +57,8 @@ interface Letter {
         private val currentColor: Int get() = params.letterBonusesColors[bonus]
 
         override fun setBonus(bonus: Int, forceUpdate: Boolean) {
-            this.bonus = bonus.coerceIn(0, 3)
+            allowedChar = bonus >= 0
+            if (allowedChar) this.bonus = bonus.coerceIn(0, 3)
             animationState.animateTo(currentColor)
             if (forceUpdate && params.badgeHeight == 0) params.requestLayout()
         }
@@ -130,7 +134,7 @@ interface Letter {
                     }
                 } else {
                     val scoreTextSize = textSize / 2.5f
-                    val score = scoreOfChar(char).toString()
+                    val score = (point ?: scoreOfChar(char)).toString()
                     var scoreXPosition = 0f
                     paint.withColor(textColor.withAlpha(textAlpha)) {
                         withTextSize(scoreTextSize) {
@@ -154,7 +158,7 @@ interface Letter {
             }
         }
 
-        override fun toString(): String = char.toString()
+        override fun toString(): String = character.toString()
 
         override fun drawInside(bounds: RectF, canvas: Canvas) {
             this.bounds.set(bounds)
@@ -174,7 +178,7 @@ interface Letter {
             if (javaClass != other?.javaClass) return false
             other as Base
             if (bonus == 0 && other.bonus == 0) return true
-            if (char != other.char) return false
+            if (character != other.character) return false
             return true
         }
 
