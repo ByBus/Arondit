@@ -26,7 +26,7 @@ interface WordToWordMapper : WordMapper<Word> {
             val bonuses = shiftedBonusesForNewWord(newWord, word, letterBonuses)
             newWord.withIndex().forEach { (i, char) ->
                 if (gameRule.dictionary.containsKey(char).not())
-                    bonuses[i] = -1
+                    bonuses[i] = 1
             }
             return Word(newWord, bonuses, multiplier, id, extraPoints > 0)
         }

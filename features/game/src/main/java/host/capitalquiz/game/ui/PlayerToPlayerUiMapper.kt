@@ -2,10 +2,8 @@ package host.capitalquiz.game.ui
 
 import host.capitalquiz.game.domain.GameRuleSimple
 import host.capitalquiz.game.domain.Player
-import host.capitalquiz.game.domain.PlayerMapper
 import host.capitalquiz.game.domain.PlayerMapperWithParameter
 import host.capitalquiz.game.domain.Word
-import host.capitalquiz.game.domain.WordMapper
 import host.capitalquiz.game.domain.WordMapperWithParameter
 import javax.inject.Inject
 

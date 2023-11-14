@@ -11,7 +11,8 @@ data class WordUi(
     val multiplier: Int = 1,
     val id: Long = 0,
     val score: Int = 0,
-    val extraPoints: Int
+    val extraPoints: Int,
+    val points: List<Int> = emptyList()
 ) {
     fun <R> map(mapper: WordUiMapper<R>): R {
         return mapper(word, letterBonuses, multiplier, id, score, extraPoints)
@@ -31,7 +32,7 @@ data class WordUi(
     }
 
     private fun update(wordView: EruditWordView) {
-        wordView.setTextWithBonuses(word, letterBonuses)
+        wordView.setTextWithBonuses(word, letterBonuses, points)
         wordView.multiplier = multiplier
     }
 
