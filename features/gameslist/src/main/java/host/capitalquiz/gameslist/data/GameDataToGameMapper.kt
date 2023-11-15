@@ -14,6 +14,6 @@ class GameDataToGameMapper @Inject constructor(
 ) : GameDataMapper<Game> {
     override fun invoke(game: GameData, players: List<PlayerWithWordsData>, gameRule: GameRuleData): Game {
         val playersInfoDomain = players.map { mapper.map(it, gameRule) }
-        return Game(game.id, game.date, playersInfoDomain)
+        return Game(game.id, game.date, playersInfoDomain, gameRule.name)
     }
 }

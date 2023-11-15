@@ -11,8 +11,15 @@ data class GameUi(
     val dayMonth: String,
     val year: String,
     val playersColorWithInfo: List<Pair<Int, String>>,
+    val ruleName: String
 ) {
-    fun update(playerViews: List<Chip>, dayMonth: TextView, year: TextView, infoBlock: Group) {
+    fun update(
+        playerViews: List<Chip>,
+        dayMonth: TextView,
+        year: TextView,
+        infoBlock: Group,
+        gameRule: TextView
+    ) {
         dayMonth.text = this.dayMonth
         year.text = this.year
         infoBlock.isVisible = playersColorWithInfo.isEmpty()
@@ -26,5 +33,6 @@ data class GameUi(
         for (i in playersColorWithInfo.size..playerViews.lastIndex) {
             playerViews[i].isVisible = false
         }
+        gameRule.text = ruleName
     }
 }

@@ -38,7 +38,7 @@ class GameAdapter(private val callback: Callback): ListAdapter<GameUi, GameAdapt
             id = item.id
             with(binding){
                 val playerViews = listOf(player1, player2, player3, player4)
-                item.update(playerViews, dayMonth, year, infoBlock)
+                item.update(playerViews, dayMonth, year, infoBlock, gameRule)
             }
         }
     }
