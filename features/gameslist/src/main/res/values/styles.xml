@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ShapeAppearanceOverlay.MaterialCardView.Cut" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">4dp</item>
+        <item name="cornerSizeTopLeft">4dp</item>
+        <item name="cornerSizeBottomRight">12dp</item>
+        <item name="cornerSizeBottomLeft">12dp</item>
+    </style>
+
+    <style name="GameCardViewStyle" parent="@style/Widget.Material3.CardView.Elevated">
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialCardView.Cut</item>
+    </style>
+
+
+</resources>

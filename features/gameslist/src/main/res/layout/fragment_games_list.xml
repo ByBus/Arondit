@@ -67,6 +67,7 @@
         app:constraint_referenced_ids="gamesList,createGame" />
 
     <androidx.recyclerview.widget.RecyclerView
+        tools:listitem="@layout/game_item"
         android:id="@+id/gamesList"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -109,6 +110,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <include
+        tools:visibility="gone"
         android:id="@+id/information"
         layout="@layout/info_screen_layout"
         android:layout_width="0dp"

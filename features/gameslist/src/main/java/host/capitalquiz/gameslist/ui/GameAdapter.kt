@@ -22,8 +22,7 @@ class GameAdapter(private val callback: Callback): ListAdapter<GameUi, GameAdapt
     abstract inner class BindableVH(itemView: View) : ViewHolder(itemView) {
         protected var id: Long = 0
         init {
-//            itemView.setOnClickListener { callback.onGameClick(id) }
-            itemView.setOnClickListener { callback.onEditGameRule(id) }
+            itemView.setOnClickListener { callback.onGameClick(id) }
             itemView.setOnLongClickListener {
                 callback.onGameLongClick(id)
                 true
@@ -32,7 +31,9 @@ class GameAdapter(private val callback: Callback): ListAdapter<GameUi, GameAdapt
         abstract fun bind(item: GameUi)
     }
     inner class GameViewHolder(private val binding: GameItemBinding): BindableVH(binding.root) {
-
+        init {
+            binding.gameRule.setOnClickListener { callback.onEditGameRule(id) }
+        }
         override fun bind(item: GameUi) {
             id = item.id
             with(binding){
