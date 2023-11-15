@@ -69,4 +69,10 @@ class GamesListViewModel @Inject constructor(
         this.gameId.value = NO_GAME_ID
         this.gameId.value = gameId
     }
+
+    fun showEditGameRuleScreen(gameId: Long) {
+        viewModelScope.launch {
+            _navigationState.trySend(NavigationState.EditGameRuleScreen(gameId))
+        }
+    }
 }

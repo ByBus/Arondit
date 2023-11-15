@@ -23,4 +23,9 @@ class GamesListFragmentNavigation @Inject constructor(
         val onboardingAction = BaseNavigationDirections.actionToOnboarding(gameId)
         navController.navigate(onboardingAction)
     }
+
+    override fun navigateToEditGameRule(gameId: Long) {
+        val editGameRuleAction = BaseNavigationDirections.actionToEditGameRule(gameId)
+        navController.navigate(editGameRuleAction)
+    }
 }

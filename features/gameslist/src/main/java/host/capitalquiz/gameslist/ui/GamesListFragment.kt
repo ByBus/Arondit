@@ -77,6 +77,8 @@ class GamesListFragment : BindingFragment<GamesBinding>(), GameAdapter.Callback 
 
     override fun onGameLongClick(gameId: Long) = viewModel.showRemoveGameDialog(gameId)
 
+    override fun onEditGameRule(gameId: Long) = viewModel.showEditGameRuleScreen(gameId)
+
     companion object {
         const val RESULT_REQUEST_CODE = "games list request code"
         const val REMOVE_GAME_ID_KEY = "remove game with id"

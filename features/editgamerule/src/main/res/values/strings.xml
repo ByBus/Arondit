@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rule_selector_title">Выберите правило для игры</string>
+    <string name="create_rule">СОЗДАТЬ</string>
+    <string name="remove_game_rule_desc">удалить правило</string>
+</resources>

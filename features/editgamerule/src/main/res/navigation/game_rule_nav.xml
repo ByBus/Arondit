@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/game_rule_nav"
+    app:startDestination="@id/gameRulesFragment">
+
+    <fragment
+        android:id="@+id/gameRulesFragment"
+        android:name="host.capitalquiz.editgamerule.ui.GameRulesFragment"
+        android:label="fragment_game_rules"
+        tools:layout="@layout/fragment_game_rules" >
+        <argument
+            android:name="gameId"
+            app:argType="long" />
+    </fragment>
+</navigation>

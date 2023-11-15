@@ -23,4 +23,9 @@ interface NavigationState {
             navigation.navigateToRemoveGameDialog(gameId)
     }
 
+    class EditGameRuleScreen(private val gameId: Long) : NavigationState {
+        override fun navigate(navigation: GamesListNavigation) {
+            navigation.navigateToEditGameRule(gameId)
+        }
+    }
 }

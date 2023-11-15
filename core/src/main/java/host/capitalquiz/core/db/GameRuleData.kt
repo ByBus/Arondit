@@ -1,7 +1,9 @@
 package host.capitalquiz.core.db
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 
 @Entity(tableName = "game_rules")
 data class GameRuleData(
@@ -14,5 +16,19 @@ data class GameRuleData(
 
     fun <R> map(mapper: GameRuleDataMapper<R>): R {
         return mapper(name, points, readOnly, id)
+    }
+}
+
+
+data class GameRuleWithGamesData(
+    @Embedded val gameRule: GameRuleData,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "ruleId"
+    )
+    val games: List<GameData>
+) {
+    fun <R> map(mapper: GameRuleWithGamesMapper<R>): R {
+        return mapper(gameRule.id, gameRule.name, gameRule.points, gameRule.readOnly, games)
     }
 }
