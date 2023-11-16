@@ -25,4 +25,11 @@
         <attr name="textBaseColor" format="color"/>
         <attr name="font" format="reference"/>
     </declare-styleable>
+    <declare-styleable name="LetterBlockView">
+        <attr name="letter" format="string"/>
+        <attr name="points" format="integer" />
+        <attr name="letterColor" format="color"/>
+        <attr name="blockSize" format="dimension" />
+        <attr name="blockBackground" format="reference"/>
+    </declare-styleable>
 </resources>

@@ -96,6 +96,8 @@
         </com.google.android.material.chip.ChipGroup>
 
         <TextView
+            android:maxLines="1"
+            android:ellipsize="marquee"
             android:textAllCaps="true"
             android:id="@+id/game_rule"
             android:layout_width="match_parent"
@@ -110,7 +112,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dateBlock"
-            tools:text="Эрудит" />
+            tools:text="Очень длинный длинный текст на несколько строк, который не влезает в границы" />
 
         <TextView
             android:id="@+id/infoMainText"
