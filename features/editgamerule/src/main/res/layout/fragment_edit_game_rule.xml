@@ -14,31 +14,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/rule_selector_title"
+        tools:title="Эрудит"
         app:titleCentered="true"
         app:titleTextColor="?attr/colorOnPrimary" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rules_list"
+        android:paddingVertical="4dp"
+        android:id="@+id/letters_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rules_toolbar"
-        tools:listitem="@layout/game_rule_item" />
+        tools:listitem="@layout/game_rule_letter_item" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/add_rule_fab"
+        android:id="@+id/add_letter_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/base_green"
-        android:text="@string/create_rule"
         android:textColor="@android:color/white"
         app:icon="@drawable/ic_round_a1_plus_24"
         app:iconTint="@android:color/white"

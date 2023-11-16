@@ -1,4 +1,4 @@
-package host.capitalquiz.editgamerule.ui
+package host.capitalquiz.editgamerule.ui.ruleslist
 
 import host.capitalquiz.editgamerule.domain.GameRule
 import host.capitalquiz.editgamerule.domain.GameRuleMapperWithParameter

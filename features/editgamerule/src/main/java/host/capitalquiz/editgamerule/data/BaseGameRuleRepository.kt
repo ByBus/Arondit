@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class BaseGameRuleRepository @Inject constructor(
     private val gameRuleDataSource: GameRuleDataSource,
-    private val mapper: GameRuleWithGamesMapper<GameRule>
+    private val mapper: GameRuleWithGamesMapper<GameRule>,
 ) : GameRuleRepository {
     override fun findAllRules(): Flow<List<GameRule>> {
         return gameRuleDataSource.getAllRules().map { rules ->

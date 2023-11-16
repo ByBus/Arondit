@@ -1,15 +1,15 @@
-package host.capitalquiz.editgamerule.ui
+package host.capitalquiz.editgamerule.ui.ruleslist
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.core.ui.BindingFragment
 import host.capitalquiz.core.ui.Inflater
+import host.capitalquiz.editgamerule.ui.GameRulesNavigation
 import javax.inject.Inject
 import host.capitalquiz.editgamerule.databinding.FragmentGameRulesBinding as GameRulesBinding
 
@@ -18,6 +18,9 @@ class GameRulesFragment : BindingFragment<GameRulesBinding>() {
     override val viewInflater: Inflater<GameRulesBinding> = GameRulesBinding::inflate
 
     private val args by navArgs<GameRulesFragmentArgs>()
+
+    @Inject
+    lateinit var navigation: GameRulesNavigation
 
     @Inject
     lateinit var gameRulesViewModelFactory: GameRuleViewModelFactory
@@ -31,7 +34,7 @@ class GameRulesFragment : BindingFragment<GameRulesBinding>() {
 
         val adapter = GameRulesAdapter(object : GameRulesAdapter.RuleClickListener {
             override fun onRuleClick(ruleId: Long) {
-               Toast.makeText(requireContext(), "Rule with id $ruleId", Toast.LENGTH_SHORT).show()
+                navigation.navigateToEditRule(ruleId)
             }
 
             override fun onDeleteClick(ruleId: Long) {

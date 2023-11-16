@@ -7,11 +7,23 @@
 
     <fragment
         android:id="@+id/gameRulesFragment"
-        android:name="host.capitalquiz.editgamerule.ui.GameRulesFragment"
+        android:name="host.capitalquiz.editgamerule.ui.ruleslist.GameRulesFragment"
         android:label="fragment_game_rules"
         tools:layout="@layout/fragment_game_rules" >
         <argument
             android:name="gameId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_to_EditGameRuleFragment"
+            app:destination="@id/editGameRuleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editGameRuleFragment"
+        android:name="host.capitalquiz.editgamerule.ui.editscreen.EditGameRuleFragment"
+        android:label="fragment_edit_game_rule"
+        tools:layout="@layout/fragment_edit_game_rule" >
+        <argument
+            android:name="gameRuleId"
             app:argType="long" />
     </fragment>
 </navigation>

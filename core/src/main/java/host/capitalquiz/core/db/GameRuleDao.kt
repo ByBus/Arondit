@@ -18,7 +18,7 @@ interface GameRuleDao {
     suspend fun findGameRuleByGameId(gameId: Long): GameRuleData
 
     @Query("SELECT * FROM game_rules WHERE id=:id")
-    suspend fun findGameRuleById(id: Long): GameRuleData
+    fun findGameRuleById(id: Long): Flow<GameRuleData>
 
     @Query("SELECT * FROM game_rules")
     fun findAllGameRules(): Flow<List<GameRuleWithGamesData>>

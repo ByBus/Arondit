@@ -1,4 +1,4 @@
-package host.capitalquiz.editgamerule.ui
+package host.capitalquiz.editgamerule.ui.ruleslist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

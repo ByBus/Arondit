@@ -37,5 +37,4 @@
             android:name="gameId"
             app:argType="long" />
     </action>
-
 </navigation>
