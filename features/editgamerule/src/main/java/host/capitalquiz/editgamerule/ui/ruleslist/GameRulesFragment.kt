@@ -1,25 +1,24 @@
 package host.capitalquiz.editgamerule.ui.ruleslist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.doOnPreDraw
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
-import host.capitalquiz.core.ui.BindingFragment
 import host.capitalquiz.core.ui.Inflater
+import host.capitalquiz.editgamerule.ui.BaseGameRuleFragment
 import host.capitalquiz.editgamerule.ui.GameRulesNavigation
 import javax.inject.Inject
 import host.capitalquiz.editgamerule.databinding.FragmentGameRulesBinding as GameRulesBinding
 
 @AndroidEntryPoint
-class GameRulesFragment : BindingFragment<GameRulesBinding>() {
+class GameRulesFragment : BaseGameRuleFragment<GameRulesBinding>() {
     override val viewInflater: Inflater<GameRulesBinding> = GameRulesBinding::inflate
-
     private val args by navArgs<GameRulesFragmentArgs>()
+    override val fab get() = binding.createRuleFab
+    override val recyclerView get() = binding.rulesList
 
     @Inject
     lateinit var navigation: GameRulesNavigation
@@ -45,27 +44,24 @@ class GameRulesFragment : BindingFragment<GameRulesBinding>() {
 
         val adapter = GameRulesAdapter(object : GameRulesAdapter.RuleClickListener {
             override fun onRuleClick(ruleId: Long) {
-                navigation.navigateToEditRule(ruleId)
+                viewModel.selectRuleForGame(ruleId)
             }
 
             override fun onDeleteClick(ruleId: Long) {
                 TODO("Not yet implemented")
             }
 
-            override fun onEditClick(ruleId: Long) {
-                TODO("Not yet implemented")
-            }
+            override fun onEditClick(ruleId: Long) = navigation.navigateToEditRule(ruleId)
         })
 
         binding.rulesList.adapter = adapter
 
-        viewModel.gameRules.observe(viewLifecycleOwner) {
-            Log.d("GameRulesFragment", "onViewCreated: $it")
-            adapter.submitList(it)
+        binding.createRuleFab.setOnClickListener {
+
         }
 
-        binding.rulesList.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-            binding.addRuleFab.isVisible = scrollY < 0
+        viewModel.gameRules.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
         }
     }
 }

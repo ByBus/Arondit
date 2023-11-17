@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import host.capitalquiz.core.db.GameRuleWithGamesMapper
 import host.capitalquiz.editgamerule.data.BaseGameRuleRepository
+import host.capitalquiz.editgamerule.data.GameDataSource
 import host.capitalquiz.editgamerule.data.GameRuleDataSource
 import host.capitalquiz.editgamerule.data.GameRuleWithGamesDataToGameRuleMapper
 import host.capitalquiz.editgamerule.domain.GameRule
@@ -27,5 +28,8 @@ interface GameRuleModule {
 
     @Binds
     fun bindGameRuleInteractor(impl: GameRuleInteractor.Base): GameRuleInteractor
+
+    @Binds
+    fun bindGameDataSource(impl: GameDataSource.Base): GameDataSource
 
 }

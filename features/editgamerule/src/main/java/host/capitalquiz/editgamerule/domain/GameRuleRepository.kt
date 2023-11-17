@@ -7,7 +7,7 @@ interface GameRuleRepository {
 
     suspend fun deleteRule(id: Long)
 
-    suspend fun setRuleForGame(ruleId: Long, gameId: Long)
+    suspend fun setRuleForGame(gameId: Long, ruleId: Long)
 
     suspend fun saveRule(rule: GameRule)
 }

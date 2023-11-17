@@ -3,11 +3,13 @@ package host.capitalquiz.editgamerule.ui.ruleslist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import host.capitalquiz.editgamerule.domain.GameRuleInteractor
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class GameRulesViewModel @AssistedInject constructor(
     private val gameRuleInteractor: GameRuleInteractor,
@@ -21,6 +23,13 @@ class GameRulesViewModel @AssistedInject constructor(
             gameUiMapper.map(it, gameId)
         }
     }.asLiveData()
+
+
+    fun selectRuleForGame(ruleId: Long) {
+        viewModelScope.launch {
+            gameRuleInteractor.updateRuleForGame(gameId, ruleId)
+        }
+    }
 
     companion object {
         fun provideFactory(

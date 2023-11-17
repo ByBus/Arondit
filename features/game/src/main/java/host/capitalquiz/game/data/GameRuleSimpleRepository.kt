@@ -16,7 +16,9 @@ class GameRuleSimpleRepository @Inject constructor(
     override suspend fun gameRuleOfGame(gameId: Long): GameRuleSimple {
         return mutex.withLock {
             if (lastGameId != gameId) cached = null
-            cached ?: gameRuleDataDataSource.findRule(gameId).apply {
+            val newRule = gameRuleDataDataSource.findRule(gameId)
+            if (cached?.id != newRule.id) cached = null
+            cached ?: newRule.apply {
                 lastGameId = gameId
                 cached = this
             }

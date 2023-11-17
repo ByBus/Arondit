@@ -11,6 +11,6 @@ class GameRuleDataToSimpleMapper @Inject constructor(): GameRuleDataMapper<GameR
         readOnly: Boolean,
         id: Long,
     ): GameRuleSimple {
-        return GameRuleSimple(points)
+        return GameRuleSimple(id, points)
     }
 }

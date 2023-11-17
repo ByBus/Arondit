@@ -8,8 +8,8 @@ import javax.inject.Inject
 
 interface GameRuleDataSource {
     fun getAllRules(): Flow<List<GameRuleWithGamesData>>
-
     fun getRuleById(id: Long): Flow<GameRuleData>
+    suspend fun removeRule(id: Long)
 
     class Base @Inject constructor(
         private val ruleDao: GameRuleDao
@@ -17,5 +17,7 @@ interface GameRuleDataSource {
         override fun getAllRules(): Flow<List<GameRuleWithGamesData>> = ruleDao.findAllGameRules()
 
         override fun getRuleById(id: Long): Flow<GameRuleData> = ruleDao.findGameRuleById(id)
+
+        override suspend fun removeRule(id: Long) = ruleDao.deleteGameRuleById(id)
     }
 }

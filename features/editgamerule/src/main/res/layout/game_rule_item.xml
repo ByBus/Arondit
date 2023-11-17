@@ -16,7 +16,9 @@
         android:paddingHorizontal="2dp"
         android:paddingVertical="8dp">
 
-        <CheckBox
+        <RadioButton
+            android:clickable="false"
+            android:layout_marginStart="8dp"
             android:id="@+id/rule_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

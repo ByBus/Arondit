@@ -7,15 +7,17 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
-import host.capitalquiz.core.ui.BindingFragment
 import host.capitalquiz.core.ui.Inflater
+import host.capitalquiz.editgamerule.ui.BaseGameRuleFragment
 import javax.inject.Inject
 import host.capitalquiz.editgamerule.databinding.FragmentEditGameRuleBinding as EditRuleBinding
 
 @AndroidEntryPoint
-class EditGameRuleFragment : BindingFragment<EditRuleBinding>() {
+class EditGameRuleFragment : BaseGameRuleFragment<EditRuleBinding>() {
     override val viewInflater: Inflater<EditRuleBinding> = EditRuleBinding::inflate
     private val args by navArgs<EditGameRuleFragmentArgs>()
+    override val fab get() = binding.addLetterFab
+    override val recyclerView get() = binding.lettersList
 
     @Inject
     lateinit var editRuleVMFactory: EditGameRuleViewModelFactory

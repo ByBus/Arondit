@@ -10,7 +10,7 @@ import javax.inject.Inject
 class PlayerToPlayerUiMapper @Inject constructor(
     private val wordMapper: WordMapperWithParameter<GameRuleSimple, WordUi>,
 ) : PlayerMapperWithParameter<GameRuleSimple, PlayerUi> {
-    private var rule: GameRuleSimple = GameRuleSimple(emptyMap())
+    private var rule: GameRuleSimple = GameRuleSimple(1L, emptyMap())
 
     override fun map(player: Player, param: GameRuleSimple): PlayerUi {
         rule = param

@@ -9,6 +9,7 @@ import javax.inject.Inject
 
 class BaseGameRuleRepository @Inject constructor(
     private val gameRuleDataSource: GameRuleDataSource,
+    private val gameDataSource: GameDataSource,
     private val mapper: GameRuleWithGamesMapper<GameRule>,
 ) : GameRuleRepository {
     override fun findAllRules(): Flow<List<GameRule>> {
@@ -18,11 +19,11 @@ class BaseGameRuleRepository @Inject constructor(
     }
 
     override suspend fun deleteRule(id: Long) {
-        TODO("Not yet implemented")
+        gameRuleDataSource.removeRule(id)
     }
 
-    override suspend fun setRuleForGame(ruleId: Long, gameId: Long) {
-        TODO("Not yet implemented")
+    override suspend fun setRuleForGame(gameId: Long, ruleId: Long,) {
+        gameDataSource.setGameRuleToGame(gameId, ruleId)
     }
 
     override suspend fun saveRule(rule: GameRule) {
