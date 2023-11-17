@@ -4,4 +4,5 @@
     <string name="create_rule">СОЗДАТЬ</string>
     <string name="remove_game_rule_desc">удалить правило</string>
     <string name="deafult_new_rule_name">Новое правило</string>
+    <string name="copy_rule_prefix_name">Копия</string>
 </resources>

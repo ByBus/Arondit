@@ -3,6 +3,7 @@ package host.capitalquiz.core.db
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -22,4 +23,7 @@ interface GameRuleDao {
 
     @Query("SELECT * FROM game_rules")
     fun findAllGameRules(): Flow<List<GameRuleWithGamesData>>
+
+    @Update
+    fun updateGameRule(rule: GameRuleData)
 }

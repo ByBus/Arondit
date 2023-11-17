@@ -11,6 +11,7 @@ interface GameRuleDataSource {
     fun getRuleById(id: Long): Flow<GameRuleData>
     suspend fun removeRule(id: Long)
     suspend fun createRule(rule: GameRuleData): Long
+    suspend fun updateRule(rule: GameRuleData)
 
     class Base @Inject constructor(
         private val ruleDao: GameRuleDao
@@ -22,6 +23,8 @@ interface GameRuleDataSource {
         override suspend fun removeRule(id: Long) = ruleDao.deleteGameRuleById(id)
 
         override suspend fun createRule(rule: GameRuleData): Long = ruleDao.insert(rule)
+
+        override suspend fun updateRule(rule: GameRuleData) = ruleDao.updateGameRule(rule)
 
     }
 }

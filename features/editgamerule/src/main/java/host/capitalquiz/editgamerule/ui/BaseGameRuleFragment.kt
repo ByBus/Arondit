@@ -32,8 +32,8 @@ abstract class BaseGameRuleFragment<VB : ViewBinding> : BindingFragment<VB>() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         recyclerView.clearOnScrollListeners()
+        super.onDestroyView()
     }
 
 }

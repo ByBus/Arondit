@@ -45,7 +45,9 @@ class GameRulesFragment : BaseGameRuleFragment<GameRulesBinding>() {
         val adapter = GameRulesAdapter(object : GameRulesAdapter.RuleClickListener {
             override fun onRuleClick(ruleId: Long) = viewModel.selectRuleForGame(ruleId)
 
-            override fun onDeleteClick(ruleId: Long) = viewModel.deleteGameRule(ruleId)
+            override fun onDeleteClick(ruleId: Long) {
+                viewModel.deleteGameRule(ruleId)
+            }
 
             override fun onEditClick(ruleId: Long) = navigation.navigateToEditRule(ruleId)
         })

@@ -1,6 +1,6 @@
 package host.capitalquiz.editgamerule.domain
 
-class GameRule(
+data class GameRule(
     val id: Long,
     val name: String,
     val points: Map<Char, Int>,
@@ -12,4 +12,5 @@ class GameRule(
     fun <R> map(mapper: GameRuleMapper<R>): R {
         return mapper(id, name, points, readOnly, gamesIds)
     }
+
 }
