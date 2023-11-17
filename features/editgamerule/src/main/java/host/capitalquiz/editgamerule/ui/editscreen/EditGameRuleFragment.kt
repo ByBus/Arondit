@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.core.ui.Inflater
+import host.capitalquiz.editgamerule.R
 import host.capitalquiz.editgamerule.ui.BaseGameRuleFragment
 import javax.inject.Inject
 import host.capitalquiz.editgamerule.databinding.FragmentEditGameRuleBinding as EditRuleBinding
@@ -36,6 +37,10 @@ class EditGameRuleFragment : BaseGameRuleFragment<EditRuleBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
+
+        if (args.gameRuleId < 0) {
+            viewModel.createNewRule(getString(R.string.deafult_new_rule_name))
+        }
 
         val adapter = RuleLetterAdapter()
         binding.lettersList.adapter = adapter

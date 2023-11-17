@@ -43,13 +43,9 @@ class GameRulesFragment : BaseGameRuleFragment<GameRulesBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = GameRulesAdapter(object : GameRulesAdapter.RuleClickListener {
-            override fun onRuleClick(ruleId: Long) {
-                viewModel.selectRuleForGame(ruleId)
-            }
+            override fun onRuleClick(ruleId: Long) = viewModel.selectRuleForGame(ruleId)
 
-            override fun onDeleteClick(ruleId: Long) {
-                TODO("Not yet implemented")
-            }
+            override fun onDeleteClick(ruleId: Long) = viewModel.deleteGameRule(ruleId)
 
             override fun onEditClick(ruleId: Long) = navigation.navigateToEditRule(ruleId)
         })
@@ -57,7 +53,7 @@ class GameRulesFragment : BaseGameRuleFragment<GameRulesBinding>() {
         binding.rulesList.adapter = adapter
 
         binding.createRuleFab.setOnClickListener {
-
+            navigation.navigateToCreateRule()
         }
 
         viewModel.gameRules.observe(viewLifecycleOwner) {

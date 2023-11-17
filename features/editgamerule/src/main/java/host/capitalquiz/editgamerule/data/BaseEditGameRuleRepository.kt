@@ -1,5 +1,6 @@
 package host.capitalquiz.editgamerule.data
 
+import host.capitalquiz.core.db.GameRuleData
 import host.capitalquiz.core.db.GameRuleDataMapper
 import host.capitalquiz.editgamerule.domain.EditGameRuleRepository
 import host.capitalquiz.editgamerule.domain.GameRule
@@ -15,5 +16,9 @@ class BaseEditGameRuleRepository @Inject constructor(
         return gameRuleDataSource.getRuleById(id).map {
             it.map(mapper)
         }
+    }
+
+    override suspend fun createNewRule(name: String): Long {
+        return gameRuleDataSource.createRule(GameRuleData(name, emptyMap()))
     }
 }

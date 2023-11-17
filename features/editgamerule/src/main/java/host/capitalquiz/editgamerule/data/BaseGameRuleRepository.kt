@@ -30,4 +30,8 @@ class BaseGameRuleRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override suspend fun findGameRuleIdOfGame(gameId: Long): Long {
+        return gameDataSource.gameById(gameId).ruleId
+    }
+
 }

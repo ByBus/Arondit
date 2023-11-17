@@ -10,4 +10,6 @@ interface GameRuleRepository {
     suspend fun setRuleForGame(gameId: Long, ruleId: Long)
 
     suspend fun saveRule(rule: GameRule)
+
+    suspend fun findGameRuleIdOfGame(gameId: Long): Long
 }

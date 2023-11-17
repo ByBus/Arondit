@@ -3,4 +3,5 @@
     <string name="rule_selector_title">Выберите правило для игры</string>
     <string name="create_rule">СОЗДАТЬ</string>
     <string name="remove_game_rule_desc">удалить правило</string>
+    <string name="deafult_new_rule_name">Новое правило</string>
 </resources>

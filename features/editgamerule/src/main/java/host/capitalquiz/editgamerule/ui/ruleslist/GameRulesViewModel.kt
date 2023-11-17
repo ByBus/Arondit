@@ -31,6 +31,12 @@ class GameRulesViewModel @AssistedInject constructor(
         }
     }
 
+    fun deleteGameRule(ruleId: Long) {
+        viewModelScope.launch {
+            gameRuleInteractor.deleteRule(ruleId, gameId)
+        }
+    }
+
     companion object {
         fun provideFactory(
             assistedFactory: GameRuleViewModelFactory,
