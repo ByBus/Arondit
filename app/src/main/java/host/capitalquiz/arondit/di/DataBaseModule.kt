@@ -35,10 +35,10 @@ class DataBaseModule {
     ): GameDataBase = Room.databaseBuilder(
         context,
         GameDataBase::class.java,
-        "games.db"
+        "games_rules_asset.db"
     )
         .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
-        .createFromAsset("games.db")
+        .createFromAsset("games_rules_asset.db")
         .build()
 
     @Provides
