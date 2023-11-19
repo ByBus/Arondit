@@ -12,6 +12,7 @@ interface EditGameRuleInteractor {
     suspend fun createNewRule(name: String): Long
     suspend fun createCopyOfRule(namePrefix: String, rule: GameRule): Long
     suspend fun addLetterToRule(letter: Char, points: Int, ruleId: Long)
+    suspend fun renameRule(name: String, rule: GameRule)
 
     class Base @Inject constructor(
         private val gameRuleRepository: EditGameRuleRepository,
@@ -41,6 +42,13 @@ interface EditGameRuleInteractor {
                 lettersToPoints[letter.uppercaseChar()] = points
                 val newRule = rule.copy(points = lettersToPoints)
                 gameRuleRepository.updateRule(newRule)
+            }
+        }
+
+        override suspend fun renameRule(name: String, rule: GameRule) {
+            withContext(Dispatchers.IO) {
+                val renamedRule = rule.copy(name = name)
+                gameRuleRepository.updateRule(renamedRule)
             }
         }
     }

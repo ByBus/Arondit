@@ -9,7 +9,6 @@ import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.core.ui.Inflater
 import host.capitalquiz.editgamerule.ui.BaseGameRuleFragment
-import host.capitalquiz.editgamerule.ui.GameRulesNavigation
 import javax.inject.Inject
 import host.capitalquiz.editgamerule.databinding.FragmentGameRulesBinding as GameRulesBinding
 

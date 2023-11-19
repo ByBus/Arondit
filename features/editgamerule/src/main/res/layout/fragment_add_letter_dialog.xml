@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content"
+        style="@style/BottomSheetDialogInnerContainer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/letterInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            app:layout_constraintEnd_toStartOf="@id/pointsInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/letter_input_hint" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/pointsInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/letterInput"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/points" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/okButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/left_corners_round"
+            android:text="@string/ok"
+            app:backgroundTint="@color/base_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/addLetterButton"
+            app:layout_constraintStart_toStartOf="@id/letterInput"
+            app:layout_constraintTop_toBottomOf="@id/letterInput" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addLetterButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/right_corners_round"
+            android:text="@string/add_player_button"
+            app:backgroundTint="@color/base_green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/pointsInput"
+            app:layout_constraintStart_toEndOf="@id/okButton"
+            app:layout_constraintTop_toBottomOf="@id/letterInput" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/border"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="@id/content"
+        app:layout_constraintEnd_toEndOf="@id/content"
+        app:layout_constraintStart_toStartOf="@id/content"
+        app:layout_constraintTop_toTopOf="@id/content" />
+
+    <host.capitalquiz.core.ui.view.HeaderTextView
+        android:id="@+id/dialogHeader"
+        style="@style/BottomSheetDialogCompositeHeader"
+        android:text="@string/new_letter"
+        app:centerDrawable="@drawable/header_middle_piece"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/content"
+        app:leftDrawable="@drawable/header_left_piece"
+        app:leftDrawableTintBackgroundMask="@drawable/header_left_piece_tint_mask"
+        app:rightDrawable="@drawable/header_right_piece"
+        app:rightDrawableTintBackgroundMask="@drawable/header_right_piece_tint_mask" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

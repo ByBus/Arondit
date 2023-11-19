@@ -1,7 +1,7 @@
 package host.capitalquiz.arondit.navigation
 
 import androidx.navigation.NavController
-import host.capitalquiz.editgamerule.ui.GameRulesNavigation
+import host.capitalquiz.editgamerule.ui.ruleslist.GameRulesNavigation
 import host.capitalquiz.editgamerule.ui.ruleslist.GameRulesFragmentDirections
 import javax.inject.Inject
 

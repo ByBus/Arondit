@@ -8,11 +8,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.FragmentComponent
+import host.capitalquiz.arondit.navigation.EditGameRuleFragmentNavigation
 import host.capitalquiz.arondit.navigation.GameFragmentNavigation
 import host.capitalquiz.arondit.navigation.GameRuleFragmentNavigation
 import host.capitalquiz.arondit.navigation.GamesListFragmentNavigation
 import host.capitalquiz.arondit.navigation.OnBoardingFragmentNavigation
-import host.capitalquiz.editgamerule.ui.GameRulesNavigation
+import host.capitalquiz.editgamerule.ui.editscreen.EditGameRuleNavigation
+import host.capitalquiz.editgamerule.ui.ruleslist.GameRulesNavigation
 import host.capitalquiz.game.ui.GameNavigation
 import host.capitalquiz.gameslist.ui.GamesListNavigation
 import host.capitalquiz.onboarding.ui.OnBoardingNavigation
@@ -31,7 +33,10 @@ interface NavigationModule {
     fun bindOnBoardingNavigation(impl: OnBoardingFragmentNavigation): OnBoardingNavigation
 
     @Binds
-    fun bindEditGameRuleNavigation(impl: GameRuleFragmentNavigation): GameRulesNavigation
+    fun bindGameRuleNavigation(impl: GameRuleFragmentNavigation): GameRulesNavigation
+
+    @Binds
+    fun bindEditFameRuleNavigation(impl: EditGameRuleFragmentNavigation): EditGameRuleNavigation
 
     companion object {
 

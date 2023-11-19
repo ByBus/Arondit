@@ -25,6 +25,7 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
     protected val viewModel by viewModels<WordDialogViewModel>()
     private var _binding: DialogFragmentAddWordBinding? = null
     protected val binding get() = _binding!!
+    override val borderView get() = binding.border
 
     @get:StringRes
     abstract val titleRes: Int
@@ -106,8 +107,6 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
         binding.wordInput.editText?.addTextChangedListener {
             viewModel.updateWord(it.toString())
         }
-
-        binding.border.background = CompositeBorderDrawable()
 
         viewModel.wordSavingResult.collect(viewLifecycleOwner) { saved ->
             if (saved)

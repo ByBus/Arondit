@@ -1,4 +1,4 @@
-package host.capitalquiz.editgamerule.ui
+package host.capitalquiz.editgamerule.ui.ruleslist
 
 interface GameRulesNavigation {
     fun navigateToCreateRule()

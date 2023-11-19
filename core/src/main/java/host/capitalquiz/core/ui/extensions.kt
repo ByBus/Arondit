@@ -30,3 +30,8 @@ inline fun <reified T> Flow<T>.collect(
         }
     }
 }
+
+fun Fragment.requirePreviousFragment(): Fragment {
+    val fragments = requireParentFragment().childFragmentManager.fragments
+    return if (fragments.size < 2) requireParentFragment() else fragments[fragments.lastIndex - 1]
+}

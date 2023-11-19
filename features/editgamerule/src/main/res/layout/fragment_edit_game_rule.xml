@@ -8,6 +8,8 @@
     tools:context=".ui.ruleslist.GameRulesFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
+        app:subtitleTextColor="@color/white"
+        app:menu="@menu/edit_rule_menu"
         android:id="@+id/rules_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

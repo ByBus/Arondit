@@ -59,6 +59,12 @@ class EditGameRuleViewModel @AssistedInject constructor(
         }
     }
 
+    fun renameRule(newName: String) {
+        viewModelScope.launch {
+            ruleInteractor.renameRule(newName, gameRule.first().map(ruleUiToRuleMapper))
+        }
+    }
+
     companion object {
         fun factory(
             assistedFactory: EditGameRuleViewModelFactory,

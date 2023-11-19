@@ -32,6 +32,7 @@
         tools:listitem="@layout/game_rule_item" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        app:iconSize="32dp"
         android:id="@+id/create_rule_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,7 +42,7 @@
         android:backgroundTint="@color/base_green"
         android:text="@string/create_rule"
         android:textColor="@android:color/white"
-        app:icon="@drawable/ic_round_a1_plus_24"
+        app:icon="@drawable/round_abvg_24"
         app:iconTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

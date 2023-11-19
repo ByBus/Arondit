@@ -12,7 +12,9 @@ import host.capitalquiz.core.ui.view.CompositeBorderDrawable
 
 abstract class BottomSheetDialogFragmentWithBorder : BottomSheetDialogFragment() {
 
-    protected fun CompositeBorderDrawable() = CompositeBorderDrawable.baseDialog(requireContext())
+    protected abstract val borderView: View
+
+    private fun CompositeBorderDrawable() = CompositeBorderDrawable.baseDialog(requireContext())
         .apply {
             moveDecorSides(-15, 15)
         }
@@ -28,6 +30,7 @@ abstract class BottomSheetDialogFragmentWithBorder : BottomSheetDialogFragment()
         val bottomSheet = view.parent as View
         bottomSheet.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
         bottomSheet.elevation = 0f
+        borderView.background = CompositeBorderDrawable()
     }
 
     protected fun Snackbar(@StringRes resId: Int): Snackbar =

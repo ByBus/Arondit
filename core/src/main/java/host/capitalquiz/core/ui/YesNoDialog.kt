@@ -9,6 +9,7 @@ import host.capitalquiz.core.databinding.DialogRemoveBinding
 abstract class YesNoDialog : BottomSheetDialogFragmentWithBorder() {
     private var _binding: DialogRemoveBinding? = null
     private val binding get() = _binding!!
+    override val borderView get() = binding.border
 
     abstract val infoMessageText: String
     abstract val confirmButtonText: String
@@ -39,8 +40,6 @@ abstract class YesNoDialog : BottomSheetDialogFragmentWithBorder() {
         binding.cancelButton.setOnClickListener {
             dismiss()
         }
-
-        binding.border.background = CompositeBorderDrawable()
     }
 
     override fun onDestroyView() {

@@ -5,4 +5,14 @@
     <string name="remove_game_rule_desc">удалить правило</string>
     <string name="deafult_new_rule_name">Новое правило</string>
     <string name="copy_rule_prefix_name">Копия</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="new_letter">Новая буква</string>
+    <string name="letter_input_hint">Буква</string>
+    <string name="ok">OK</string>
+    <string name="points">Очки</string>
+    <string name="rename">Переименовать</string>
+    <string name="rename_button_text">ПЕРЕИМЕНОВАТЬ</string>
+    <string name="title">Название</string>
+    <string name="game_rule_name">Название правила</string>
 </resources>

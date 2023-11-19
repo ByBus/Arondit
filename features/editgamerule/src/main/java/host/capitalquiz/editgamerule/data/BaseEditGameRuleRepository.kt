@@ -27,6 +27,7 @@ class BaseEditGameRuleRepository @Inject constructor(
     override suspend fun createNewRule(name: String): Long =
         gameRuleDataSource.createRule(GameRuleData(name, emptyMap()))
 
-    override suspend fun updateRule(rule: GameRule)=
+    override suspend fun updateRule(rule: GameRule) {
         gameRuleDataSource.updateRule(rule.map(dataMapper))
+    }
 }
