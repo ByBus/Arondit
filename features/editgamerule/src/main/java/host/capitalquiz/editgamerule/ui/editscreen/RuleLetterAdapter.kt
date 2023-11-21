@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import host.capitalquiz.editgamerule.databinding.GameRuleLetterItemBinding
 
-class RuleLetterAdapter : ListAdapter<RuleLetter, RuleLetterAdapter.Bindable>(DIFF_UTIL_CALLBACK){
+class RuleLetterAdapter(private val listener: OnItemClickListener) : ListAdapter<RuleLetter, RuleLetterAdapter.Bindable>(DIFF_UTIL_CALLBACK){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Bindable {
         val binding =
@@ -22,12 +22,19 @@ class RuleLetterAdapter : ListAdapter<RuleLetter, RuleLetterAdapter.Bindable>(DI
 
     abstract class Bindable(itemView: View) : RecyclerView.ViewHolder(itemView) {
         protected var letter: Char = '_'
+        protected var points = 0
         abstract fun bind(item: RuleLetter)
     }
 
     inner class LetterViewHolder(private val binding: GameRuleLetterItemBinding): Bindable(binding.root) {
+        init {
+            itemView.setOnClickListener {
+                listener.onClick(letter, points)
+            }
+        }
         override fun bind(item: RuleLetter) {
             letter = item.letter
+            points = item.points
             binding.letter.updateLetter(letter, item.points)
         }
     }
@@ -42,5 +49,9 @@ class RuleLetterAdapter : ListAdapter<RuleLetter, RuleLetterAdapter.Bindable>(DI
                 return oldItem == newItem
             }
         }
+    }
+
+    fun interface OnItemClickListener {
+        fun onClick(letter: Char, points: Int)
     }
 }

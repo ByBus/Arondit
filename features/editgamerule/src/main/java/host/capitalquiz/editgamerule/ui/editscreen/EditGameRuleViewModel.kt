@@ -9,11 +9,14 @@ import dagger.assisted.AssistedInject
 import host.capitalquiz.editgamerule.domain.EditGameRuleInteractor
 import host.capitalquiz.editgamerule.domain.GameRule
 import host.capitalquiz.editgamerule.domain.GameRuleMapper
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 private const val EDIT_RULE = -1L
@@ -25,7 +28,8 @@ class EditGameRuleViewModel @AssistedInject constructor(
     @Assisted private val ruleId: Long,
 ) : ViewModel() {
     private val latestRuleId = MutableStateFlow(ruleId)
-    private var ruleCopyNamePrefix: String = ""
+    private val _editLetterNavigation = Channel<NavigationEvent>()
+    val editLetterNavigation = _editLetterNavigation.consumeAsFlow()
 
     val gameRule = latestRuleId.flatMapLatest { id ->
         if (id == EDIT_RULE)
@@ -36,33 +40,24 @@ class EditGameRuleViewModel @AssistedInject constructor(
         gameRule.map(ruleToUiMapper)
     }
 
-    fun init(ruleCopyNamePrefix: String) {
-        this.ruleCopyNamePrefix = ruleCopyNamePrefix
-    }
-
     fun createNewRule(name: String) {
         viewModelScope.launch {
-            latestRuleId.value = ruleInteractor.createNewRule(name)
+            latestRuleId.update { ruleInteractor.createNewRule(name) }
         }
     }
 
-    fun saveLetter(letter: Char, points: Int) {
-        viewModelScope.launch {
-            val rule = gameRule.first()
-            if (rule.readOnly) {
-                latestRuleId.value = ruleInteractor.createCopyOfRule(
-                    ruleCopyNamePrefix,
-                    rule.map(ruleUiToRuleMapper)
-                )
-            }
-            ruleInteractor.addLetterToRule(letter, points, latestRuleId.value)
-        }
+    fun updateRule(ruleId: Long) {
+        latestRuleId.update { ruleId }
     }
 
     fun renameRule(newName: String) {
         viewModelScope.launch {
             ruleInteractor.renameRule(newName, gameRule.first().map(ruleUiToRuleMapper))
         }
+    }
+
+    fun navigateToEditLetter(letter: Char? = null, points: Int = -1){
+        _editLetterNavigation.trySend(NavigationEvent(latestRuleId.value, letter, points))
     }
 
     companion object {

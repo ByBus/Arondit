@@ -13,4 +13,8 @@ data class GameRule(
         return mapper(id, name, points, readOnly, gamesIds)
     }
 
+    fun hasLetter(letter: Char): Boolean = points.containsKey(letter.uppercaseChar())
+
+    fun points(letter: Char): Int = points.getOrDefault(letter.uppercaseChar(), 0)
+
 }

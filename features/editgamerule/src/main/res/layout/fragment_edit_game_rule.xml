@@ -8,6 +8,7 @@
     tools:context=".ui.ruleslist.GameRulesFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
+        app:navigationIcon="@drawable/ic_back_arrow_24"
         app:subtitleTextColor="@color/white"
         app:menu="@menu/edit_rule_menu"
         android:id="@+id/rules_toolbar"

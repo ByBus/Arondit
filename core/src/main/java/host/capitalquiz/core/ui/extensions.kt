@@ -1,8 +1,11 @@
 package host.capitalquiz.core.ui
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.CoroutineScope
@@ -34,4 +37,12 @@ inline fun <reified T> Flow<T>.collect(
 fun Fragment.requirePreviousFragment(): Fragment {
     val fragments = requireParentFragment().childFragmentManager.fragments
     return if (fragments.size < 2) requireParentFragment() else fragments[fragments.lastIndex - 1]
+}
+
+fun <T> MutableLiveData<T>.liveData(): LiveData<T> {
+    return this
+}
+
+fun Bundle.getLongOrNull(key: String): Long? {
+    return if (containsKey(key)) getLong(key) else null
 }

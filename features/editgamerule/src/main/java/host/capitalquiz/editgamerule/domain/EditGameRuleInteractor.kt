@@ -11,11 +11,12 @@ interface EditGameRuleInteractor {
     fun getGameRule(id: Long): Flow<GameRule>
     suspend fun createNewRule(name: String): Long
     suspend fun createCopyOfRule(namePrefix: String, rule: GameRule): Long
-    suspend fun addLetterToRule(letter: Char, points: Int, ruleId: Long)
+    suspend fun addLetterToRule(letter: Char, points: Int, ruleId: Long, replace: Boolean, namePrefix: String): LetterAddResult
     suspend fun renameRule(name: String, rule: GameRule)
 
     class Base @Inject constructor(
         private val gameRuleRepository: EditGameRuleRepository,
+        private val nextCharProvider: CharProvider
     ) : EditGameRuleInteractor {
         override fun getGameRule(id: Long): Flow<GameRule> {
             return gameRuleRepository.findRuleById(id)
@@ -35,13 +36,32 @@ interface EditGameRuleInteractor {
             }
         }
 
-        override suspend fun addLetterToRule(letter: Char, points: Int, ruleId: Long) {
+        override suspend fun addLetterToRule(
+            letter: Char,
+            points: Int,
+            ruleId: Long,
+            replace: Boolean,
+            namePrefix: String
+        ): LetterAddResult {
             return withContext(Dispatchers.IO) {
-                val rule = gameRuleRepository.findRuleById(ruleId).first()
+                var rule = gameRuleRepository.findRuleById(ruleId).first()
+
+                if (rule.readOnly) {
+                    val newId = createCopyOfRule(namePrefix, rule)
+                    rule = gameRuleRepository.findRuleById(newId).first()
+                }
+
+                if (rule.hasLetter(letter) && replace.not()) {
+                    return@withContext LetterAddResult.AlreadyExist(letter, rule.points(letter), rule.id)
+                }
+
                 val lettersToPoints = rule.points.toMutableMap()
                 lettersToPoints[letter.uppercaseChar()] = points
                 val newRule = rule.copy(points = lettersToPoints)
                 gameRuleRepository.updateRule(newRule)
+
+                val nextLetter = nextCharProvider.provide(newRule)
+                LetterAddResult.Success(nextLetter, rule.id)
             }
         }
 

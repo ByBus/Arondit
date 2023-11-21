@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_to_renameRuleFragment"
             app:destination="@id/renameRuleFragment" />
+        <action
+            android:id="@+id/action_to_addLetterDialogFragment"
+            app:destination="@id/addLetterDialogFragment" />
     </fragment>
     <dialog
         android:id="@+id/renameRuleFragment"
@@ -36,5 +39,20 @@
         <argument
             android:name="ruleName"
             app:argType="string" />
+    </dialog>
+    <dialog
+        android:id="@+id/addLetterDialogFragment"
+        android:name="host.capitalquiz.editgamerule.ui.dialog.AddLetterDialogFragment"
+        android:label="AddLetterDialogFragment" >
+        <argument
+            android:name="ruleId"
+            app:argType="long" />
+        <argument
+            android:name="letter"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="points"
+            app:argType="integer" />
     </dialog>
 </navigation>

@@ -15,4 +15,6 @@
     <string name="rename_button_text">ПЕРЕИМЕНОВАТЬ</string>
     <string name="title">Название</string>
     <string name="game_rule_name">Название правила</string>
+    <string name="replace">ЗАМЕНИТЬ</string>
+    <string name="add_letter_already_exist_hint">Такая буква уже есть. Заменить её очки?</string>
 </resources>

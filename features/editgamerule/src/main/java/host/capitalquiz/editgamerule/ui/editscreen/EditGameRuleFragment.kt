@@ -1,7 +1,9 @@
 package host.capitalquiz.editgamerule.ui.editscreen
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -11,13 +13,15 @@ import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.core.ui.Inflater
 import host.capitalquiz.core.ui.collect
+import host.capitalquiz.core.ui.getLongOrNull
 import host.capitalquiz.editgamerule.R
 import host.capitalquiz.editgamerule.ui.BaseGameRuleFragment
 import javax.inject.Inject
 import host.capitalquiz.editgamerule.databinding.FragmentEditGameRuleBinding as EditRuleBinding
 
 @AndroidEntryPoint
-class EditGameRuleFragment : BaseGameRuleFragment<EditRuleBinding>() {
+class EditGameRuleFragment : BaseGameRuleFragment<EditRuleBinding>(),
+    Toolbar.OnMenuItemClickListener {
     override val viewInflater: Inflater<EditRuleBinding> = EditRuleBinding::inflate
     private val args by navArgs<EditGameRuleFragmentArgs>()
     override val fab get() = binding.addLetterFab
@@ -33,12 +37,12 @@ class EditGameRuleFragment : BaseGameRuleFragment<EditRuleBinding>() {
         EditGameRuleViewModel.factory(editRuleVMFactory, args.gameRuleId)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setFragmentResultListener(REQUEST_KEY) { _, bundle ->
             bundle.getString(NAME_KEY)?.let { viewModel.renameRule(it) }
+            bundle.getLongOrNull(RULE_ID_KEY)?.let { viewModel.updateRule(it) }
         }
 
         if (args.gameRuleId < 0) {
@@ -54,30 +58,47 @@ class EditGameRuleFragment : BaseGameRuleFragment<EditRuleBinding>() {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
-        viewModel.init(getString(R.string.copy_rule_prefix_name))
-
-        val adapter = RuleLetterAdapter()
+        val adapter = RuleLetterAdapter { letter, points ->
+            viewModel.navigateToEditLetter(letter, points)
+        }
         binding.lettersList.adapter = adapter
 
+        val toolbar = binding.rulesToolbar
         viewModel.gameRule.collect(viewLifecycleOwner) {
-            TransitionManager.beginDelayedTransition(binding.rulesToolbar)
-            binding.rulesToolbar.menu.getItem(0).isVisible = it.readOnly.not()
-            binding.rulesToolbar.title = it.name
+            TransitionManager.beginDelayedTransition(toolbar)
+            toolbar.menu.findItem(R.id.edit_rule_name).isVisible = it.readOnly.not()
+            toolbar.title = it.name
             adapter.submitList(it.letters)
         }
 
-        binding.addLetterFab.setOnClickListener {
-            viewModel.saveLetter(('А'..'Я').random(), (1..15).random())
+        viewModel.editLetterNavigation.collect(viewLifecycleOwner) { navEvent ->
+            navEvent.consume(navigation::navigateToAddLetterDialog)
         }
 
-        binding.rulesToolbar.menu.getItem(0).setOnMenuItemClickListener {
-            navigation.navigateToRenameRuleDialog(binding.rulesToolbar.title.toString())
-            true
+        binding.addLetterFab.setOnClickListener {
+            viewModel.navigateToEditLetter()
+        }
+
+        toolbar.apply {
+            setOnMenuItemClickListener(this@EditGameRuleFragment)
+            setNavigationOnClickListener { navigation.navigateUp() }
+        }
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            R.id.edit_rule_name -> {
+                navigation.navigateToRenameRuleDialog(binding.rulesToolbar.title.toString())
+                true
+            }
+
+            else -> false
         }
     }
 
     companion object {
         const val REQUEST_KEY = "host.capitalquiz.EditGameRuleFragment.request.key"
         const val NAME_KEY = "host.capitalquiz.EditGameRuleFragment.name.key"
+        const val RULE_ID_KEY = "host.capitalquiz.EditGameRuleFragment.ruleId.key"
     }
 }
