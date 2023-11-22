@@ -18,7 +18,7 @@
     <string name="no_players_info_text">Для начала новой партии вам нужно добавить участников\nУчаствовать могут до 4-х игроков</string>
     <string name="add_participant">ДОБАВИТЬ УЧАСТНИКА</string>
     <string name="add_word_button">ДОБАВИТЬ</string>
-    <string name="add_player_button">ДОБАВИТЬ</string>
+    <string name="add_letter_button">ДОБАВИТЬ</string>
     <string name="save">СОХРАНИТЬ</string>
     <string name="x2">X2</string>
     <string name="x3">X3</string>

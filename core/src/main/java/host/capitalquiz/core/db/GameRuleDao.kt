@@ -25,5 +25,5 @@ interface GameRuleDao {
     fun findAllGameRules(): Flow<List<GameRuleWithGamesData>>
 
     @Update
-    fun updateGameRule(rule: GameRuleData)
+    suspend fun updateGameRule(rule: GameRuleData)
 }

@@ -8,6 +8,7 @@ import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.core.content.withStyledAttributes
 import host.capitalquiz.core.R
@@ -17,7 +18,7 @@ class LetterBlockView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
     private var char = 'A'
     private var points = 1
-    private var background: Drawable? = null
+    private var backgroundImage: Drawable? = null
     private var desiredSize = 0
     private val blockBounds = Rect()
     private val paint = Paint().apply {
@@ -30,7 +31,7 @@ class LetterBlockView @JvmOverloads constructor(
         context.withStyledAttributes(attrs, R.styleable.LetterBlockView) {
             char = getString(R.styleable.LetterBlockView_letter)?.first() ?: 'A'
             points = getInt(R.styleable.LetterBlockView_points, 1)
-            background = getDrawable(R.styleable.LetterBlockView_blockBackground)
+            backgroundImage = getDrawable(R.styleable.LetterBlockView_blockBackground)
             paint.color = getColor(R.styleable.LetterBlockView_letterColor, 0xFF3C3C3C.toInt())
             desiredSize = getDimensionPixelSize(R.styleable.LetterBlockView_blockSize, 50)
         }
@@ -49,8 +50,10 @@ class LetterBlockView @JvmOverloads constructor(
 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
-
-        background?.draw(canvas)
+        backgroundImage?.draw(canvas)
+        if (char == 'M') {
+            Log.d("LetterBlockView", "onSizeChanged: $blockBounds $height\n padding=$paddingLeft $paddingTop $paddingRight $paddingBottom wh=$width, $height")
+        }
 
         val scoreTextSize = paint.textSize / 2.5f
         val offset = (blockBounds.width() - charWidth) / 3.5f
@@ -108,12 +111,12 @@ class LetterBlockView @JvmOverloads constructor(
         blockBounds.set( /*l t r b*/
             paddingLeft,
             paddingTop,
-            paddingLeft + (w - paddingLeft - paddingRight),
-            paddingTop + (h - paddingTop - paddingBottom)
+            w - paddingRight,
+            h - paddingBottom
         )
         paint.textSize = blockBounds.height() * 0.7f
         charWidth = paint.measureText(char.toString())
-        background?.bounds = blockBounds
+        backgroundImage?.bounds = blockBounds
     }
 
     private fun Paint.withTextSize(size: Float, block: Paint.() -> Unit) {

@@ -11,11 +11,11 @@ import host.capitalquiz.editgamerule.domain.GameRule
 import host.capitalquiz.editgamerule.domain.GameRuleMapper
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -29,7 +29,7 @@ class EditGameRuleViewModel @AssistedInject constructor(
 ) : ViewModel() {
     private val latestRuleId = MutableStateFlow(ruleId)
     private val _editLetterNavigation = Channel<NavigationEvent>()
-    val editLetterNavigation = _editLetterNavigation.consumeAsFlow()
+    val editLetterNavigation = _editLetterNavigation.receiveAsFlow()
 
     val gameRule = latestRuleId.flatMapLatest { id ->
         if (id == EDIT_RULE)

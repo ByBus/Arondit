@@ -36,7 +36,7 @@ class AddLetterDialogFragment : BottomSheetDialogFragmentWithBorder(), Dismissib
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         args.letter?.let { letter ->
-            viewModel.initLetter(letter.first(), args.points)
+            viewModel.initLetter(letter.first(), args.points, false)
         }
     }
 
@@ -84,8 +84,7 @@ class AddLetterDialogFragment : BottomSheetDialogFragmentWithBorder(), Dismissib
 
         binding.replaceButton.setOnClickListener {
             viewModel.saveLetter(
-                letter,
-                points,
+                letter, points,
                 closeAfter = false,
                 replace = true
             )
@@ -93,6 +92,10 @@ class AddLetterDialogFragment : BottomSheetDialogFragmentWithBorder(), Dismissib
 
         binding.addLetterButton.setOnClickListener {
             viewModel.saveLetter(letter, points, false)
+        }
+
+        binding.removeLetterButton.setOnClickListener {
+            viewModel.deleteCurrentLetter()
         }
 
         binding.letterInput.requestFocus()

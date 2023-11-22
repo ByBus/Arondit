@@ -14,9 +14,11 @@ import host.capitalquiz.editgamerule.domain.EditGameRuleInteractor
 import host.capitalquiz.editgamerule.domain.EditGameRuleRepository
 import host.capitalquiz.editgamerule.domain.GameRule
 import host.capitalquiz.editgamerule.domain.GameRuleMapper
+import host.capitalquiz.editgamerule.domain.LetterAddResultMapper
 import host.capitalquiz.editgamerule.domain.LetterAddResultMapperWithParameter
 import host.capitalquiz.editgamerule.ui.dialog.AddLetterUiState
-import host.capitalquiz.editgamerule.ui.dialog.LetterAddResultToUiMapper
+import host.capitalquiz.editgamerule.ui.dialog.CreateLetterAddResultToUiMapper
+import host.capitalquiz.editgamerule.ui.dialog.EditLetterAddResultToUiMapper
 import host.capitalquiz.editgamerule.ui.editscreen.EditableGameRuleUi
 import host.capitalquiz.editgamerule.ui.editscreen.EditableGameRuleUiMapper
 import host.capitalquiz.editgamerule.ui.editscreen.EditableRuleToUiMapper
@@ -50,5 +52,10 @@ interface EditGameRuleModule {
     fun bindNextCharPredictor(impl: CharProvider.NextChar): CharProvider
 
     @Binds
-    fun bindLetterAddResultMapper(impl: LetterAddResultToUiMapper): LetterAddResultMapperWithParameter<Boolean, AddLetterUiState>
+    @CreationMode
+    fun bindLetterAddResultMapperCreateMode(impl: CreateLetterAddResultToUiMapper): LetterAddResultMapperWithParameter<Boolean, AddLetterUiState>
+
+    @Binds
+    @EditMode
+    fun bindLetterAddResultMapperEditMode(impl: EditLetterAddResultToUiMapper): LetterAddResultMapper<AddLetterUiState>
 }

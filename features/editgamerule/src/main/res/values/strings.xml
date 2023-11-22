@@ -17,4 +17,7 @@
     <string name="game_rule_name">Название правила</string>
     <string name="replace">ЗАМЕНИТЬ</string>
     <string name="add_letter_already_exist_hint">Такая буква уже есть. Заменить её очки?</string>
+    <string name="remove_letter_button">УДАЛИТЬ</string>
+    <string name="edit_letter_already_exist_hint">Такая буква уже существует</string>
+    <string name="editing_of_letter">Редактирование</string>
 </resources>
