@@ -8,7 +8,6 @@ import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.core.content.withStyledAttributes
 import host.capitalquiz.core.R
@@ -51,9 +50,6 @@ class LetterBlockView @JvmOverloads constructor(
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
         backgroundImage?.draw(canvas)
-        if (char == 'M') {
-            Log.d("LetterBlockView", "onSizeChanged: $blockBounds $height\n padding=$paddingLeft $paddingTop $paddingRight $paddingBottom wh=$width, $height")
-        }
 
         val scoreTextSize = paint.textSize / 2.5f
         val offset = (blockBounds.width() - charWidth) / 3.5f
@@ -66,13 +62,12 @@ class LetterBlockView @JvmOverloads constructor(
         paint.withTextSize(scoreTextSize) {
             val score = points.toString()
             val scoreWidth = measureText(score)
-            scoreXPosition = blockBounds.right - scoreWidth - offset
-            canvas.drawText(
-                score,
-                scoreXPosition,
-                yPosition + descent(),
-                paint
-            )
+            val availableScoreWidth = blockBounds.width() / 3f
+            val scale = if (availableScoreWidth > scoreWidth) 1f else availableScoreWidth/ scoreWidth
+            scoreXPosition = blockBounds.right - scoreWidth.coerceAtMost(availableScoreWidth) - offset
+            drawWithTextScaleX(scale){
+                canvas.drawText(score, scoreXPosition, yPosition + descent(), paint)
+            }
         }
         val availableSpace = scoreXPosition - xPosition
         val scale =

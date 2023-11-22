@@ -139,13 +139,12 @@ interface Letter {
                     paint.withColor(textColor.withAlpha(textAlpha)) {
                         withTextSize(scoreTextSize) {
                             val scoreWidth = measureText(score)
-                            scoreXPosition = bounds.right - scoreWidth - offset
-                            canvas.drawText(
-                                score,
-                                scoreXPosition,
-                                yPosition + descent(),
-                                paint
-                            )
+                            val availableScoreWidth = blockSize / 3
+                            val scale = if (availableScoreWidth > scoreWidth) 1f else availableScoreWidth/ scoreWidth
+                            scoreXPosition = bounds.right - scoreWidth.coerceAtMost(availableScoreWidth) - offset
+                            drawWithTextScaleX(scale){
+                                canvas.drawText(score, scoreXPosition, yPosition + descent(), paint)
+                            }
                         }
                         val availableSpace = scoreXPosition - xPosition
                         val scale =
