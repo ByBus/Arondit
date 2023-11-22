@@ -26,9 +26,9 @@ class WordToWordUiMapper @Inject constructor() : WordMapperWithParameter<GameRul
     ): WordUi {
         val bonuses = mutableListOf<Int>()
         val letterScores = word.mapIndexed { i, char ->
-            val score = dictionary.getOrDefault( char.uppercaseChar(), 0)
-            bonuses.add(if (score != 0) letterBonuses[i] else NOT_ALLOWED_CHAR_BONUS)
-            score
+            val score = dictionary[char.uppercaseChar()]
+            bonuses.add(if (score != null) letterBonuses[i] else NOT_ALLOWED_CHAR_BONUS)
+            score ?: 0
         }
         return WordUi(word, bonuses, multiplier, id, score, extraPoints, letterScores)
     }
