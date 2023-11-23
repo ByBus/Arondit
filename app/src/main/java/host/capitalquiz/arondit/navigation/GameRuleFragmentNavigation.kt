@@ -17,4 +17,8 @@ class GameRuleFragmentNavigation @Inject constructor(
         val actionEditRule = GameRulesFragmentDirections.actionToEditGameRuleFragment(ruleId)
         navController.navigate(actionEditRule)
     }
+
+    override fun navigateUp() {
+        navController.navigateUp()
+    }
 }
