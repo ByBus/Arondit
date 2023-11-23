@@ -40,10 +40,7 @@ class GameRulesAdapter(private val listener: RuleClickListener) :
         override fun bind(item: GameRuleUi) {
             id = item.id
             with(binding) {
-                ruleCheckbox.isChecked = item.selected
-                ruleName.text = item.name
-                deleteRule.isEnabled = item.readOnly.not()
-                deleteRule.imageAlpha = if (item.readOnly) 75 else 255
+                item.update(ruleCheckbox, ruleName, deleteRule)
             }
         }
     }
