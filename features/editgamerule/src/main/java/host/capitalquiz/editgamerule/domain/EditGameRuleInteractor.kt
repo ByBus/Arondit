@@ -47,12 +47,7 @@ interface EditGameRuleInteractor {
             replace: Boolean,
             namePrefix: String,
         ): LetterResult {
-            var rule = gameRuleRepository.findRule(ruleId)
-
-            if (rule.readOnly) {
-                val newId = createCopyOfRule(namePrefix, rule)
-                rule = gameRuleRepository.findRule(newId)
-            }
+            val rule = findRuleOrCreate(ruleId, namePrefix)
 
             if (rule.hasLetter(letter) && replace.not())
                 return LetterResult.AlreadyExist(letter, rule.points(letter), rule.id, points)
@@ -78,12 +73,7 @@ interface EditGameRuleInteractor {
             ruleId: Long,
             namePrefix: String
         ): LetterResult {
-            var rule = gameRuleRepository.findRule(ruleId)
-
-            if (rule.readOnly) {
-                val newId = createCopyOfRule(namePrefix, rule)
-                rule = gameRuleRepository.findRule(newId)
-            }
+            val rule = findRuleOrCreate(ruleId, namePrefix)
 
             if (rule.hasLetter(new) && old != new)
                 return LetterResult.AlreadyExist(new, rule.points(old), rule.id, points)
@@ -101,12 +91,7 @@ interface EditGameRuleInteractor {
         }
 
         override suspend fun deleteLetterFromRule(letter: Char, ruleId: Long, namePrefix: String): LetterResult {
-            var rule = gameRuleRepository.findRule(ruleId)
-
-            if (rule.readOnly) {
-                val newId = createCopyOfRule(namePrefix, rule)
-                rule = gameRuleRepository.findRule(newId)
-            }
+            val rule = findRuleOrCreate(ruleId, namePrefix)
 
             val newLettersPoints = rule.points.toMutableMap().apply {
                 remove(letter.uppercaseChar())
@@ -114,6 +99,19 @@ interface EditGameRuleInteractor {
             val newRule = rule.copy(points = newLettersPoints)
             gameRuleRepository.updateRule(newRule)
             return LetterResult.Success(letter, rule.id)
+        }
+
+        private suspend fun findRuleOrCreate(
+            ruleId: Long,
+            namePrefix: String,
+        ): GameRule {
+            var rule = gameRuleRepository.findRule(ruleId)
+
+            if (rule.readOnly) {
+                val newId = createCopyOfRule(namePrefix, rule)
+                rule = gameRuleRepository.findRule(newId)
+            }
+            return rule
         }
     }
 }

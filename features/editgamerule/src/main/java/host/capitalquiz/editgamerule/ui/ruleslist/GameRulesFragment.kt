@@ -5,9 +5,12 @@ import android.view.View
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.core.ui.Inflater
+import host.capitalquiz.core.ui.collect
+import host.capitalquiz.editgamerule.R
 import host.capitalquiz.editgamerule.ui.BaseGameRuleFragment
 import javax.inject.Inject
 import host.capitalquiz.editgamerule.databinding.FragmentGameRulesBinding as GameRulesBinding
@@ -44,9 +47,7 @@ class GameRulesFragment : BaseGameRuleFragment<GameRulesBinding>() {
         val adapter = GameRulesAdapter(object : GameRulesAdapter.RuleClickListener {
             override fun onRuleClick(ruleId: Long) = viewModel.selectRuleForGame(ruleId)
 
-            override fun onDeleteClick(ruleId: Long) {
-                viewModel.deleteGameRule(ruleId)
-            }
+            override fun onDeleteClick(ruleId: Long) = viewModel.deleteGameRule(ruleId)
 
             override fun onEditClick(ruleId: Long) = navigation.navigateToEditRule(ruleId)
         })
@@ -59,6 +60,14 @@ class GameRulesFragment : BaseGameRuleFragment<GameRulesBinding>() {
 
         viewModel.gameRules.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+        }
+
+        viewModel.deleteRuleErrorEvent.collect(viewLifecycleOwner) {
+            Snackbar.make(
+                requireView(),
+                getString(R.string.remove_rule_in_use_warning),
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
     }
 }

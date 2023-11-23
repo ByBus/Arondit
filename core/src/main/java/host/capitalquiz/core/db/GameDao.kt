@@ -24,4 +24,7 @@ interface GameDao {
 
     @Query("SELECT * FROM games WHERE id=:id")
     suspend fun findGameById(id: Long): GameData
+
+    @Query("SELECT * FROM games WHERE ruleId=:ruleId")
+    suspend fun findAllGamesWithRule(ruleId: Long): List<GameData>
 }

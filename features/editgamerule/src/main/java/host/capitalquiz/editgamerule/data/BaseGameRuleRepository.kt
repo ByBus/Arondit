@@ -26,12 +26,8 @@ class BaseGameRuleRepository @Inject constructor(
         gameDataSource.setGameRuleToGame(gameId, ruleId)
     }
 
-    override suspend fun saveRule(rule: GameRule) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun findGameRuleIdOfGame(gameId: Long): Long {
-        return gameDataSource.gameById(gameId).ruleId
+    override suspend fun findAllGamesIdsWithRule(ruleId: Long): List<Long> {
+        return gameDataSource.gamesWithRule(ruleId).map { it.id }
     }
 
 }

@@ -8,7 +8,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import host.capitalquiz.editgamerule.domain.GameRuleInteractor
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class GameRulesViewModel @AssistedInject constructor(
@@ -24,6 +26,8 @@ class GameRulesViewModel @AssistedInject constructor(
         }
     }.asLiveData()
 
+    private val _deleteRuleErrorEvent = Channel<CantDeleteRuleEvent>()
+    val deleteRuleErrorEvent = _deleteRuleErrorEvent.receiveAsFlow()
 
     fun selectRuleForGame(ruleId: Long) {
         viewModelScope.launch {
@@ -33,7 +37,8 @@ class GameRulesViewModel @AssistedInject constructor(
 
     fun deleteGameRule(ruleId: Long) {
         viewModelScope.launch {
-            gameRuleInteractor.deleteRule(ruleId, gameId)
+            val isDeleted = gameRuleInteractor.deleteRule(ruleId, gameId)
+            if (isDeleted.not()) _deleteRuleErrorEvent.trySend(CantDeleteRuleEvent())
         }
     }
 
