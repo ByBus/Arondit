@@ -1,5 +1,7 @@
 package host.capitalquiz.game.domain
 
+import host.capitalquiz.game.domain.mappers.PlayerMapper
+
 data class Player(
     val id: Long = -1,
     val name: String,

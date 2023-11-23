@@ -1,7 +1,7 @@
 package host.capitalquiz.game.data
 
 import host.capitalquiz.core.db.GameRuleDao
-import host.capitalquiz.core.db.GameRuleDataMapper
+import host.capitalquiz.core.db.mappers.GameRuleDataMapper
 import host.capitalquiz.game.domain.GameRuleSimple
 import javax.inject.Inject
 

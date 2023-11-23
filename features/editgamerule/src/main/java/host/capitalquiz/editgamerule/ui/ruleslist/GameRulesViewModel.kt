@@ -8,6 +8,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import host.capitalquiz.editgamerule.domain.GameRuleInteractor
+import host.capitalquiz.editgamerule.ui.ruleslist.mappers.GameRuleToGameUiMapper
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow

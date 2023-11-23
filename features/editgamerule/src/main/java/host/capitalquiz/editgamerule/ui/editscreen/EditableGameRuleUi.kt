@@ -1,5 +1,7 @@
 package host.capitalquiz.editgamerule.ui.editscreen
 
+import host.capitalquiz.editgamerule.ui.editscreen.mappers.EditableGameRuleUiMapper
+
 data class EditableGameRuleUi(
     val id: Long,
     val name: String,

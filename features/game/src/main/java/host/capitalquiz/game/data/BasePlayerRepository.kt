@@ -2,7 +2,7 @@ package host.capitalquiz.game.data
 
 import host.capitalquiz.core.db.PlayerDao
 import host.capitalquiz.core.db.PlayerData
-import host.capitalquiz.core.db.PlayerDataMapperWithParameter
+import host.capitalquiz.core.db.mappers.PlayerDataMapperWithParameter
 import host.capitalquiz.game.domain.GameRuleRepository
 import host.capitalquiz.game.domain.GameRuleSimple
 import host.capitalquiz.game.domain.Player

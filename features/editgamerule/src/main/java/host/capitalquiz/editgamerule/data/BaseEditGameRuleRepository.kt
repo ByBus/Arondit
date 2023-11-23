@@ -1,7 +1,7 @@
 package host.capitalquiz.editgamerule.data
 
 import host.capitalquiz.core.db.GameRuleData
-import host.capitalquiz.core.db.GameRuleDataMapper
+import host.capitalquiz.core.db.mappers.GameRuleDataMapper
 import host.capitalquiz.editgamerule.domain.EditGameRuleRepository
 import host.capitalquiz.editgamerule.domain.GameRule
 import host.capitalquiz.editgamerule.domain.GameRuleMapper

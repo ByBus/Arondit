@@ -12,8 +12,7 @@ import host.capitalquiz.game.domain.GameRuleInteractor
 import host.capitalquiz.game.domain.GameRuleSimple
 import host.capitalquiz.game.domain.Player
 import host.capitalquiz.game.domain.PlayerInteractor
-import host.capitalquiz.game.domain.PlayerMapper
-import host.capitalquiz.game.domain.PlayerMapperWithParameter
+import host.capitalquiz.game.domain.mappers.PlayerMapperWithParameter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 

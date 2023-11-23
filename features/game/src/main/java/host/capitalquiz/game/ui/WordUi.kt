@@ -4,6 +4,7 @@ import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.core.view.isVisible
 import host.capitalquiz.core.ui.view.eruditwordview.EruditWordView
+import host.capitalquiz.game.ui.mappers.WordUiMapper
 
 data class WordUi(
     val word: String = "",

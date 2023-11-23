@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import host.capitalquiz.core.db.GameDao
 import host.capitalquiz.core.db.GameData
-import host.capitalquiz.core.db.GameDataMapper
+import host.capitalquiz.core.db.mappers.GameDataMapper
 import host.capitalquiz.gameslist.domain.Game
 import host.capitalquiz.gameslist.domain.GamesRepository
 import java.util.Date

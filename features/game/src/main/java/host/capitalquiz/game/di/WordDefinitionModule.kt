@@ -11,9 +11,9 @@ import host.capitalquiz.game.data.glossary.GlossaryApi
 import host.capitalquiz.game.data.glossary.HtmlParser
 import host.capitalquiz.game.data.glossary.WordDefinitionRepository
 import host.capitalquiz.game.domain.DefinitionRepository
-import host.capitalquiz.game.domain.WordDefinitionMapper
-import host.capitalquiz.game.ui.dialog.WordDefinitionToUiMapper
+import host.capitalquiz.game.domain.mappers.WordDefinitionMapper
 import host.capitalquiz.game.ui.dialog.WordDefinitionUi
+import host.capitalquiz.game.ui.dialog.mappers.WordDefinitionToUiMapper
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory

@@ -7,13 +7,13 @@ import dagger.hilt.android.components.ViewModelComponent
 import host.capitalquiz.core.db.WordData
 import host.capitalquiz.game.data.BaseWordRepository
 import host.capitalquiz.game.data.WordDataDataSource
-import host.capitalquiz.game.data.WordToWordDataMapper
+import host.capitalquiz.game.data.mappers.WordToWordDataMapper
 import host.capitalquiz.game.domain.Word
 import host.capitalquiz.game.domain.WordInteractor
-import host.capitalquiz.game.domain.WordMapperWithParameter
 import host.capitalquiz.game.domain.WordRepository
-import host.capitalquiz.game.domain.WordToWordMapper
-import host.capitalquiz.game.ui.WordUiMapper
+import host.capitalquiz.game.domain.mappers.WordMapperWithParameter
+import host.capitalquiz.game.domain.mappers.WordToWordMapper
+import host.capitalquiz.game.ui.mappers.WordUiMapper
 
 @Module
 @InstallIn(ViewModelComponent::class)

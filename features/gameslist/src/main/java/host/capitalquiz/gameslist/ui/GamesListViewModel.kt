@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import host.capitalquiz.gameslist.domain.GameMapper
 import host.capitalquiz.gameslist.domain.GamesListInteractor
+import host.capitalquiz.gameslist.domain.mappers.GameMapper
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine

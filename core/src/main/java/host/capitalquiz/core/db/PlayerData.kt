@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.Relation
+import host.capitalquiz.core.db.mappers.PlayerDataMapper
 
 @Entity(
     tableName = "players",

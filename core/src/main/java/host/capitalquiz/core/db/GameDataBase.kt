@@ -8,6 +8,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import host.capitalquiz.core.db.mappers.DateTypeConverter
+import host.capitalquiz.core.db.mappers.GameRuleConverter
+import host.capitalquiz.core.db.mappers.IntListConverter
+import host.capitalquiz.core.db.mappers.UserAndColorMapConverter
 
 @Database(
     entities = [GameData::class, PlayerData::class, WordData::class, GameRuleData::class],

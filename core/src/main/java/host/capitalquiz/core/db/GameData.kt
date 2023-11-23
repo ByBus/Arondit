@@ -4,6 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
+import host.capitalquiz.core.db.mappers.GameDataMapper
 import java.util.Date
 
 @Entity(tableName = "games")

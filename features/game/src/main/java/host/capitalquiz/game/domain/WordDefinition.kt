@@ -1,5 +1,7 @@
 package host.capitalquiz.game.domain
 
+import host.capitalquiz.game.domain.mappers.WordDefinitionMapper
+
 interface WordDefinition {
 
     fun <R> map(mapper: WordDefinitionMapper<R>): R

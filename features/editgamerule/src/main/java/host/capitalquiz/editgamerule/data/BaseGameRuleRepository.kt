@@ -1,6 +1,6 @@
 package host.capitalquiz.editgamerule.data
 
-import host.capitalquiz.core.db.GameRuleWithGamesMapper
+import host.capitalquiz.core.db.mappers.GameRuleWithGamesMapper
 import host.capitalquiz.editgamerule.domain.GameRule
 import host.capitalquiz.editgamerule.domain.GameRuleRepository
 import kotlinx.coroutines.flow.Flow

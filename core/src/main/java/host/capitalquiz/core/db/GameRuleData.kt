@@ -4,6 +4,8 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
+import host.capitalquiz.core.db.mappers.GameRuleDataMapper
+import host.capitalquiz.core.db.mappers.GameRuleWithGamesMapper
 
 @Entity(tableName = "game_rules")
 data class GameRuleData(

@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import host.capitalquiz.core.db.WordDao
 import host.capitalquiz.core.db.WordData
-import host.capitalquiz.core.db.WordDataMapper
+import host.capitalquiz.core.db.mappers.WordDataMapper
 import host.capitalquiz.game.domain.Word
-import host.capitalquiz.game.domain.WordMapperWithParameter
 import host.capitalquiz.game.domain.WordRepository
+import host.capitalquiz.game.domain.mappers.WordMapperWithParameter
 import javax.inject.Inject
 
 class BaseWordRepository @Inject constructor(

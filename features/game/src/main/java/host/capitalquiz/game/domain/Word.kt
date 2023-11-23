@@ -1,12 +1,15 @@
 package host.capitalquiz.game.domain
 
+import host.capitalquiz.game.domain.mappers.WordMapper
+
 private const val EXTRA_POINTS = 15
+
 data class Word(
     val word: String,
     val letterBonuses: List<Int> = emptyList(),
     val multiplier: Int = 1,
     val id: Long = 0,
-    val hasExtraPoints: Boolean
+    val hasExtraPoints: Boolean,
 ) {
     fun score(rangDictionary: Map<Char, Int>): Int {
         var count = 0

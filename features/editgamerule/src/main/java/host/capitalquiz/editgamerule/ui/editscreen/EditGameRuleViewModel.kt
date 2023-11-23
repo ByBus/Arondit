@@ -9,6 +9,7 @@ import dagger.assisted.AssistedInject
 import host.capitalquiz.editgamerule.domain.EditGameRuleInteractor
 import host.capitalquiz.editgamerule.domain.GameRule
 import host.capitalquiz.editgamerule.domain.GameRuleMapper
+import host.capitalquiz.editgamerule.ui.editscreen.mappers.EditableGameRuleUiMapper
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first

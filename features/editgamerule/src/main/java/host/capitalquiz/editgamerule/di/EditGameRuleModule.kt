@@ -5,10 +5,10 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import host.capitalquiz.core.db.GameRuleData
-import host.capitalquiz.core.db.GameRuleDataMapper
+import host.capitalquiz.core.db.mappers.GameRuleDataMapper
 import host.capitalquiz.editgamerule.data.BaseEditGameRuleRepository
-import host.capitalquiz.editgamerule.data.GameRuleDataToGameRuleMapper
-import host.capitalquiz.editgamerule.data.GameRuleToGameRuleDataMapper
+import host.capitalquiz.editgamerule.data.mappers.GameRuleDataToGameRuleMapper
+import host.capitalquiz.editgamerule.data.mappers.GameRuleToGameRuleDataMapper
 import host.capitalquiz.editgamerule.domain.CharProvider
 import host.capitalquiz.editgamerule.domain.EditGameRuleInteractor
 import host.capitalquiz.editgamerule.domain.EditGameRuleRepository
@@ -17,11 +17,11 @@ import host.capitalquiz.editgamerule.domain.GameRuleMapper
 import host.capitalquiz.editgamerule.domain.LetterAddResultMapper
 import host.capitalquiz.editgamerule.domain.LetterAddResultMapperWithParameter
 import host.capitalquiz.editgamerule.ui.dialog.AddLetterUiState
-import host.capitalquiz.editgamerule.ui.dialog.CreateLetterAddResultToUiMapper
-import host.capitalquiz.editgamerule.ui.dialog.EditLetterAddResultToUiMapper
+import host.capitalquiz.editgamerule.ui.dialog.mappers.CreateLetterAddResultToUiMapper
+import host.capitalquiz.editgamerule.ui.dialog.mappers.EditLetterAddResultToUiMapper
 import host.capitalquiz.editgamerule.ui.editscreen.EditableGameRuleUi
-import host.capitalquiz.editgamerule.ui.editscreen.EditableGameRuleUiMapper
-import host.capitalquiz.editgamerule.ui.editscreen.EditableRuleToUiMapper
+import host.capitalquiz.editgamerule.ui.editscreen.mappers.EditableGameRuleUiMapper
+import host.capitalquiz.editgamerule.ui.editscreen.mappers.EditableRuleToUiMapper
 import javax.inject.Singleton
 
 @Module

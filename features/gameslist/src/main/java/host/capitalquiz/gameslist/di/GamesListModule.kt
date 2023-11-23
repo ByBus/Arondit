@@ -6,23 +6,23 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import host.capitalquiz.core.datastore.SettingsLocalDataSource
 import host.capitalquiz.core.datastore.SettingsReadDataSource
-import host.capitalquiz.core.db.GameDataMapper
 import host.capitalquiz.core.db.GameRuleData
-import host.capitalquiz.core.db.PlayerDataMapperWithParameter
-import host.capitalquiz.core.db.WordDataMapperWithParameter
+import host.capitalquiz.core.db.mappers.GameDataMapper
+import host.capitalquiz.core.db.mappers.PlayerDataMapperWithParameter
+import host.capitalquiz.core.db.mappers.WordDataMapperWithParameter
 import host.capitalquiz.gameslist.data.BaseSettingsRepository
-import host.capitalquiz.gameslist.data.GameDataToGameMapper
 import host.capitalquiz.gameslist.data.GamesListRepository
-import host.capitalquiz.gameslist.data.PlayerDataToPlayerInfoMapper
+import host.capitalquiz.gameslist.data.mappers.GameDataToGameMapper
+import host.capitalquiz.gameslist.data.mappers.PlayerDataToPlayerInfoMapper
 import host.capitalquiz.gameslist.domain.Game
-import host.capitalquiz.gameslist.domain.GameMapper
 import host.capitalquiz.gameslist.domain.GamesListInteractor
 import host.capitalquiz.gameslist.domain.GamesRepository
 import host.capitalquiz.gameslist.domain.PlayerInfo
 import host.capitalquiz.gameslist.domain.SettingsReadRepository
-import host.capitalquiz.gameslist.domain.WordDataToScoreMapper
-import host.capitalquiz.gameslist.ui.GameToGameUiMapper
+import host.capitalquiz.gameslist.domain.mappers.GameMapper
+import host.capitalquiz.gameslist.domain.mappers.WordDataToScoreMapper
 import host.capitalquiz.gameslist.ui.GameUi
+import host.capitalquiz.gameslist.ui.mappers.GameToGameUiMapper
 
 @Module
 @InstallIn(ViewModelComponent::class)

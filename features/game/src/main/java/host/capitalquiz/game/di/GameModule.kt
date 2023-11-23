@@ -4,29 +4,26 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import host.capitalquiz.core.db.GameRuleDataMapper
-import host.capitalquiz.core.db.PlayerDataMapperWithParameter
-import host.capitalquiz.core.db.WordDataMapper
+import host.capitalquiz.core.db.mappers.GameRuleDataMapper
+import host.capitalquiz.core.db.mappers.PlayerDataMapperWithParameter
+import host.capitalquiz.core.db.mappers.WordDataMapper
 import host.capitalquiz.game.data.BasePlayerRepository
 import host.capitalquiz.game.data.GameRuleDataDataSource
-import host.capitalquiz.game.data.GameRuleDataToSimpleMapper
-import host.capitalquiz.game.data.GameRuleSimpleRepository
-import host.capitalquiz.game.data.PlayerDataToPlayerMapper
-import host.capitalquiz.game.data.WordDataToWordMapper
+import host.capitalquiz.game.data.mappers.GameRuleDataToSimpleMapper
+import host.capitalquiz.game.data.mappers.PlayerDataToPlayerMapper
+import host.capitalquiz.game.data.mappers.WordDataToWordMapper
 import host.capitalquiz.game.domain.GameRuleInteractor
-import host.capitalquiz.game.domain.GameRuleRepository
 import host.capitalquiz.game.domain.GameRuleSimple
 import host.capitalquiz.game.domain.Player
 import host.capitalquiz.game.domain.PlayerInteractor
-import host.capitalquiz.game.domain.PlayerMapperWithParameter
 import host.capitalquiz.game.domain.PlayerRepository
 import host.capitalquiz.game.domain.Word
-import host.capitalquiz.game.domain.WordMapperWithParameter
-import host.capitalquiz.game.ui.PlayerToPlayerUiMapper
+import host.capitalquiz.game.domain.mappers.PlayerMapperWithParameter
+import host.capitalquiz.game.domain.mappers.WordMapperWithParameter
 import host.capitalquiz.game.ui.PlayerUi
-import host.capitalquiz.game.ui.WordToWordUiMapper
 import host.capitalquiz.game.ui.WordUi
-import javax.inject.Singleton
+import host.capitalquiz.game.ui.mappers.PlayerToPlayerUiMapper
+import host.capitalquiz.game.ui.mappers.WordToWordUiMapper
 
 @Module
 @InstallIn(SingletonComponent::class)

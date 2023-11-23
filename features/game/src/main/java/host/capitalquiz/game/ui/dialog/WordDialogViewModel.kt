@@ -8,10 +8,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import host.capitalquiz.game.domain.GameRuleInteractor
 import host.capitalquiz.game.domain.GameRuleSimple
-import host.capitalquiz.game.domain.WordDefinitionMapper
 import host.capitalquiz.game.domain.WordInteractor
-import host.capitalquiz.game.domain.WordMapper
-import host.capitalquiz.game.domain.WordMapperWithParameter
+import host.capitalquiz.game.domain.mappers.WordDefinitionMapper
+import host.capitalquiz.game.domain.mappers.WordMapperWithParameter
 import host.capitalquiz.game.ui.WordUi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

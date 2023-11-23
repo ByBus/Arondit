@@ -1,7 +1,7 @@
 package host.capitalquiz.game.domain
 
 import androidx.lifecycle.LiveData
-import host.capitalquiz.game.data.StringFormatter
+import host.capitalquiz.game.domain.mappers.WordToWordMapper
 import javax.inject.Inject
 
 interface WordInteractor {
