@@ -21,7 +21,7 @@ class BaseWordRepository @Inject constructor(
 
     override suspend fun isWordExist(word: String): Boolean {
         val oldWord = oneWordCache.cachedValue() ?: return false
-        return wordDao.isWordExist(oldWord.playerId, word, oldWord.id)
+        return wordDao.isWordExist(oldWord.fieldId, word)
     }
 
     override suspend fun loadToCache(wordId: Long) {
@@ -33,15 +33,15 @@ class BaseWordRepository @Inject constructor(
 
     override fun readCache(): LiveData<Word> = oneWordCache.read().map { it.map(wordMapper) }
 
-    override suspend fun initCache(playerId: Long) {
+    override suspend fun initCache(fieldId: Long) {
         if (oneWordCache.isEmpty()) {
-            oneWordCache.save(WordData("", playerId = playerId))
+            oneWordCache.save(WordData("", fieldId = fieldId))
         }
     }
 
     override suspend fun updateCurrentWord(word: Word) {
-        val playerId = oneWordCache.cachedValue()?.playerId ?: 0
-        oneWordCache.save(wordDataMapper.map(word, playerId))
+        val field = oneWordCache.cachedValue()?.fieldId ?: 0
+        oneWordCache.save(wordDataMapper.map(word, field))
     }
 
     override suspend fun saveCacheToDb() {

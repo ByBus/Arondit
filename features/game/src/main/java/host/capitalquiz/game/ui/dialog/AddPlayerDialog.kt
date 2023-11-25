@@ -10,7 +10,6 @@ import androidx.navigation.fragment.navArgs
 import host.capitalquiz.core.ui.BottomSheetDialogFragmentWithBorder
 import host.capitalquiz.core.ui.requirePreviousFragment
 import host.capitalquiz.game.databinding.DialogFragmentAddPlayerBinding
-import host.capitalquiz.game.domain.Player
 import host.capitalquiz.game.ui.GameViewModel
 
 class AddPlayerDialog: BottomSheetDialogFragmentWithBorder() {
@@ -37,7 +36,7 @@ class AddPlayerDialog: BottomSheetDialogFragmentWithBorder() {
         binding.confirmPlayer.setOnClickListener {
             val playerName = binding.playerName.editText?.text.toString()
             if (playerName.isNotBlank()) {
-                parentViewModel.addPlayer(Player(name = playerName.trim(), color = args.color))
+                parentViewModel.addPlayer(playerName.trim(), args.color)
                 dismiss()
             }
         }

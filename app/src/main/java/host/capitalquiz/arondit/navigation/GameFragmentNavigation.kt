@@ -8,30 +8,30 @@ import javax.inject.Inject
 class GameFragmentNavigation @Inject constructor(
     private val navController: NavController
 ): GameNavigation {
-    override fun navigateToToAddPlayerDialog(playerColor: Int) {
+    override fun navigateToToAddPlayerDialog(color: Int) {
         val addPlayerDialog =
-            GameFragmentDirections.actionToAddPlayerDialog(playerColor)
+            GameFragmentDirections.actionToAddPlayerDialog(color)
         navController.navigate(addPlayerDialog)
     }
 
-    override fun navigateToRemovePlayerDialog(playerId: Long, playerColor: Int) {
+    override fun navigateToRemovePlayerDialog(fieldId: Long, color: Int) {
         val removePlayerDialog =
-            GameFragmentDirections.actionToRemovePlayerDialog(playerId, playerColor)
+            GameFragmentDirections.actionToRemovePlayerDialog(fieldId, color)
         navController.navigate(removePlayerDialog)
     }
 
-    override fun navigateToAddWordDialog(playerId: Long, playerColor: Int) {
+    override fun navigateToAddWordDialog(fieldId: Long, color: Int) {
         val addWordDialog =
-            GameFragmentDirections.actionAddWordDialog(playerId, playerColor)
+            GameFragmentDirections.actionAddWordDialog(fieldId, color)
         navController.navigate(addWordDialog)
     }
 
-    override fun navigateToEditWordDialog(wordId: Long, playerId: Long, playerColor: Int) {
+    override fun navigateToEditWordDialog(wordId: Long, fieldId: Long, color: Int) {
         val editWordDialog =
             GameFragmentDirections.actionToEditWordDialog(
                 wordId,
-                playerColor,
-                playerId
+                color,
+                fieldId
             )
         navController.navigate(editWordDialog)
     }

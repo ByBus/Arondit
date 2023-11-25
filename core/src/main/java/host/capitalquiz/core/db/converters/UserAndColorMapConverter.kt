@@ -1,4 +1,4 @@
-package host.capitalquiz.core.db.mappers
+package host.capitalquiz.core.db.converters
 
 import androidx.room.TypeConverter
 import kotlinx.serialization.encodeToString

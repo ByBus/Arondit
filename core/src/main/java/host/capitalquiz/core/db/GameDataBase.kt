@@ -1,23 +1,28 @@
 package host.capitalquiz.core.db
 
-import android.content.Context
 import androidx.room.AutoMigration
 import androidx.room.Database
-import androidx.room.Room
+import androidx.room.DeleteColumn
+import androidx.room.RenameColumn
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import host.capitalquiz.core.db.mappers.DateTypeConverter
-import host.capitalquiz.core.db.mappers.GameRuleConverter
-import host.capitalquiz.core.db.mappers.IntListConverter
-import host.capitalquiz.core.db.mappers.UserAndColorMapConverter
+import host.capitalquiz.core.db.converters.DateTypeConverter
+import host.capitalquiz.core.db.converters.GameRuleConverter
+import host.capitalquiz.core.db.converters.IntListConverter
+import host.capitalquiz.core.db.converters.UserAndColorMapConverter
 
 @Database(
-    entities = [GameData::class, PlayerData::class, WordData::class, GameRuleData::class],
-    version = 4,
+    entities = [GameData::class, PlayerData::class, WordData::class, GameRuleData::class, FieldData::class],
+    version = 5,
     exportSchema = true,
-    autoMigrations = [AutoMigration(from = 3, to = 4)]
+    autoMigrations = [AutoMigration(from = 3, to = 4), AutoMigration(
+        from = 4,
+        to = 5,
+        spec = GameDataBase.Migration4To5::class
+    )]
 )
 @TypeConverters(
     DateTypeConverter::class,
@@ -28,19 +33,23 @@ import host.capitalquiz.core.db.mappers.UserAndColorMapConverter
 abstract class GameDataBase : RoomDatabase() {
     abstract fun gameDao(): GameDao
 
-    abstract fun playerDao(): PlayerDao
+    abstract fun fieldDao(): FieldDao
 
     abstract fun wordDao(): WordDao
 
     abstract fun gameRuleDao(): GameRuleDao
 
+
+    @DeleteColumn.Entries(
+        DeleteColumn(tableName = "players", columnName = "color"),
+        DeleteColumn(tableName = "players", columnName = "gameId"),
+    )
+    @RenameColumn.Entries(
+        RenameColumn(tableName = "words", fromColumnName = "playerId", toColumnName = "fieldId")
+    )
+    class Migration4To5 : AutoMigrationSpec
+
     companion object {
-        fun database(context: Context): GameDataBase {
-            return Room.inMemoryDatabaseBuilder(
-                context,
-                GameDataBase::class.java
-            ).build()
-        }
 
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {

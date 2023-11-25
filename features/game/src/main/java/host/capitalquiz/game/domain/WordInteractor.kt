@@ -24,7 +24,7 @@ interface WordInteractor {
 
     suspend fun checkIfWordAlreadyExists(word: String): Boolean
 
-    suspend fun initCacheWithPlayer(playerId: Long)
+    suspend fun initCacheWithField(playerId: Long)
 
     fun loadWord(): LiveData<Word>
 
@@ -95,8 +95,8 @@ interface WordInteractor {
         override suspend fun checkIfWordAlreadyExists(word: String): Boolean =
             wordRepository.isWordExist(word)
 
-        override suspend fun initCacheWithPlayer(playerId: Long) =
-            wordRepository.initCache(playerId)
+        override suspend fun initCacheWithField(fieldId: Long) =
+            wordRepository.initCache(fieldId)
 
     }
 }

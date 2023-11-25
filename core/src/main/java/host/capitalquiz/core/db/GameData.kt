@@ -17,16 +17,16 @@ data class GameData(val date: Date, val ruleId: Long = 1L) {
 data class GameWithPlayersData(
     @Embedded val game: GameData,
     @Relation(
-        entity = PlayerData::class,
+        entity = FieldData::class,
         parentColumn = "id",
         entityColumn = "gameId"
     )
-    val players: List<PlayerWithWordsData>,
+    val players: List<FieldWithPlayerAndWordsData>,
     @Relation(
         parentColumn = "ruleId",
         entityColumn = "id"
     )
-    val gameRule: GameRuleData
+    val gameRule: GameRuleData,
 )  {
     fun <R>map(mapper: GameDataMapper<R>): R {
         return mapper(game, players, gameRule)

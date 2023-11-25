@@ -52,7 +52,7 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.addPlayersColors(
+        viewModel.addFieldsColors(
             listOf(
                 RCore.color.base_orange,
                 RCore.color.base_green,
@@ -89,7 +89,7 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
             infoButton.text = getString(R.string.add_participant)
         }
 
-        viewModel.players.observe(viewLifecycleOwner) { players ->
+        viewModel.fields.observe(viewLifecycleOwner) { players ->
             viewModel.removeUsedColors(players.map { it.color })
             binding.information.root.isVisible = players.isEmpty()
             binding.grid.isVisible = players.isNotEmpty()
@@ -104,20 +104,20 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
 
     override fun onAddPlayerClick() {
         viewModel.borrowColor { color ->
-           navigation.navigateToToAddPlayerDialog(color)
+            navigation.navigateToToAddPlayerDialog(color)
         }
     }
 
-    override fun onRemovePlayerClick(playerId: PlayerId, playerColor: PlayerColor) {
-        navigation.navigateToRemovePlayerDialog(playerId.value, playerColor.value)
+    override fun onRemovePlayerClick(fieldId: FieldId, fieldColor: FieldColor) {
+        navigation.navigateToRemovePlayerDialog(fieldId.value, fieldColor.value)
     }
 
-    override fun onAddWordClick(playerId: PlayerId, playerColor: PlayerColor) {
-        navigation.navigateToAddWordDialog(playerId.value, playerColor.value)
+    override fun onAddWordClick(fieldId: FieldId, fieldColor: FieldColor) {
+        navigation.navigateToAddWordDialog(fieldId.value, fieldColor.value)
     }
 
-    override fun onWordClick(wordId: Long, playerId: PlayerId, playerColor: PlayerColor) {
-        navigation.navigateToEditWordDialog(wordId, playerId.value, playerColor.value)
+    override fun onWordClick(wordId: Long, fieldId: FieldId, fieldColor: FieldColor) {
+        navigation.navigateToEditWordDialog(wordId, fieldId.value, fieldColor.value)
     }
 
     companion object {

@@ -1,22 +1,22 @@
 package host.capitalquiz.game.ui.mappers
 
+import host.capitalquiz.game.domain.Field
 import host.capitalquiz.game.domain.GameRuleSimple
-import host.capitalquiz.game.domain.Player
 import host.capitalquiz.game.domain.Word
-import host.capitalquiz.game.domain.mappers.PlayerMapperWithParameter
+import host.capitalquiz.game.domain.mappers.FieldMapperWithParameter
 import host.capitalquiz.game.domain.mappers.WordMapperWithParameter
-import host.capitalquiz.game.ui.PlayerUi
+import host.capitalquiz.game.ui.FieldUi
 import host.capitalquiz.game.ui.WordUi
 import javax.inject.Inject
 
-class PlayerToPlayerUiMapper @Inject constructor(
+class FieldToFieldUiMapper @Inject constructor(
     private val wordMapper: WordMapperWithParameter<GameRuleSimple, WordUi>,
-) : PlayerMapperWithParameter<GameRuleSimple, PlayerUi> {
+) : FieldMapperWithParameter<GameRuleSimple, FieldUi> {
     private var rule: GameRuleSimple = GameRuleSimple(1L, emptyMap())
 
-    override fun map(player: Player, param: GameRuleSimple): PlayerUi {
+    override fun map(field: Field, param: GameRuleSimple): FieldUi {
         rule = param
-        return player.map(this)
+        return field.map(this)
     }
 
     override fun invoke(
@@ -25,7 +25,7 @@ class PlayerToPlayerUiMapper @Inject constructor(
         color: Int,
         score: Int,
         words: List<Word>,
-    ): PlayerUi {
-        return PlayerUi(id, color, name, words.map { wordMapper.map(it, rule) }, score)
+    ): FieldUi {
+        return FieldUi(id, color, name, words.map { wordMapper.map(it, rule) }, score)
     }
 }

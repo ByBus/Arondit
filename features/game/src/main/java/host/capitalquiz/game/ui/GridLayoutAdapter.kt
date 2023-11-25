@@ -32,8 +32,8 @@ class GridLayoutAdapter(private val listener: Listener) {
     }
 
     inner class PlayerField(
-        val id: PlayerId,
-        val color: PlayerColor,
+        val id: FieldId,
+        val color: FieldColor,
         playerName: String,
         private val itemView: View,
     ) {
@@ -93,7 +93,7 @@ class GridLayoutAdapter(private val listener: Listener) {
     }
 
 
-    private fun createPlayerField(context: Context, player: PlayerUi) {
+    private fun createPlayerField(context: Context, player: FieldUi) {
         val itemView = LayoutInflater.from(context)
             .inflate(R.layout.fragment_game_list_item, grid, false)
         itemView.layoutParams = GridLayout.LayoutParams(
@@ -105,10 +105,15 @@ class GridLayoutAdapter(private val listener: Listener) {
             bottomMargin = 2
             marginEnd = 2
         }
-        PlayerField(PlayerId(player.id), PlayerColor(player.color), player.name, itemView).attach()
+        PlayerField(
+            FieldId(player.id),
+            FieldColor(player.color),
+            player.playerName,
+            itemView
+        ).attach()
     }
 
-    fun submitList(context: Context, list: List<PlayerUi>) {
+    fun submitList(context: Context, list: List<FieldUi>) {
         val actualFieldColors = list.associateBy { it.color }
         actualFieldColors.forEach { (fieldColor, player) ->
             if (fields.containsKey(fieldColor).not()) {
@@ -124,14 +129,14 @@ class GridLayoutAdapter(private val listener: Listener) {
 
     interface Listener {
         fun onAddPlayerClick()
-        fun onRemovePlayerClick(playerId: PlayerId, playerColor: PlayerColor)
-        fun onAddWordClick(playerId: PlayerId, playerColor: PlayerColor)
-        fun onWordClick(wordId: Long, playerId: PlayerId, playerColor: PlayerColor)
+        fun onRemovePlayerClick(fieldId: FieldId, fieldColor: FieldColor)
+        fun onAddWordClick(fieldId: FieldId, fieldColor: FieldColor)
+        fun onWordClick(wordId: Long, fieldId: FieldId, fieldColor: FieldColor)
     }
 }
 
 @JvmInline
-value class PlayerId(val value: Long)
+value class FieldId(val value: Long)
 
 @JvmInline
-value class PlayerColor(val value: Int)
+value class FieldColor(val value: Int)

@@ -63,7 +63,7 @@ class WordDialogViewModel @Inject constructor(
     }
 
     fun initWord(playerId: Long) {
-        viewModelScope.launch { wordInteractor.initCacheWithPlayer(playerId) }
+        viewModelScope.launch { wordInteractor.initCacheWithField(playerId) }
     }
 
     fun loadWord(wordId: Long) {

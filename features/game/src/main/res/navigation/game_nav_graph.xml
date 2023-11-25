@@ -14,7 +14,7 @@
             android:name="dialogColor"
             app:argType="integer" />
         <argument
-            android:name="playerId"
+            android:name="fieldId"
             app:argType="long" />
     </dialog>
     <fragment
@@ -46,7 +46,7 @@
         android:name="host.capitalquiz.game.ui.dialog.AddWordDialog"
         android:label="AddWordDialog">
         <argument
-            android:name="playerId"
+            android:name="fieldId"
             app:argType="long" />
         <argument
             android:name="dialogColor"
@@ -65,10 +65,10 @@
         android:name="host.capitalquiz.game.ui.dialog.RemovePlayerDialog"
         android:label="RemovePlayerDialog">
         <argument
-            android:name="playerId"
+            android:name="fieldId"
             app:argType="long" />
         <argument
-            android:name="playerColor"
+            android:name="fieldColor"
             app:argType="integer" />
     </dialog>
 </navigation>

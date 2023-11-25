@@ -19,6 +19,7 @@
             <option value="$PROJECT_DIR$/features/game" />
             <option value="$PROJECT_DIR$/features/gameslist" />
             <option value="$PROJECT_DIR$/features/onboarding" />
+            <option value="$PROJECT_DIR$/features/statistics" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -8,43 +8,43 @@ import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import host.capitalquiz.game.domain.Field
+import host.capitalquiz.game.domain.FieldInteractor
 import host.capitalquiz.game.domain.GameRuleInteractor
 import host.capitalquiz.game.domain.GameRuleSimple
-import host.capitalquiz.game.domain.Player
-import host.capitalquiz.game.domain.PlayerInteractor
-import host.capitalquiz.game.domain.mappers.PlayerMapperWithParameter
+import host.capitalquiz.game.domain.mappers.FieldMapperWithParameter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 //@HiltViewModel
 class GameViewModel @AssistedInject constructor(
-    private val playerInteractor: PlayerInteractor,
-    private val uiPlayerMapper: PlayerMapperWithParameter<GameRuleSimple, PlayerUi>,
+    private val fieldInteractor: FieldInteractor,
+    private val uiFieldMapper: FieldMapperWithParameter<GameRuleSimple, FieldUi>,
     private val gameRuleInteractor: GameRuleInteractor,
     @Assisted private val gameId: Long,
 ) : ViewModel() {
     private val availableColors = mutableListOf<Int>()
 
-    private var _players = playerInteractor.findAllPlayersOfGame(gameId)
-    val players: LiveData<List<PlayerUi>> = _players.map { players ->
+    private var _fields = fieldInteractor.findAllFieldsOfGame(gameId)
+    val fields: LiveData<List<FieldUi>> = _fields.map { fields ->
         val rule = gameRuleInteractor.findRuleOfGame(gameId)
-        players.map { uiPlayerMapper.map(it, rule) }
+        fields.map { uiFieldMapper.map(it, rule) }
     }.asLiveData()
 
-    fun addPlayersColors(colors: List<Int>) {
+    fun addFieldsColors(colors: List<Int>) {
         availableColors.clear()
         availableColors.addAll(colors)
     }
 
-    fun addPlayer(player: Player) {
+    fun addPlayer(name: String, color: Int) {
         viewModelScope.launch {
-            playerInteractor.createPlayer(player, gameId)
+            fieldInteractor.createField(Field(name = name, color = color), gameId)
         }
     }
 
-    fun deletePlayer(playerId: Long) {
+    fun deletePlayer(id: Long) {
         viewModelScope.launch {
-            playerInteractor.deletePlayer(playerId)
+            fieldInteractor.deleteField(id)
         }
     }
 

@@ -7,12 +7,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import host.capitalquiz.core.db.FieldDao
 import host.capitalquiz.core.db.GameDao
 import host.capitalquiz.core.db.GameDataBase
 import host.capitalquiz.core.db.GameDataBase.Companion.MIGRATION_1_2
 import host.capitalquiz.core.db.GameDataBase.Companion.MIGRATION_2_3
 import host.capitalquiz.core.db.GameRuleDao
-import host.capitalquiz.core.db.PlayerDao
 import host.capitalquiz.core.db.WordDao
 import javax.inject.Singleton
 
@@ -45,7 +45,7 @@ class DataBaseModule {
     fun provideGameDao(db: GameDataBase): GameDao = db.gameDao()
 
     @Provides
-    fun providePlayerDao(db: GameDataBase): PlayerDao = db.playerDao()
+    fun provideFieldDao(db: GameDataBase): FieldDao = db.fieldDao()
 
     @Provides
     fun provideWordDao(db: GameDataBase): WordDao = db.wordDao()

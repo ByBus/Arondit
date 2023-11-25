@@ -15,7 +15,7 @@ interface CurrentWordRepository {
 
     suspend fun loadToCache(wordId: Long)
 
-    suspend fun initCache(playerId: Long)
+    suspend fun initCache(fieldId: Long)
 
     suspend fun updateCurrentWord(word: Word)
 
