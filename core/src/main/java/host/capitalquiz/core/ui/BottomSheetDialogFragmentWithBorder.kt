@@ -10,7 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import host.capitalquiz.core.R
 import host.capitalquiz.core.ui.view.CompositeBorderDrawable
 
-abstract class BottomSheetDialogFragmentWithBorder : BottomSheetDialogFragment() {
+abstract class BottomSheetDialogFragmentWithBorder : BottomSheetDialogFragment(), Dismissible {
 
     protected abstract val borderView: View
 

@@ -16,7 +16,7 @@ class AddWordDialog : BaseWordBottomDialog() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.initWord(args.playerId)
+        viewModel.initWord(args.fieldId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

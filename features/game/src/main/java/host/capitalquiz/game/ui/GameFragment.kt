@@ -12,6 +12,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.core.ui.BindingFragment
 import host.capitalquiz.core.ui.Inflater
+import host.capitalquiz.core.ui.collect
 import host.capitalquiz.core.ui.view.CompositeBorderDrawable
 import host.capitalquiz.game.R
 import host.capitalquiz.game.databinding.FragmentGameBinding
@@ -89,7 +90,7 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
             infoButton.text = getString(R.string.add_participant)
         }
 
-        viewModel.fields.observe(viewLifecycleOwner) { players ->
+        viewModel.fields.collect(viewLifecycleOwner) { players ->
             viewModel.removeUsedColors(players.map { it.color })
             binding.information.root.isVisible = players.isEmpty()
             binding.grid.isVisible = players.isNotEmpty()

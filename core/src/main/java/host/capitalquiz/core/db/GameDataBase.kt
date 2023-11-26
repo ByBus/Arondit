@@ -39,6 +39,8 @@ abstract class GameDataBase : RoomDatabase() {
 
     abstract fun gameRuleDao(): GameRuleDao
 
+    abstract fun playerDao(): PlayerDao
+
 
     @DeleteColumn.Entries(
         DeleteColumn(tableName = "players", columnName = "color"),

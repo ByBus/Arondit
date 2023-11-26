@@ -7,9 +7,11 @@ interface FieldInteractor {
 
     fun findAllFieldsOfGame(gameId: Long): Flow<List<Field>>
 
-    suspend fun createField(field: Field, gameId: Long): Long
+    suspend fun createField(field: Field, gameId: Long): Boolean
 
-    suspend fun deleteField(playerId: Long)
+    suspend fun deleteField(fieldId: Long)
+
+    suspend fun findAllPlayersWhoIsNotPlayingYet(gameId: Long): List<Player>
 
     class Base @Inject constructor(
         private val fieldRepository: FieldRepository,
@@ -18,12 +20,30 @@ interface FieldInteractor {
             return fieldRepository.allFieldsOfGame(gameId)
         }
 
-        override suspend fun createField(field: Field, gameId: Long): Long {
-            return fieldRepository.createPlayer(field, gameId)
+        override suspend fun createField(field: Field, gameId: Long): Boolean {
+            val allPlayersNames = fieldRepository.allPlayers().map { it.name }
+            val nameTaken = field.name.isNotBlank() && allPlayersNames.any {
+                it.equals(field.name, true)
+            }
+            return if (nameTaken)
+                false
+            else {
+                val playerId = field.playerId.takeIf { field.hasPlayerId() }
+                    ?: fieldRepository.createPlayerWithName(field.name)
+                fieldRepository.createField(field.copy(playerId = playerId), gameId)
+                true
+            }
         }
 
-        override suspend fun deleteField(playerId: Long) {
-            fieldRepository.deleteField(playerId)
+        override suspend fun deleteField(fieldId: Long) {
+            fieldRepository.deleteField(fieldId)
+        }
+
+        override suspend fun findAllPlayersWhoIsNotPlayingYet(gameId: Long): List<Player> {
+            val fields = fieldRepository.fieldsOfGame(gameId)
+            val nowPlayingPlayers = fields.map { it.name }
+            val allPlayers = fieldRepository.allPlayers()
+            return allPlayers.filterNot { it.name in nowPlayingPlayers }.sortedBy { it.name }
         }
     }
 }

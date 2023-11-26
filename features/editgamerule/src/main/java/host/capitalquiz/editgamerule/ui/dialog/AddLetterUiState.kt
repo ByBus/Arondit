@@ -2,6 +2,7 @@ package host.capitalquiz.editgamerule.ui.dialog
 
 import androidx.core.view.isVisible
 import androidx.transition.TransitionManager
+import host.capitalquiz.core.ui.Dismissible
 import host.capitalquiz.editgamerule.R
 import host.capitalquiz.editgamerule.databinding.FragmentAddLetterDialogBinding
 import host.capitalquiz.editgamerule.databinding.FragmentAddLetterDialogBinding as AddLetterBinding

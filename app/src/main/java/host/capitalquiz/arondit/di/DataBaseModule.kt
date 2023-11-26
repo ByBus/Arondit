@@ -13,6 +13,7 @@ import host.capitalquiz.core.db.GameDataBase
 import host.capitalquiz.core.db.GameDataBase.Companion.MIGRATION_1_2
 import host.capitalquiz.core.db.GameDataBase.Companion.MIGRATION_2_3
 import host.capitalquiz.core.db.GameRuleDao
+import host.capitalquiz.core.db.PlayerDao
 import host.capitalquiz.core.db.WordDao
 import javax.inject.Singleton
 
@@ -52,6 +53,9 @@ class DataBaseModule {
 
     @Provides
     fun provideGameRuleDao(db: GameDataBase): GameRuleDao = db.gameRuleDao()
+
+    @Provides
+    fun providePlayerDao(db: GameDataBase): PlayerDao = db.playerDao()
 
     @Provides
     @Singleton

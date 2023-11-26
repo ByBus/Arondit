@@ -29,7 +29,8 @@ class FieldDataToFieldMapper @Inject constructor(
             player.name,
             field.color,
             newWords.sumOf { it.score(dictionary) },
-            newWords
+            newWords,
+            field.playerId
         )
     }
 }

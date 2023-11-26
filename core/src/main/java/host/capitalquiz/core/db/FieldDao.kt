@@ -9,10 +9,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FieldDao {
-
-    @Insert
-    suspend fun insert(player: PlayerData): Long
-
     @Insert
     suspend fun insert(filed: FieldData): Long
 
@@ -22,7 +18,7 @@ interface FieldDao {
 
     @Transaction
     @Query("SELECT * FROM game_fields WHERE gameId=:gameId")
-    fun allPlayerByGameId(gameId: Long): Flow<List<FieldWithPlayerAndWordsData>>
+    fun allFieldsOfGame(gameId: Long): Flow<List<FieldWithPlayerAndWordsData>>
 
     @Query("DELETE FROM game_fields WHERE id=:filedId")
     suspend fun deleteFieldById(filedId: Long)

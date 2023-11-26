@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.core.ui.BottomSheetDialogFragmentWithBorder
+import host.capitalquiz.core.ui.Dismissible
 import host.capitalquiz.core.ui.collect
 import host.capitalquiz.editgamerule.R
 import host.capitalquiz.editgamerule.databinding.FragmentAddLetterDialogBinding
