@@ -29,6 +29,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/player_name" />
@@ -47,6 +48,8 @@
             tools:visibility="visible" />
 
         <TextView
+            android:fontFamily="@font/yanone_kaffeesatz_bold"
+            android:textColor="#505050"
             android:id="@+id/availablePlayersTitle"
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
@@ -57,6 +60,8 @@
             app:layout_constraintTop_toBottomOf="@id/errorMessage" />
 
         <androidx.recyclerview.widget.RecyclerView
+            tools:itemCount="5"
+            tools:listitem="@layout/player_item"
             android:id="@+id/availablePlayers"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

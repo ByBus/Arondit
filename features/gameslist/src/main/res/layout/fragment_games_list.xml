@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:transitionGroup="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:maxWidth="700dp"
+    android:transitionGroup="true"
     tools:context="host.capitalquiz.gameslist.ui.GamesListFragment">
 
     <RelativeLayout
@@ -67,13 +67,12 @@
         app:constraint_referenced_ids="gamesList,createGame" />
 
     <androidx.recyclerview.widget.RecyclerView
-        tools:listitem="@layout/game_item"
         android:id="@+id/gamesList"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:orientation="vertical"
         android:padding="36dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -82,7 +81,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/frameLayout"
         app:layout_constraintVertical_weight="1"
-        app:layout_constraintWidth_max="650dp" />
+        app:layout_constraintWidth_max="650dp"
+        tools:listitem="@layout/game_item" />
 
     <View
         android:id="@+id/border"
@@ -93,24 +93,24 @@
         app:layout_constraintStart_toStartOf="@id/gamesList"
         app:layout_constraintTop_toTopOf="@id/gamesList" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+    <host.capitalquiz.core.ui.view.HeaderTextView
         android:id="@+id/createGame"
+        style="@style/BottomSheetDialogCompositeHeader"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="16dp"
-        android:clickable="true"
-        android:contentDescription="@string/create_new_game"
-        android:focusable="true"
-        android:labelFor="@id/gamesList"
-        android:text="@string/new_game"
-        app:icon="@android:drawable/ic_input_add"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="48dp"
+        android:background="@color/crimson_header_color"
+        android:text="Новая Игра"
+        android:textSize="24sp"
+        app:centerDrawable="@drawable/header_middle_piece"
+        app:layout_constraintBottom_toBottomOf="@id/border"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:leftDrawable="@drawable/header_left_piece"
+        app:leftDrawableTintBackgroundMask="@drawable/header_left_piece_tint_mask"
+        app:rightDrawable="@drawable/header_right_piece"
+        app:rightDrawableTintBackgroundMask="@drawable/header_right_piece_tint_mask" />
 
     <include
-        tools:visibility="gone"
         android:id="@+id/information"
         layout="@layout/info_screen_layout"
         android:layout_width="0dp"
@@ -119,6 +119,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_max="512dp" />
+        app:layout_constraintWidth_max="512dp"
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

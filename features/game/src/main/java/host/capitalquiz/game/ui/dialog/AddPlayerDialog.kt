@@ -60,13 +60,13 @@ class AddPlayerDialog : BottomSheetDialogFragmentWithBorder() {
 
         parentViewModel.availablePlayers.observe(viewLifecycleOwner) { players ->
             binding.playersListGroup.isVisible = players.isNotEmpty()
-            if (players.isNotEmpty()) adapter.submitList(players)
+            adapter.submitList(players)
         }
 
         parentViewModel.playerAddedEvent.collect(viewLifecycleOwner) { event ->
             TransitionManager.beginDelayedTransition(binding.content)
-            event.consume(this)
             binding.errorMessage.isVisible = true
+            event.consume(this)
         }
     }
 
