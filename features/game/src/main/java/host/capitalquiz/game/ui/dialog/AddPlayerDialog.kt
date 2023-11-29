@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionManager
 import host.capitalquiz.core.ui.BottomSheetDialogFragmentWithBorder
 import host.capitalquiz.core.ui.collect
@@ -52,15 +53,30 @@ class AddPlayerDialog : BottomSheetDialogFragmentWithBorder() {
 
         binding.playerName.requestFocus()
 
-        val adapter = PlayersAdapter { playerId ->
+        val playersAdapter = PlayersAdapter { playerId ->
             parentViewModel.addPlayer("", args.color, playerId)
         }
 
-        binding.availablePlayers.adapter = adapter
+        val gridLayoutManager = GridLayoutManager(requireContext(), 2)
+
+        val spanSizeLookUp = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                val itemCount = playersAdapter.itemCount
+                return if (itemCount % 2 != 0 && position == itemCount - 1) 2 else 1
+            }
+        }
+
+        gridLayoutManager.spanSizeLookup = spanSizeLookUp
+        gridLayoutManager.orientation = GridLayoutManager.VERTICAL
+
+        binding.availablePlayers.apply {
+            adapter = playersAdapter
+            layoutManager = gridLayoutManager
+        }
 
         parentViewModel.availablePlayers.observe(viewLifecycleOwner) { players ->
             binding.playersListGroup.isVisible = players.isNotEmpty()
-            adapter.submitList(players)
+            playersAdapter.submitList(players)
         }
 
         parentViewModel.playerAddedEvent.collect(viewLifecycleOwner) { event ->

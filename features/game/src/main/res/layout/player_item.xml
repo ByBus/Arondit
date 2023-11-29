@@ -1,25 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="4dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:contentPadding="8dp">
+    android:orientation="horizontal"
+    android:paddingVertical="4dp">
 
-    <LinearLayout
+    <host.capitalquiz.core.ui.view.FlagView
+        android:id="@+id/flag"
+        android:layout_height="100dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="4dp">
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="4dp"
+        app:centerColor="#534083"
+        app:flagColor="?attr/colorPrimary"
+        app:flagMaxWidth="200dp"
+        app:horizontalRodDiameter="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shadowColor="#4D555555"
+        app:sleevesCount="3"
+        app:stripeColor="#FFFFA726"
+        app:stripePadding="10dp"
+        app:stripeWidth="2dp"
+        app:topToBottomRatio="0.7" />
 
-        <TextView
-            android:id="@+id/playerName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/yanone_kaffeesatz_bold"
-            android:textSize="24sp"
-            tools:text="Вика" />
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+    <TextView
+        android:id="@+id/playerName"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="20dp"
+        android:autoSizeTextType="uniform"
+        android:ellipsize="marquee"
+        android:fontFamily="@font/yanone_kaffeesatz_bold"
+        android:gravity="center"
+        android:maxLines="2"
+        android:paddingHorizontal="30dp"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="@id/flag"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="36dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/flag"
+        app:layout_constraintWidth_max="200dp"
+        tools:text="Максимиллиан Варфоломеевич Шмунке" />
+</androidx.constraintlayout.widget.ConstraintLayout>

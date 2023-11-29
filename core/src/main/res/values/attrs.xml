@@ -22,14 +22,27 @@
         <attr name="textToDraw" format="string"/>
         <attr name="minTextSize" format="dimension"/>
         <attr name="normalTextSize" format="dimension"/>
-        <attr name="textBaseColor" format="color"/>
-        <attr name="font" format="reference"/>
+        <attr name="textBaseColor" format="color" />
+        <attr name="font" format="reference" />
     </declare-styleable>
     <declare-styleable name="LetterBlockView">
-        <attr name="letter" format="string"/>
+        <attr name="letter" format="string" />
         <attr name="points" format="integer" />
-        <attr name="letterColor" format="color"/>
+        <attr name="letterColor" format="color" />
         <attr name="blockSize" format="dimension" />
-        <attr name="blockBackground" format="reference"/>
+        <attr name="blockBackground" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="FlagView">
+        <attr name="horizontalRod" format="reference" />
+        <attr name="horizontalRodDiameter" format="dimension" />
+        <attr name="stripePadding" format="dimension" />
+        <attr name="stripeWidth" format="dimension" />
+        <attr name="flagColor" format="color" />
+        <attr name="stripeColor" format="color" />
+        <attr name="centerColor" format="color" />
+        <attr name="sleevesCount" format="integer" />
+        <attr name="topToBottomRatio" format="float" />
+        <attr name="shadowColor" format="color" />
+        <attr name="flagMaxWidth" format="dimension" />
     </declare-styleable>
 </resources>

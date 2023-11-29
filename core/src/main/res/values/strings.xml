@@ -12,7 +12,7 @@
     <string name="please_add_participants">Откройте игру и добавьте участников</string>
     <string name="no_players">НЕТ ИГРОКОВ</string>
     <string name="new_player">Новый игрок</string>
-    <string name="player_name">имя</string>
+    <string name="player_name">Имя</string>
     <string name="no_games_info_text">У вас нет прошлых игр\nПожалуйста нажмите кнопку чтобы начать игру</string>
     <string name="start_new_game">НАЧАТЬ НОВУЮ ИГРУ</string>
     <string name="no_players_info_text">Для начала новой партии вам нужно добавить участников\nУчаствовать могут до 4-х игроков</string>
