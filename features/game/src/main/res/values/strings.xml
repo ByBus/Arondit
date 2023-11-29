@@ -2,6 +2,10 @@
 <resources>
     <string name="no_players_info_text">Для начала новой партии вам нужно добавить участников\nУчаствовать могут до 4-х игроков</string>
     <string name="add_participant">ДОБАВИТЬ УЧАСТНИКА</string>
+    <string name="new_player_header">Новый Игрок</string>
+    <string name="rename_player_header">Новое Имя</string>
+    <string name="add_player_button">ДОБАВИТЬ</string>
+    <string name="rename_player_button">СОХРАНИТЬ</string>
     <string name="remove_player_info_message">Хотите удалить игрока?</string>
     <string name="remove_player_button">УДАЛИТЬ</string>
     <string name="cancel_button">ОТМЕНА</string>

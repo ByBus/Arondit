@@ -25,7 +25,8 @@ class FieldToFieldUiMapper @Inject constructor(
         color: Int,
         score: Int,
         words: List<Word>,
+        playerId: Long,
     ): FieldUi {
-        return FieldUi(id, color, name, words.map { wordMapper.map(it, rule) }, score)
+        return FieldUi(id, color, name, words.map { wordMapper.map(it, rule) }, score, playerId)
     }
 }

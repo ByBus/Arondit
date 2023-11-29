@@ -32,10 +32,11 @@ class GridLayoutAdapter(private val listener: Listener) {
     }
 
     inner class PlayerField(
-        val id: FieldId,
-        val color: FieldColor,
-        playerName: String,
+        private val id: FieldId,
+        private val color: FieldColor,
+        private var playerName: String,
         private val itemView: View,
+        playerId: Long,
     ) {
         private val recyclerView = itemView.findViewById<RecyclerView>(R.id.wordsList)
         private val adapter = WordAdapter { wordId ->
@@ -48,6 +49,9 @@ class GridLayoutAdapter(private val listener: Listener) {
             header = itemView.findViewById(R.id.playerHeader)
             header.setColor(color.value)
             header.setName(playerName)
+            header.setOnClickListener {
+                listener.onNameClick(playerName, playerId, color)
+            }
             val bottomToolbar = itemView.findViewById<RelativeLayout>(R.id.bottomToolbar)
             bottomToolbar.backgroundTintList = ColorStateList.valueOf(color.value)
             header.removePlayerButton().setOnClickListener {
@@ -64,8 +68,10 @@ class GridLayoutAdapter(private val listener: Listener) {
             }
         }
 
-        fun updateField(playerWords: List<WordUi>, playerScore: Int) {
+        fun updateField(playerWords: List<WordUi>, playerScore: Int, playerName: String) {
             header.setScore(playerScore)
+            header.setName(playerName)
+            this.playerName = playerName
             adapter.submitList(playerWords.toMutableList())
         }
 
@@ -93,7 +99,7 @@ class GridLayoutAdapter(private val listener: Listener) {
     }
 
 
-    private fun createPlayerField(context: Context, player: FieldUi) {
+    private fun createPlayerField(context: Context, field: FieldUi) {
         val itemView = LayoutInflater.from(context)
             .inflate(R.layout.fragment_game_list_item, grid, false)
         itemView.layoutParams = GridLayout.LayoutParams(
@@ -106,20 +112,21 @@ class GridLayoutAdapter(private val listener: Listener) {
             marginEnd = 2
         }
         PlayerField(
-            FieldId(player.id),
-            FieldColor(player.color),
-            player.playerName,
-            itemView
+            FieldId(field.id),
+            FieldColor(field.color),
+            field.playerName,
+            itemView,
+            field.playerId
         ).attach()
     }
 
     fun submitList(context: Context, list: List<FieldUi>) {
         val actualFieldColors = list.associateBy { it.color }
-        actualFieldColors.forEach { (fieldColor, player) ->
+        actualFieldColors.forEach { (fieldColor, field) ->
             if (fields.containsKey(fieldColor).not()) {
-                createPlayerField(context, player)
+                createPlayerField(context, field)
             }
-            fields[fieldColor]?.updateField(player.words, player.score)
+            fields[fieldColor]?.updateField(field.words, field.score, field.playerName)
         }
     }
 
@@ -132,6 +139,7 @@ class GridLayoutAdapter(private val listener: Listener) {
         fun onRemovePlayerClick(fieldId: FieldId, fieldColor: FieldColor)
         fun onAddWordClick(fieldId: FieldId, fieldColor: FieldColor)
         fun onWordClick(wordId: Long, fieldId: FieldId, fieldColor: FieldColor)
+        fun onNameClick(name: String, playerId: Long, fieldColor: FieldColor)
     }
 }
 

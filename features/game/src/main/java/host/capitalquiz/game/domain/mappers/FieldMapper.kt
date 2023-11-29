@@ -4,7 +4,14 @@ import host.capitalquiz.game.domain.Field
 import host.capitalquiz.game.domain.Word
 
 interface FieldMapper<R> {
-    operator fun invoke(id: Long, name: String, color: Int, score: Int, words: List<Word>): R
+    operator fun invoke(
+        id: Long,
+        name: String,
+        color: Int,
+        score: Int,
+        words: List<Word>,
+        playerId: Long,
+    ): R
 }
 
 

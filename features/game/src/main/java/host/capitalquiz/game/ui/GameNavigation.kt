@@ -5,4 +5,5 @@ interface GameNavigation {
     fun navigateToRemovePlayerDialog(fieldId: Long, color: Int)
     fun navigateToAddWordDialog(fieldId: Long, color: Int)
     fun navigateToEditWordDialog(wordId: Long, fieldId: Long, color: Int)
+    fun navigateToRenamePlayerDialog(oldName: String, playerId: Long, color: Int)
 }

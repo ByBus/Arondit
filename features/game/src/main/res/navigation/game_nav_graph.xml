@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_to_removePlayerDialog"
             app:destination="@id/removePlayerDialog" />
+        <action
+            android:id="@+id/action_to_RenamePlayerDialog"
+            app:destination="@id/editNameDialog" />
     </fragment>
     <dialog
         android:id="@+id/addWordDialog"
@@ -69,6 +72,20 @@
             app:argType="long" />
         <argument
             android:name="fieldColor"
+            app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/editNameDialog"
+        android:name="host.capitalquiz.game.ui.dialog.RenamePlayerDialog"
+        android:label="EditNameDialog">
+        <argument
+            android:name="oldName"
+            app:argType="string" />
+        <argument
+            android:name="playerId"
+            app:argType="long" />
+        <argument
+            android:name="playerColor"
             app:argType="integer" />
     </dialog>
 </navigation>

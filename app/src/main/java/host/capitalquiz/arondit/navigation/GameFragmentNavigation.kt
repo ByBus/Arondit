@@ -35,4 +35,10 @@ class GameFragmentNavigation @Inject constructor(
             )
         navController.navigate(editWordDialog)
     }
+
+    override fun navigateToRenamePlayerDialog(oldName: String, playerId: Long, color: Int) {
+        val renameDialogAction =
+            GameFragmentDirections.actionToRenamePlayerDialog(oldName, playerId, color)
+        navController.navigate(renameDialogAction)
+    }
 }

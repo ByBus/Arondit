@@ -12,6 +12,7 @@ interface FieldInteractor {
     suspend fun deleteField(fieldId: Long)
 
     suspend fun findAllPlayersWhoIsNotPlayingYet(gameId: Long): List<Player>
+    suspend fun renamePlayer(newName: String, playerId: Long): Boolean
 
     class Base @Inject constructor(
         private val fieldRepository: FieldRepository,
@@ -44,6 +45,18 @@ interface FieldInteractor {
             val nowPlayingPlayers = fields.map { it.name }
             val allPlayers = fieldRepository.allPlayers()
             return allPlayers.filterNot { it.name in nowPlayingPlayers }.sortedBy { it.name }
+        }
+
+        override suspend fun renamePlayer(newName: String, playerId: Long): Boolean {
+            val playerWithSameNameExist = fieldRepository.allPlayers().any {
+                it.id != playerId && it.name.equals(newName, true)
+            }
+            return if (playerWithSameNameExist)
+                false
+            else {
+                fieldRepository.renamePlayer(newName, playerId)
+                true
+            }
         }
     }
 }

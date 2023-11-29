@@ -121,6 +121,10 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
         navigation.navigateToEditWordDialog(wordId, fieldId.value, fieldColor.value)
     }
 
+    override fun onNameClick(name: String, playerId: Long, fieldColor: FieldColor) {
+        navigation.navigateToRenamePlayerDialog(name, playerId, fieldColor.value)
+    }
+
     companion object {
         const val RESULT_REQUEST_CODE = "current game request code"
         const val REMOVE_PLAYER_ID_KEY = "remove player with id"

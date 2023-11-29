@@ -55,6 +55,13 @@ class GameViewModel @AssistedInject constructor(
         }
     }
 
+    fun renamePlayer(newName: String, playerId: Long) {
+        viewModelScope.launch {
+            val result = fieldInteractor.renamePlayer(newName, playerId)
+            _playerAddedEvent.trySend(AddPlayerEvent(result))
+        }
+    }
+
     fun deletePlayer(id: Long) {
         viewModelScope.launch {
             fieldInteractor.deleteField(id)

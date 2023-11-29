@@ -15,4 +15,6 @@ interface FieldRepository {
     suspend fun fieldsOfGame(gameId: Long): List<Field>
 
     suspend fun createPlayerWithName(name: String): Long
+
+    suspend fun renamePlayer(name: String, playerId: Long)
 }

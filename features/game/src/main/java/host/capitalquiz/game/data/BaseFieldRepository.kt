@@ -52,6 +52,10 @@ class BaseFieldRepository @Inject constructor(
     }
 
     override suspend fun createPlayerWithName(name: String): Long {
-        return playerDao.insert(PlayerData(name))
+        return playerDao.upsert(PlayerData(name))
+    }
+
+    override suspend fun renamePlayer(name: String, playerId: Long) {
+        playerDao.upsert(PlayerData(name).apply { id = playerId })
     }
 }

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:clipToPadding="false"
         android:id="@+id/content"
         style="@style/BottomSheetDialogInnerContainer"
+        android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,7 +18,9 @@
             android:id="@+id/playersListGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="availablePlayers,availablePlayersTitle,decor_left,decor_right" />
+            android:visibility="gone"
+            app:constraint_referenced_ids="availablePlayers,availablePlayersTitle,decor_left,decor_right"
+            tools:visibility="visible" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/playerName"
@@ -30,10 +32,11 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/player_name" />
+                android:hint="@string/player_name"
+                android:maxLines="1"
+                android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -74,34 +77,34 @@
             app:layout_constraintTop_toTopOf="@id/availablePlayersTitle" />
 
         <TextView
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/yanone_kaffeesatz_bold"
-            android:textColor="?attr/colorPrimary"
             android:id="@+id/availablePlayersTitle"
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/yanone_kaffeesatz_bold"
             android:text="@string/available_players_title"
+            android:textColor="?attr/colorPrimary"
             app:layout_constraintBottom_toTopOf="@id/availablePlayers"
             app:layout_constraintEnd_toEndOf="@id/playerName"
             app:layout_constraintStart_toStartOf="@id/playerName"
             app:layout_constraintTop_toBottomOf="@id/errorMessage" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginStart="-10dp"
-            android:layout_marginTop="8dp"
-            tools:itemCount="5"
-            tools:listitem="@layout/player_item"
             android:id="@+id/availablePlayers"
-            android:layout_marginEnd="-10dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="-10dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/availablePlayersTitle"
+            tools:itemCount="5"
             tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:spanCount="2"
-            app:layout_constraintTop_toBottomOf="@id/availablePlayersTitle" />
+            tools:listitem="@layout/player_item"
+            tools:spanCount="2" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/confirmPlayer"

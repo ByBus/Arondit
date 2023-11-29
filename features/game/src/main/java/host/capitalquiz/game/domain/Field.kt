@@ -11,7 +11,7 @@ data class Field(
     val playerId: Long = -1L,
 ) {
     fun <R> map(mapper: FieldMapper<R>): R {
-        return mapper(id, name, color, score, words)
+        return mapper(id, name, color, score, words, playerId)
     }
 
     fun hasPlayerId(): Boolean = playerId != -1L

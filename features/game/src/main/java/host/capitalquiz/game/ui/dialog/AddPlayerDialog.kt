@@ -2,45 +2,26 @@ package host.capitalquiz.game.ui.dialog
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionManager
-import host.capitalquiz.core.ui.BottomSheetDialogFragmentWithBorder
-import host.capitalquiz.core.ui.collect
-import host.capitalquiz.core.ui.requirePreviousFragment
-import host.capitalquiz.game.databinding.DialogFragmentAddPlayerBinding
-import host.capitalquiz.game.ui.GameViewModel
+import host.capitalquiz.game.R
 
-class AddPlayerDialog : BottomSheetDialogFragmentWithBorder() {
-    private val parentViewModel by viewModels<GameViewModel>(ownerProducer = { requirePreviousFragment() })
-    private var _binding: DialogFragmentAddPlayerBinding? = null
-    private val binding get() = _binding!!
+class AddPlayerDialog : PlayerNameDialogBase() {
     private val args by navArgs<AddPlayerDialogArgs>()
-    override val borderView get() = binding.border
+    override val dialogColor: Int get() = args.color
+    override val dialogTitleRes: Int = R.string.new_player_header
+    override val buttonTextRes: Int = R.string.add_player_button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parentViewModel.loadAvailablePlayers()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = DialogFragmentAddPlayerBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.dialogHeader.setBackgroundColor(args.color)
 
         binding.confirmPlayer.setOnClickListener {
             TransitionManager.beginDelayedTransition(binding.content)
@@ -50,8 +31,6 @@ class AddPlayerDialog : BottomSheetDialogFragmentWithBorder() {
                 parentViewModel.addPlayer(playerName.toString().trim(), args.color)
             }
         }
-
-        binding.playerName.requestFocus()
 
         val playersAdapter = PlayersAdapter { playerId ->
             parentViewModel.addPlayer("", args.color, playerId)
@@ -78,21 +57,10 @@ class AddPlayerDialog : BottomSheetDialogFragmentWithBorder() {
             binding.playersListGroup.isVisible = players.isNotEmpty()
             playersAdapter.submitList(players)
         }
-
-        parentViewModel.playerAddedEvent.collect(viewLifecycleOwner) { event ->
-            TransitionManager.beginDelayedTransition(binding.content)
-            binding.errorMessage.isVisible = true
-            event.consume(this)
-        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         parentViewModel.returnColor(args.color)
         super.onDismiss(dialog)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
