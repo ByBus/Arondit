@@ -22,4 +22,12 @@ interface FieldDao {
 
     @Query("DELETE FROM game_fields WHERE id=:filedId")
     suspend fun deleteFieldById(filedId: Long)
+
+    @Transaction
+    @Query("SELECT * from game_fields WHERE id=:fieldId")
+    suspend fun findFieldById(fieldId: Long): FieldWithPlayerAndWordsData
+
+    @Query("SELECT id FROM game_fields WHERE playerId=:playerId")
+    suspend fun findFieldsIdsWithPlayer(playerId: Long): List<Long>
+
 }

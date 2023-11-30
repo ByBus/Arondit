@@ -37,7 +37,13 @@ interface FieldInteractor {
         }
 
         override suspend fun deleteField(fieldId: Long) {
+            val field = fieldRepository.fieldById(fieldId)
+            val playerId = field.playerId
+            val numberOfGamesWithPlayer = fieldRepository.findFieldsIdsWithPlayer(playerId).count()
             fieldRepository.deleteField(fieldId)
+            if (numberOfGamesWithPlayer == 1) {
+                fieldRepository.deletePlayer(playerId)
+            }
         }
 
         override suspend fun findAllPlayersWhoIsNotPlayingYet(gameId: Long): List<Player> {

@@ -12,4 +12,7 @@ interface PlayerDao {
 
     @Query("SELECT * FROM players")
     suspend fun allPlayers(): List<PlayerData>
+
+    @Query("DELETE FROM players WHERE id=:id")
+    suspend fun deletePlayer(id: Long)
 }

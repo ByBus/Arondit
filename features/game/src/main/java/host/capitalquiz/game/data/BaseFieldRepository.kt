@@ -58,4 +58,18 @@ class BaseFieldRepository @Inject constructor(
     override suspend fun renamePlayer(name: String, playerId: Long) {
         playerDao.upsert(PlayerData(name).apply { id = playerId })
     }
+
+    override suspend fun fieldById(fieldId: Long): Field {
+        val fieldData = fieldDao.findFieldById(fieldId)
+        val rule = gameRuleRepository.gameRuleOfGame(fieldData.field.gameId)
+        return mapper.map(fieldData, rule)
+    }
+
+    override suspend fun findFieldsIdsWithPlayer(playerId: Long): List<Long> {
+        return fieldDao.findFieldsIdsWithPlayer(playerId)
+    }
+
+    override suspend fun deletePlayer(playerId: Long) {
+        playerDao.deletePlayer(playerId)
+    }
 }
