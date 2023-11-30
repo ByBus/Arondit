@@ -51,6 +51,18 @@
             app:layout_constraintTop_toBottomOf="@id/playerName"
             tools:visibility="visible" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/confirmPlayer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:text="@string/add_letter_button"
+            app:backgroundTint="@color/base_green"
+            app:layout_constraintEnd_toEndOf="@id/playerName"
+            app:layout_constraintStart_toStartOf="@id/playerName"
+            app:layout_constraintTop_toBottomOf="@id/errorMessage" />
+
         <ImageView
             android:id="@+id/decor_left"
             android:layout_width="100dp"
@@ -88,9 +100,12 @@
             app:layout_constraintBottom_toTopOf="@id/availablePlayers"
             app:layout_constraintEnd_toEndOf="@id/playerName"
             app:layout_constraintStart_toStartOf="@id/playerName"
-            app:layout_constraintTop_toBottomOf="@id/errorMessage" />
+            app:layout_constraintTop_toBottomOf="@id/confirmPlayer" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:fadingEdge="horizontal|vertical"
+            android:fadingEdgeLength="16dp"
+            android:requiresFadingEdge="horizontal|vertical"
             android:id="@+id/availablePlayers"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -98,26 +113,15 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="-10dp"
             android:orientation="vertical"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/availablePlayersTitle"
-            tools:itemCount="5"
+            tools:itemCount="20"
             tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             tools:listitem="@layout/player_item"
             tools:spanCount="2" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/confirmPlayer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:text="@string/add_letter_button"
-            app:backgroundTint="@color/base_green"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/playerName"
-            app:layout_constraintStart_toStartOf="@id/playerName"
-            app:layout_constraintTop_toBottomOf="@id/availablePlayers" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
