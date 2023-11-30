@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import host.capitalquiz.core.db.mappers.FieldDataMapperWithParameter
 import host.capitalquiz.core.db.mappers.GameRuleDataMapper
 import host.capitalquiz.core.db.mappers.WordDataMapper
+import host.capitalquiz.game.BasePlayerRepository
 import host.capitalquiz.game.data.BaseFieldRepository
 import host.capitalquiz.game.data.GameRuleDataDataSource
 import host.capitalquiz.game.data.mappers.FieldDataToFieldMapper
@@ -17,6 +18,7 @@ import host.capitalquiz.game.domain.FieldInteractor
 import host.capitalquiz.game.domain.FieldRepository
 import host.capitalquiz.game.domain.GameRuleInteractor
 import host.capitalquiz.game.domain.GameRuleSimple
+import host.capitalquiz.game.domain.PlayerRepository
 import host.capitalquiz.game.domain.Word
 import host.capitalquiz.game.domain.mappers.FieldMapperWithParameter
 import host.capitalquiz.game.domain.mappers.WordMapperWithParameter
@@ -55,5 +57,8 @@ interface GameModule {
 
     @Binds
     fun bindGameRuleDataMapper(impl: GameRuleDataToSimpleMapper): GameRuleDataMapper<GameRuleSimple>
+
+    @Binds
+    fun bindPlayerRepository(impl: BasePlayerRepository): PlayerRepository
 
 }
