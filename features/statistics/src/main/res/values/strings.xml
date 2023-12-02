@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="total_games">Всего игр</string>
+    <string name="total_victories">Всего побед</string>
+    <string name="percent_of_victories">Процент побед</string>
+    <string name="total_words_used">Слов придумано</string>
+    <string name="words_per_game">Слов за игру</string>
+    <string name="words_record_per_game">Рекорд слов за 1 игру</string>
+    <string name="score_per_game">Очков за игру</string>
+    <string name="score_record_per_game">Рекорд очков за 1 игру</string>
+    <string name="all_games_score">Очков за все игры</string>
+    <string name="longest_word">Самое длинное слово</string>
+    <string name="most_valuable_word">Самое ценное слово</string>
+    <string name="players_header">Игроки</string>
+</resources>

@@ -1,7 +1,10 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
+    kotlin("kapt")
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    id("androidx.navigation.safeargs")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -25,11 +28,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
+    }
+    buildFeatures {
+        viewBinding = true
     }
 }
 
@@ -38,7 +44,19 @@ dependencies {
     implementation(libs.androidx.ktx)
     implementation(libs.appcompat)
     implementation(libs.materials)
+    implementation(libs.legacy.support)
+    implementation(libs.livecycle.livedata)
+    implementation(libs.livecycle.viemodel)
     testImplementation(libs.junit)
     androidTestImplementation(libs.android.junit)
     androidTestImplementation(libs.android.espresso)
+
+    implementation(libs.constraintLayout)
+    implementation(libs.fragment.ktx)
+    implementation(libs.navigation.fragment.ktx)
+
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hilt.compiler)
+
+    implementation(project(":core"))
 }

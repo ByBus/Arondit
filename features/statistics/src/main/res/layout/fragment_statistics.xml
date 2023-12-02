@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.StatisticsFragment">
+
+    <TextView
+        style="@style/TableCell"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?attr/colorPrimary"
+        android:text="@string/players_header"
+        app:autoSizeMaxTextSize="20sp"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@id/columnPlayersNames"
+        app:layout_constraintEnd_toStartOf="@id/headersHorizontalScroller"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <HorizontalScrollView
+        android:id="@+id/headersHorizontalScroller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/columnPlayersNames"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            android:id="@+id/headersRow"
+            layout="@layout/table_row_item" />
+    </HorizontalScrollView>
+
+    <HorizontalScrollView
+        android:id="@+id/statistics_horizontal_scroller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/columnPlayersNames"
+        app:layout_constraintTop_toBottomOf="@id/headersHorizontalScroller">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/statisticsRows"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/table_row_item" />
+    </HorizontalScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/columnPlayersNames"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:scrollbars="none"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headersHorizontalScroller"
+        tools:listitem="@layout/player_name_item" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

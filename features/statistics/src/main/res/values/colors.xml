@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="odd_row_color">#43A047</color>
+    <color name="even_row_color">#66BB6A</color>
+    <color name="odd_player_row_color">#5E35B1</color>
+    <color name="even_player_row_color">#7E57C2</color>
+</resources>

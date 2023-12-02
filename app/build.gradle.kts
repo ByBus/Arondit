@@ -80,6 +80,7 @@ dependencies {
     implementation(project(":features:game"))
     implementation(project(":features:onboarding"))
     implementation(project(":features:editgamerule"))
+    implementation(project(":features:statistics"))
 }
 
 // Allow references to generated code

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/row_height"
+    tools:background="?attr/colorPrimary">
+
+    <TextView
+        android:id="@+id/totalGames"
+        style="@style/TableCell"
+        android:layout_width="90dp"
+        android:text="@string/total_games"
+        app:autoSizeTextType="uniform" />
+
+    <TextView
+        android:id="@+id/victories"
+        style="@style/TableCell"
+        android:layout_width="100dp"
+        android:text="@string/total_victories"
+        app:autoSizeTextType="uniform" />
+
+    <TextView
+        android:id="@+id/victoriesPercent"
+        style="@style/TableCell"
+        android:layout_width="100dp"
+        android:text="@string/percent_of_victories"
+        app:autoSizeTextType="uniform" />
+
+    <TextView
+        android:id="@+id/wordsTotal"
+        style="@style/TableCell"
+        android:layout_width="100dp"
+        android:text="@string/total_words_used"
+        app:autoSizeTextType="uniform" />
+
+    <TextView
+        android:id="@+id/wordsPerGame"
+        style="@style/TableCell"
+        android:layout_width="100dp"
+        android:text="@string/words_per_game"
+        app:autoSizeTextType="uniform" />
+
+    <TextView
+        android:id="@+id/maxWordsInGame"
+        style="@style/TableCell"
+        android:layout_width="100dp"
+        android:text="@string/words_record_per_game"
+        app:autoSizeTextType="uniform" />
+
+    <TextView
+        android:id="@+id/scorePerGame"
+        style="@style/TableCell"
+        android:layout_width="100dp"
+        android:text="@string/score_per_game"
+        app:autoSizeTextType="uniform" />
+
+    <TextView
+        android:id="@+id/maxScoreInGame"
+        style="@style/TableCell"
+        android:layout_width="100dp"
+        android:text="@string/score_record_per_game"
+        app:autoSizeTextType="uniform" />
+
+    <TextView
+        android:id="@+id/allGamesScore"
+        style="@style/TableCell"
+        android:layout_width="100dp"
+        android:text="@string/all_games_score"
+        app:autoSizeTextType="uniform" />
+
+    <TextView
+        android:id="@+id/longest_word"
+        style="@style/TableCell"
+        android:layout_width="150dp"
+        android:text="@string/longest_word"
+        app:autoSizeTextType="uniform" />
+
+    <TextView
+        android:id="@+id/mostValuableWord"
+        style="@style/TableCell"
+        android:layout_width="170dp"
+        android:text="@string/most_valuable_word"
+        app:autoSizeTextType="uniform" />
+
+</LinearLayout>

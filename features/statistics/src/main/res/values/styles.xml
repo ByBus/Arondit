@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TableCell">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:breakStrategy">balanced</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="autoSizeMaxTextSize">20sp</item>
+        <item name="autoSizeMinTextSize">10sp</item>
+    </style>
+</resources>
