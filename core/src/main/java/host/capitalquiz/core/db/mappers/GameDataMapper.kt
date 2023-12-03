@@ -11,7 +11,3 @@ interface GameDataMapper<R> {
         gameRule: GameRuleData,
     ): R
 }
-//
-//interface GameDataMapperWithParameter<P, R> : GameDataMapper<R> {
-//    fun map(game: GameData, param: R) : R
-//}

@@ -1,10 +1,10 @@
 package host.capitalquiz.core.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GameDao {
@@ -17,7 +17,7 @@ interface GameDao {
 
     @Transaction
     @Query("SELECT * FROM games")
-    fun allGames(): LiveData<List<GameWithPlayersData>>
+    fun allGames(): Flow<List<GameWithPlayersData>>
 
     @Query("DELETE FROM games WHERE id=:id")
     suspend fun deleteGameById(id: Long)

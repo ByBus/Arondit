@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="@dimen/row_height"
-    tools:background="?attr/colorPrimary">
+    android:background="?attr/colorPrimary">
 
     <TextView
         android:id="@+id/totalGames"
@@ -70,7 +69,7 @@
         app:autoSizeTextType="uniform" />
 
     <TextView
-        android:id="@+id/longest_word"
+        android:id="@+id/longestWord"
         style="@style/TableCell"
         android:layout_width="150dp"
         android:text="@string/longest_word"

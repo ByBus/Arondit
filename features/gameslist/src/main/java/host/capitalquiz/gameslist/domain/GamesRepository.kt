@@ -1,10 +1,10 @@
 package host.capitalquiz.gameslist.domain
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 
 interface GamesRepository {
 
-    fun allGames(): LiveData<List<Game>>
+    fun allGames(): Flow<List<Game>>
 
     suspend fun createGame(): Long
 

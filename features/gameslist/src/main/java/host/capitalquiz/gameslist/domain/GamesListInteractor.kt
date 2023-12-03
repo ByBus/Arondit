@@ -1,12 +1,11 @@
 package host.capitalquiz.gameslist.domain
 
-import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
 interface GamesListInteractor {
-    fun allGames(): LiveData<List<Game>>
+    fun allGames(): Flow<List<Game>>
 
     suspend fun deleteGame(gameId: Long)
 
@@ -21,7 +20,7 @@ interface GamesListInteractor {
 
         override val showOnBoardingScreen: Flow<Boolean> = settings.showOnBoarding
 
-        override fun allGames(): LiveData<List<Game>> = repository.allGames()
+        override fun allGames(): Flow<List<Game>> = repository.allGames()
 
         override suspend fun deleteGame(gameId: Long) = repository.deleteGame(gameId)
 

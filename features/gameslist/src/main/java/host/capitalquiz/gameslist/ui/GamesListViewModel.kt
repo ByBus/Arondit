@@ -1,8 +1,6 @@
 package host.capitalquiz.gameslist.ui
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import host.capitalquiz.gameslist.domain.GamesListInteractor
@@ -10,6 +8,7 @@ import host.capitalquiz.gameslist.domain.mappers.GameMapper
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,8 +20,7 @@ class GamesListViewModel @Inject constructor(
     private val gamesListInteractor: GamesListInteractor,
     private val gamesMapper: GameMapper<GameUi>,
 ) : ViewModel() {
-    private val _games = gamesListInteractor.allGames()
-    val games: LiveData<List<GameUi>> = _games.map { games ->
+    val games = gamesListInteractor.allGames().map { games ->
         games.map { it.map(gamesMapper) }
     }
 

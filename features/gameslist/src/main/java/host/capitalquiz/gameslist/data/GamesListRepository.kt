@@ -1,12 +1,12 @@
 package host.capitalquiz.gameslist.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import host.capitalquiz.core.db.GameDao
 import host.capitalquiz.core.db.GameData
 import host.capitalquiz.core.db.mappers.GameDataMapper
 import host.capitalquiz.gameslist.domain.Game
 import host.capitalquiz.gameslist.domain.GamesRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.util.Date
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ class GamesListRepository @Inject constructor(
     private val gameDao: GameDao,
     private val mapper: GameDataMapper<Game>,
 ) : GamesRepository {
-    override fun allGames(): LiveData<List<Game>> {
+    override fun allGames(): Flow<List<Game>> {
         return gameDao.allGames().map { games ->
             games.map {
                 mapper.invoke(it.game, it.players, it.gameRule)
