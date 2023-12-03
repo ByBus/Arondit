@@ -7,7 +7,6 @@
     android:background="?attr/colorPrimary"
     tools:context=".ui.StatisticsFragment">
 
-
     <HorizontalScrollView
         android:id="@+id/headersHorizontalScroller"
         android:layout_width="0dp"
@@ -42,7 +41,6 @@
         app:layout_constraintEnd_toStartOf="@id/headersHorizontalScroller"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/columnPlayersNames"
@@ -91,6 +89,5 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/table_row_item" />
     </HorizontalScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

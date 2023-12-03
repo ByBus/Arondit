@@ -1,6 +1,8 @@
 package host.capitalquiz.core.ui
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -46,3 +48,7 @@ fun <T> MutableLiveData<T>.liveData(): LiveData<T> {
 fun Bundle.getLongOrNull(key: String): Long? {
     return if (containsKey(key)) getLong(key) else null
 }
+
+fun TextView.setRightDrawable(
+    default: Drawable?,
+) = setCompoundDrawablesWithIntrinsicBounds(null, null, default, null)

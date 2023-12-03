@@ -94,11 +94,12 @@ interface Sorter {
     class LongestWord(order: Boolean = false) : BaseSorter<Int>(order) {
         override fun inverted(): Sorter = LongestWord(true)
         override val selector = { userStatsUi: UserStatsUi -> userStatsUi.longestWord.length }
+        private val longestWordSelector = UserStatsUi::longestWord
         override fun sort(items: List<UserStatsUi>): List<UserStatsUi> {
             return if (ascendant)
-                items.sortedWith(compareBy(selector).thenBy(UserStatsUi::longestWord))
+                items.sortedWith(compareBy(selector).thenBy(longestWordSelector))
             else
-                items.sortedWith(compareByDescending(selector).thenBy(UserStatsUi::longestWord))
+                items.sortedWith(compareByDescending(selector).thenBy(longestWordSelector))
         }
     }
 
