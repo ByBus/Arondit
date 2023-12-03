@@ -5,7 +5,7 @@ interface Sorter {
 
     fun invertedOrThis(sorter: Sorter): Sorter
 
-    fun isAscending(): Boolean
+    fun <R> map(mapper: SorterMapper<R>): R
 
     abstract class BaseSorter<T : Comparable<T>>(protected var ascendant: Boolean) : Sorter {
         protected abstract fun inverted(): Sorter
@@ -25,7 +25,7 @@ interface Sorter {
                 items.sortedByDescending(selector)
         }
 
-        override fun isAscending(): Boolean = ascendant
+        override fun <R> map(mapper: SorterMapper<R>): R = mapper(if (ascendant) 1 else -1)
     }
 
     abstract class BaseStringSorter<T>(ascendant: Boolean) : BaseSorter<T>(ascendant)
@@ -43,6 +43,7 @@ interface Sorter {
         override fun inverted(): Sorter = this
         override fun sort(items: List<UserStatsUi>): List<UserStatsUi> = items.toList()
         override fun invertedOrThis(sorter: Sorter): Sorter = sorter
+        override fun <R> map(mapper: SorterMapper<R>): R = mapper(0)
     }
 
     class TotalGames(order: Boolean = false) : BaseSorter<Int>(order) {

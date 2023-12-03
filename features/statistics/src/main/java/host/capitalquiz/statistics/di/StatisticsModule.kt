@@ -9,6 +9,8 @@ import host.capitalquiz.statistics.data.mappers.GameDataToUserGameShortStatsMapp
 import host.capitalquiz.statistics.data.mappers.UserStatisticsProducer
 import host.capitalquiz.statistics.domain.StatisticsInteractor
 import host.capitalquiz.statistics.domain.UserStatsRepository
+import host.capitalquiz.statistics.ui.HeadersState
+import host.capitalquiz.statistics.ui.SorterToHeaderStateMapper
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -22,4 +24,7 @@ interface StatisticsModule {
 
     @Binds
     fun bindStatisticsInteractor(impl: StatisticsInteractor.Base): StatisticsInteractor
+
+    @Binds
+    fun bindSorterToHeadersStateMapper(impl: SorterToHeaderStateMapper.Base): SorterToHeaderStateMapper<HeadersState>
 }

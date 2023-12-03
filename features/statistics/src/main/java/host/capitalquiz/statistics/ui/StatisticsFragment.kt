@@ -3,11 +3,13 @@ package host.capitalquiz.statistics.ui
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.core.ui.BindingFragment
 import host.capitalquiz.core.ui.Inflater
 import host.capitalquiz.core.ui.collect
 import host.capitalquiz.statistics.databinding.FragmentStatisticsBinding as StatisticsBinding
 
+@AndroidEntryPoint
 class StatisticsFragment : BindingFragment<StatisticsBinding>() {
 
     private val viewModel: StatisticsViewModel by viewModels()
@@ -15,7 +17,6 @@ class StatisticsFragment : BindingFragment<StatisticsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         val userNameAdapter = UserNameAdapter()
         binding.columnPlayersNames.apply {
@@ -34,19 +35,23 @@ class StatisticsFragment : BindingFragment<StatisticsBinding>() {
             userStatsAdapter.submitList(items)
         }
 
+        viewModel.headersState.collect(viewLifecycleOwner) { state ->
+            state.update(binding.headersRow.columnNames)
+        }
+
         with(binding.headersRow) {
-            totalGames.setOnClickListener { viewModel.sortByGames() }
-            victories.setOnClickListener { viewModel.sortByVictories() }
-            allGamesScore.setOnClickListener { viewModel.sortByAllGamesScore() }
-            victoriesPercent.setOnClickListener { viewModel.sortByVictoriesPercent() }
-            wordsTotal.setOnClickListener { viewModel.sortByWordsTotal() }
-            wordsPerGame.setOnClickListener { viewModel.sortByWordsPerGame() }
-            maxWordsInGame.setOnClickListener { viewModel.sortByMaxWordsInGame() }
-            scorePerGame.setOnClickListener { viewModel.sortByScorePerGame() }
-            maxScoreInGame.setOnClickListener { viewModel.sortByMaxScoreInGame() }
-            allGamesScore.setOnClickListener { viewModel.sortByAllGamesScore() }
-            longestWord.setOnClickListener { viewModel.sortByLongestWord() }
-            mostValuableWord.setOnClickListener { viewModel.sortByMostValuableWord() }
+            totalGames.setOnClickListener { viewModel.sortByGames(it.id) }
+            victories.setOnClickListener { viewModel.sortByVictories(it.id) }
+            allGamesScore.setOnClickListener { viewModel.sortByAllGamesScore(it.id) }
+            victoriesPercent.setOnClickListener { viewModel.sortByVictoriesPercent(it.id) }
+            wordsTotal.setOnClickListener { viewModel.sortByWordsTotal(it.id) }
+            wordsPerGame.setOnClickListener { viewModel.sortByWordsPerGame(it.id) }
+            maxWordsInGame.setOnClickListener { viewModel.sortByMaxWordsInGame(it.id) }
+            scorePerGame.setOnClickListener { viewModel.sortByScorePerGame(it.id) }
+            maxScoreInGame.setOnClickListener { viewModel.sortByMaxScoreInGame(it.id) }
+            allGamesScore.setOnClickListener { viewModel.sortByAllGamesScore(it.id) }
+            longestWord.setOnClickListener { viewModel.sortByLongestWord(it.id) }
+            mostValuableWord.setOnClickListener { viewModel.sortByMostValuableWord(it.id) }
         }
 
         TableScrollCoordinator(
