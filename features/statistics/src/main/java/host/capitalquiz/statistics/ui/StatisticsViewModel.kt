@@ -1,18 +1,23 @@
 package host.capitalquiz.statistics.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
-    private val sorterMapper: SorterToHeaderStateMapper<HeadersState>,
+    private val headersReducer: HeaderStateReducer,
 ) : ViewModel() {
+    private var lastClickedHeaderId = 0
+
     private val _headersState = MutableStateFlow<HeadersState>(HeadersState.Default)
     val headersState = _headersState.asStateFlow()
 
@@ -24,6 +29,13 @@ class StatisticsViewModel @Inject constructor(
     }
 
     init {
+        viewModelScope.launch {
+            sorter.collectLatest { sorter ->
+                _headersState.update { oldState ->
+                    headersReducer.reduce(oldState, lastClickedHeaderId, sorter)
+                }
+            }
+        }
         val words = listOf(
             "недопуск",
             "бронотозавр",
@@ -59,33 +71,38 @@ class StatisticsViewModel @Inject constructor(
         }
     }
 
-    fun sortByGames(id: Int) = updateSorter(Sorter.TotalGames(), id)
+    fun sortByGames(id: Int) {
+        updateState(Sorter.TotalGames(), id)
+    }
 
-    fun sortByVictories(id: Int) = updateSorter(Sorter.Victories(), id)
+    fun sortByVictories(id: Int) = updateState(Sorter.Victories(), id)
 
-    fun sortByAllGamesScore(id: Int) = updateSorter(Sorter.AllGamesScore(), id)
+    fun sortByAllGamesScore(id: Int) = updateState(Sorter.AllGamesScore(), id)
 
-    fun sortByVictoriesPercent(id: Int) = updateSorter(Sorter.VictoriesRate(), id)
+    fun sortByVictoriesPercent(id: Int) = updateState(Sorter.VictoriesRate(), id)
 
-    fun sortByWordsTotal(id: Int) = updateSorter(Sorter.WordsCount(), id)
+    fun sortByWordsTotal(id: Int) = updateState(Sorter.WordsCount(), id)
 
-    fun sortByWordsPerGame(id: Int) = updateSorter(Sorter.WordsPerGame(), id)
+    fun sortByWordsPerGame(id: Int) = updateState(Sorter.WordsPerGame(), id)
 
-    fun sortByMaxWordsInGame(id: Int) = updateSorter(Sorter.MaxWordsInGame(), id)
+    fun sortByMaxWordsInGame(id: Int) = updateState(Sorter.MaxWordsInGame(), id)
 
-    fun sortByScorePerGame(id: Int) = updateSorter(Sorter.ScorePerGame(), id)
+    fun sortByScorePerGame(id: Int) = updateState(Sorter.ScorePerGame(), id)
 
-    fun sortByMaxScoreInGame(id: Int) = updateSorter(Sorter.MaxScoreInGame(), id)
+    fun sortByMaxScoreInGame(id: Int) = updateState(Sorter.MaxScoreInGame(), id)
 
-    fun sortByLongestWord(id: Int) = updateSorter(Sorter.LongestWord(), id)
+    fun sortByLongestWord(id: Int) = updateState(Sorter.LongestWord(), id)
 
-    fun sortByMostValuableWord(id: Int) = updateSorter(Sorter.MostValuableWord(), id)
+    fun sortByMostValuableWord(id: Int) = updateState(Sorter.MostValuableWord(), id)
 
-    private fun updateSorter(sorter: Sorter, headerId: Int) {
+    private fun updateState(sorter: Sorter, headerId: Int) {
+        lastClickedHeaderId = headerId
+        updateSorter(sorter)
+    }
+
+    private fun updateSorter(sorter: Sorter) {
         this.sorter.update { oldSorter ->
-            val newSorter = oldSorter.invertedOrThis(sorter)
-            _headersState.value = sorterMapper.map(newSorter, headerId)
-            newSorter
+            oldSorter.invertedOrThis(sorter)
         }
     }
 }

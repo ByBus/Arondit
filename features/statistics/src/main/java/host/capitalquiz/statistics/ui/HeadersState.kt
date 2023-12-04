@@ -10,67 +10,80 @@ import host.capitalquiz.statistics.R
 
 
 interface HeadersState {
+
     fun update(headerLayout: LinearLayout)
+    fun rememberPrevious(state: HeadersState)
+    fun headerId(): Int?
+    fun direction(): Int
 
     abstract class Base : HeadersState {
-        abstract val tag: Int
-        abstract val headerId: Int?
-        private val defaultDrawable = R.drawable.sort_default_24
+        protected abstract val headerId: Int?
+        protected abstract val direction: Int
+        private var previousHeaderId: Int? = null
+        private var previousHeaderDir = DEFAULT
+
+        override fun headerId(): Int? = headerId
+        override fun direction(): Int = direction
+
+        override fun rememberPrevious(state: HeadersState) {
+            previousHeaderId = state.headerId()
+            previousHeaderDir = state.direction()
+        }
 
         override fun update(headerLayout: LinearLayout) {
-            val default = AppCompatResources.getDrawable(headerLayout.context, defaultDrawable)
+            val defaultIcon =
+                AppCompatResources.getDrawable(headerLayout.context, defaultDrawableResId)
+
             headerLayout.children.forEach { textView ->
                 textView as TextView
-                val newState = if (textView.id == headerId) tag else DEFAULT
-                val oldState = textView.tag as Int? ?: DEFAULT
+                val startDir = if (textView.id == previousHeaderId) previousHeaderDir else DEFAULT
+                val endDir = if (textView.id == headerId) direction else DEFAULT
 
-                if (oldState != newState)
-                    animateIcon(oldState, newState, textView)
+                if (startDir != endDir)
+                    textView.animateRightDrawable(startDir, endDir)
                 else
-                    textView.setRightDrawable(default)
-
-                textView.tag = newState
+                    textView.setRightDrawable(defaultIcon)
             }
         }
 
-        abstract fun animatedDrawableResId(oldState: Int): Int
+        abstract fun animatedDrawableResId(startDir: Int): Int
 
-        private fun animateIcon(oldState: Int, newState: Int, textView: TextView) {
-            val drawableRes = if (newState == DEFAULT)
-                Default.animatedDrawableResId(oldState)
+        private fun TextView.animateRightDrawable(startDir: Int, endDir: Int) {
+            val drawableRes = if (endDir == DEFAULT)
+                Default.animatedDrawableResId(startDir)
             else
-                animatedDrawableResId(oldState)
+                animatedDrawableResId(startDir)
 
             val animDrawable = AnimatedVectorDrawableCompat.create(
-                textView.context,
+                context,
                 drawableRes
             )
-            textView.setRightDrawable(animDrawable)
+            setRightDrawable(animDrawable)
             animDrawable?.start()
         }
     }
 
     object Default : Base() {
-        override val tag = DEFAULT
+        override val direction = DEFAULT
         override val headerId: Int? = null
-        override fun animatedDrawableResId(oldState: Int): Int {
-            return if (oldState == ASC) R.drawable.ascendant_to_default
+        override fun animatedDrawableResId(startDir: Int): Int {
+            return if (startDir == ASC) R.drawable.ascendant_to_default
             else R.drawable.descendant_to_default
         }
     }
 
     class Ascendant(override val headerId: Int) : Base() {
-        override val tag = ASC
-        override fun animatedDrawableResId(oldState: Int): Int {
-            return if (oldState == DEFAULT) R.drawable.default_to_ascendant
+        override val direction = ASC
+        override fun animatedDrawableResId(startDir: Int): Int {
+            return if (startDir == DEFAULT) R.drawable.default_to_ascendant
             else R.drawable.descendant_to_ascendant
         }
     }
 
     class Descendant(override val headerId: Int) : Base() {
-        override val tag = DESC
-        override fun animatedDrawableResId(oldState: Int): Int {
-            return if (oldState == DEFAULT) R.drawable.default_to_descendant
+        override val direction = DESC
+        override fun animatedDrawableResId(startDir: Int): Int {
+            return if (startDir == DEFAULT) R.drawable.default_to_descendant
             else R.drawable.ascendant_to_descendant
         }
     }
@@ -79,5 +92,6 @@ interface HeadersState {
         private const val DEFAULT = 0
         private const val ASC = 1
         private const val DESC = -1
+        private val defaultDrawableResId = R.drawable.sort_default_24
     }
 }
