@@ -24,6 +24,10 @@ class GamesListViewModel @Inject constructor(
         games.map { it.map(gamesMapper) }
     }
 
+    val showStatisticsButton = games.map { games ->
+        games.any { game -> game.playersColorWithInfo.isNotEmpty() }
+    }
+
     private val shouldShowOnBoardingScreen = gamesListInteractor.showOnBoardingScreen
     private val gameId = MutableStateFlow(NO_GAME_ID)
     private val _navigationState = Channel<NavigationState>()
@@ -71,6 +75,12 @@ class GamesListViewModel @Inject constructor(
     fun showEditGameRuleScreen(gameId: Long) {
         viewModelScope.launch {
             _navigationState.trySend(NavigationState.EditGameRuleScreen(gameId))
+        }
+    }
+
+    fun showStatisticsScreen() {
+        viewModelScope.launch {
+            _navigationState.trySend(NavigationState.StatisticsScreen)
         }
     }
 }

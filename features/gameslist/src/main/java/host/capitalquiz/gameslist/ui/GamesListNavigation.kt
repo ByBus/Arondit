@@ -5,4 +5,5 @@ interface GamesListNavigation {
     fun navigateToGame(gameId: Long)
     fun navigateToOnBoarding(gameId: Long)
     fun navigateToEditGameRule(gameId: Long)
+    fun navigateToStatistics()
 }

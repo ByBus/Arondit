@@ -4,20 +4,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import host.capitalquiz.statistics.domain.StatisticsInteractor
+import host.capitalquiz.statistics.domain.mappers.UserStatsMapper
 import host.capitalquiz.statistics.ui.mappers.HeaderStateReducer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
     private val interactor: StatisticsInteractor,
     private val headersReducer: HeaderStateReducer,
+    private val statsMapper: UserStatsMapper<UserStatsUi>,
 ) : ViewModel() {
     private var lastClickedHeaderId = 0
     private val sorter = MutableStateFlow<Sorter>(Sorter.Default)
@@ -30,6 +32,10 @@ class StatisticsViewModel @Inject constructor(
         sorter.sort(items)
     }
 
+    val showInformation = statistics.map { stats ->
+        stats.all { it.allGamesScore == 0 }
+    }
+
     init {
         viewModelScope.launch {
             sorter.collectLatest { sorter ->
@@ -38,44 +44,53 @@ class StatisticsViewModel @Inject constructor(
                 }
             }
         }
-        val words = listOf(
-            "недопуск",
-            "бронотозавр",
-            "артель",
-            "невзрачность",
-            "чёрствость",
-            "назойливость",
-            "выхоливание",
-            "звероловство",
-            "зыбун",
-            "унтертон",
-            "оскал",
-            "нахвостник"
-        ).map { it.uppercase() }
-        val items = List(100) {
-            UserStatsUi(
-                "Player $it",
-                (1..20).random(),
-                (0..10).random(),
-                Random.nextDouble() * 100,
-                (10..200).random(),
-                Random.nextDouble() * 15,
-                (10..20).random(),
-                Random.nextDouble() * 100,
-                (200..300).random(),
-                (400..800).random(),
-                words.random(),
-                "СИНХРОФАЗОТРОН 50"
-            )
-        }
-        statistics.update {
-            items
+
+//        val words = listOf(
+//            "недопуск",
+//            "бронотозавр",
+//            "артель",
+//            "невзрачность",
+//            "чёрствость",
+//            "назойливость",
+//            "выхоливание",
+//            "звероловство",
+//            "зыбун",
+//            "унтертон",
+//            "оскал",
+//            "нахвостник"
+//        ).map { it.uppercase() }
+//        val items = List(100) {
+//            UserStatsUi(
+//                "Player $it",
+//                (1..20).random(),
+//                (0..10).random(),
+//                Random.nextDouble() * 100,
+//                (10..200).random(),
+//                Random.nextDouble() * 15,
+//                (10..20).random(),
+//                Random.nextDouble() * 100,
+//                (200..300).random(),
+//                (400..800).random(),
+//                words.random(),
+//                "СИНХРОФАЗОТРОН 50"
+//            )
+//        }
+//        statistics.update {
+//            items
+//        }
+    }
+
+    fun loadStatistics() {
+        viewModelScope.launch {
+            statistics.update {
+                interactor.allUserStatistics().map {
+                    it.map(statsMapper)
+                }
+            }
         }
     }
 
-    fun sortByGames(id: Int) {
-        updateState(Sorter.TotalGames(), id)
-    }
+    fun sortByGames(id: Int) = updateState(Sorter.TotalGames(), id)
 
     fun sortByVictories(id: Int) = updateState(Sorter.Victories(), id)
 

@@ -12,4 +12,6 @@
     <string name="longest_word">Самое длинное слово</string>
     <string name="most_valuable_word">Самое ценное слово</string>
     <string name="players_header">Игроки</string>
+    <string name="no_statistics_yet">Пока что ни один игрок не набрал очков, что бы было что показать.</string>
+    <string name="close">ЗАКРЫТЬ</string>
 </resources>

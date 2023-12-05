@@ -50,6 +50,10 @@ class GamesListFragment : BindingFragment<GamesBinding>(), GameAdapter.Callback 
             cutPipeEnds(25)
         }
 
+        binding.showStatistics.setOnClickListener {
+            viewModel.showStatisticsScreen()
+        }
+
         binding.createGame.setOnClickListener {
             viewModel.createGame()
         }
@@ -71,6 +75,9 @@ class GamesListFragment : BindingFragment<GamesBinding>(), GameAdapter.Callback 
             navState.navigate(navigation)
         }
 
+        viewModel.showStatisticsButton.collect(viewLifecycleOwner) {
+            binding.showStatistics.isVisible = it
+        }
     }
 
     override fun onGameClick(gameId: Long) = viewModel.showGame(gameId)

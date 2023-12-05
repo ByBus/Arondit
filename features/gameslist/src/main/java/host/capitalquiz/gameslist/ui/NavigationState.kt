@@ -28,4 +28,10 @@ interface NavigationState {
             navigation.navigateToEditGameRule(gameId)
         }
     }
+
+    object StatisticsScreen : NavigationState {
+        override fun navigate(navigation: GamesListNavigation) {
+            navigation.navigateToStatistics()
+        }
+    }
 }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:animateLayoutChanges="true"
     android:maxWidth="700dp"
     android:transitionGroup="true"
     tools:context="host.capitalquiz.gameslist.ui.GamesListFragment">
@@ -98,17 +99,35 @@
         style="@style/BottomSheetDialogCompositeHeader"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
+        android:layout_marginHorizontal="8dp"
         android:background="@color/crimson_header_color"
-        android:text="Новая Игра"
+        android:text="@string/new_game"
         android:textSize="24sp"
         app:centerDrawable="@drawable/header_middle_piece"
         app:layout_constraintBottom_toBottomOf="@id/border"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/showStatistics"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:leftDrawable="@drawable/header_left_piece"
         app:leftDrawableTintBackgroundMask="@drawable/header_left_piece_tint_mask"
         app:rightDrawable="@drawable/header_right_piece"
         app:rightDrawableTintBackgroundMask="@drawable/header_right_piece_tint_mask" />
+
+    <ImageButton
+        android:id="@+id/showStatistics"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@drawable/round_background"
+        android:contentDescription="@string/statistics_button_desc"
+        android:src="@drawable/ic_statistics_24"
+        android:visibility="gone"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/createGame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/createGame"
+        app:layout_constraintTop_toTopOf="@id/createGame"
+        tools:visibility="visible" />
 
     <include
         android:id="@+id/information"

@@ -28,4 +28,9 @@ class GamesListFragmentNavigation @Inject constructor(
         val editGameRuleAction = BaseNavigationDirections.actionToEditGameRule(gameId)
         navController.navigate(editGameRuleAction)
     }
+
+    override fun navigateToStatistics() {
+        val statisticsAction = BaseNavigationDirections.actionToStatistics()
+        navController.navigate(statisticsAction)
+    }
 }
