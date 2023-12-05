@@ -3,6 +3,8 @@ package host.capitalquiz.statistics.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import host.capitalquiz.statistics.domain.StatisticsInteractor
+import host.capitalquiz.statistics.ui.mappers.HeaderStateReducer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -14,15 +16,15 @@ import kotlin.random.Random
 
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
+    private val interactor: StatisticsInteractor,
     private val headersReducer: HeaderStateReducer,
 ) : ViewModel() {
     private var lastClickedHeaderId = 0
+    private val sorter = MutableStateFlow<Sorter>(Sorter.Default)
+    private val statistics = MutableStateFlow<List<UserStatsUi>>(emptyList())
 
     private val _headersState = MutableStateFlow<HeadersState>(HeadersState.Default)
     val headersState = _headersState.asStateFlow()
-
-    private val sorter = MutableStateFlow<Sorter>(Sorter.Default)
-    private val statistics = MutableStateFlow<List<UserStatsUi>>(emptyList())
 
     val sortedRows = sorter.combine(statistics) { sorter, items ->
         sorter.sort(items)

@@ -13,4 +13,5 @@ data class UserStatsUi(
     val allGamesScore: Int,
     val longestWord: String,
     val mostValuableWord: String,
+    val mostValuableWordScore: Int = 0,
 )

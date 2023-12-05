@@ -1,5 +1,7 @@
 package host.capitalquiz.statistics.ui
 
+import host.capitalquiz.statistics.ui.mappers.SorterMapper
+
 interface Sorter {
     fun sort(items: List<UserStatsUi>): List<UserStatsUi>
 

@@ -1,5 +1,7 @@
-package host.capitalquiz.statistics.ui
+package host.capitalquiz.statistics.ui.mappers
 
+import host.capitalquiz.statistics.ui.HeadersState
+import host.capitalquiz.statistics.ui.Sorter
 import javax.inject.Inject
 
 interface HeaderStateReducer : SorterMapper<HeadersState> {
