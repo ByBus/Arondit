@@ -25,7 +25,9 @@ class GameDataToUserGameShortStatsMapper @Inject constructor(
         var maxScore = 0
 
         players.forEach { playerWithWords ->
-            val longestWord = playerWithWords.words.maxOfWith(lengthComparator) { it.word }
+            val words = playerWithWords.words
+            val longestWord =
+                if (words.isNotEmpty()) words.maxOfWith(lengthComparator) { it.word } else ""
 
             val wordsToScore = playerWithWords.words
                 .associateBy(
@@ -33,7 +35,8 @@ class GameDataToUserGameShortStatsMapper @Inject constructor(
                     { wordDataScoreMapper.map(it, gameRule.points) }
                 )
 
-            val mostValuableWord = wordsToScore.maxBy { it.value }
+            val mostValuableWord =
+                if (wordsToScore.isNotEmpty()) wordsToScore.maxBy { it.value } else null
 
             val score = wordsToScore.values.sum()
             maxScore = max(score, maxScore)
@@ -43,8 +46,8 @@ class GameDataToUserGameShortStatsMapper @Inject constructor(
                     playerId = playerWithWords.player.id,
                     playerName = playerWithWords.player.name,
                     longestWord = longestWord,
-                    mostValuableWord = mostValuableWord.key,
-                    mostValuableWordScore = mostValuableWord.value,
+                    mostValuableWord = mostValuableWord?.key ?: "",
+                    mostValuableWordScore = mostValuableWord?.value ?: 0,
                     wordsCount = wordsToScore.size,
                     score = score,
                     false
@@ -52,7 +55,7 @@ class GameDataToUserGameShortStatsMapper @Inject constructor(
             )
         }
 
-        val playersWithHighPoint = result.filter { it.score == maxScore }
+        val playersWithHighPoint = result.filter { maxScore > 0 && it.score == maxScore }
         if (playersWithHighPoint.size == 1) {
             val winner = playersWithHighPoint[0]
             result.remove(winner)

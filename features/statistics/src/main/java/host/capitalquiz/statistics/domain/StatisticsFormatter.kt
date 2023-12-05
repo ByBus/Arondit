@@ -18,8 +18,10 @@ interface StatisticsFormatter {
                         shortStats.map(userStatsMapper)
                     }
 
-                groupedStats.values.reduce { acc, userStats ->
-                    acc + userStats
+                groupedStats.values.map { userStats ->
+                    userStats.reduce { acc, stats ->
+                        acc + stats
+                    }
                 }.sortedBy { it.playerName }
             }
         }
