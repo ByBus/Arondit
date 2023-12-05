@@ -14,5 +14,5 @@
     app:autoSizeMaxTextSize="24sp"
     app:autoSizeMinTextSize="12sp"
     app:autoSizeTextType="uniform"
-    tools:background="@color/even_player_row_color"
+    android:background="@color/even_player_row_color"
     tools:text="Алексей" />

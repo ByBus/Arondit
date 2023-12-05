@@ -27,8 +27,7 @@
         android:id="@+id/statistics_horizontal_scroller"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#952B652E"
-        android:elevation="0dp"
+        android:background="#317535"
         android:fadingEdge="horizontal"
         android:fadingEdgeLength="8dp"
         android:requiresFadingEdge="horizontal"
@@ -42,6 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/even_row_color"
+            android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/table_row_item" />
     </HorizontalScrollView>
@@ -66,7 +66,7 @@
         style="@style/TableCell"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="?attr/colorPrimary"
+        android:background="@color/headers_color"
         android:elevation="8dp"
         android:text="@string/players_header"
         app:autoSizeMaxTextSize="20sp"

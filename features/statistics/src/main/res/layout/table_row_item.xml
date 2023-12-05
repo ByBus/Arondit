@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/columnNames"
+    android:background="@color/headers_color"
     android:layout_width="wrap_content"
     android:layout_height="@dimen/row_height"
-    android:background="?attr/colorPrimary">
+    android:outlineProvider="bounds">
 
     <TextView
         android:layout_width="95dp"
@@ -16,7 +17,6 @@
         app:autoSizeTextType="uniform" />
 
     <TextView
-        tools:drawableEnd="@drawable/sort_ascendant_24"
         android:id="@+id/victories"
         style="@style/TableCell"
         android:layout_width="100dp"
@@ -27,7 +27,6 @@
         android:layout_width="120dp"
         android:id="@+id/victoriesPercent"
         style="@style/TableCell"
-        tools:drawableEnd="@drawable/sort_descendant_24"
         android:text="@string/percent_of_victories"
         app:autoSizeTextType="uniform" />
 
