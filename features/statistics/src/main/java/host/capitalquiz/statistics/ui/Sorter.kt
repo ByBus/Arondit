@@ -108,6 +108,13 @@ interface Sorter {
     class MostValuableWord(order: Boolean = true) : BaseStringSorter<String>(order) {
         override fun inverted(): Sorter = MostValuableWord(false)
         override val selector = UserStatsUi::mostValuableWord
+        private val scoreSelector = UserStatsUi::mostValuableWordScore
+        override fun sort(items: List<UserStatsUi>): List<UserStatsUi> {
+            return if (ascendant)
+                items.sortedWith(compareBy(scoreSelector).thenBy(selector))
+            else
+                items.sortedWith(compareByDescending(scoreSelector).thenBy(selector))
+        }
     }
 
 }
