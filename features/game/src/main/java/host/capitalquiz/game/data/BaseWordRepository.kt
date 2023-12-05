@@ -21,7 +21,7 @@ class BaseWordRepository @Inject constructor(
 
     override suspend fun isWordExist(word: String): Boolean {
         val oldWord = oneWordCache.cachedValue() ?: return false
-        return wordDao.isWordExist(oldWord.fieldId, word)
+        return wordDao.isWordExist(oldWord.fieldId, word, oldWord.id)
     }
 
     override suspend fun loadToCache(wordId: Long) {

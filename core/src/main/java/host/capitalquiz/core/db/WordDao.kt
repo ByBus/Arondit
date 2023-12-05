@@ -32,9 +32,9 @@ interface WordDao {
             FROM words 
                 JOIN game_fields ON words.fieldId = game_fields.id                
             WHERE game_fields.gameId = (SELECT gameId FROM game_fields WHERE id = :fieldId) 
-                AND word LIKE :word
+                AND words.id != :wordId AND word LIKE :word
         ) AS result
     """
     )
-    suspend fun isWordExist(fieldId: Long, word: String): Boolean
+    suspend fun isWordExist(fieldId: Long, word: String, wordId: Long): Boolean
 }
