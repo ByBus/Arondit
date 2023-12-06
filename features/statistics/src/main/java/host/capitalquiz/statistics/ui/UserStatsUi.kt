@@ -26,12 +26,12 @@ data class UserStatsUi(
             wordsTotal.text = item.words.toString()
             wordsPerGame.text = String.format("%.1f", item.wordsPerGame)
             maxWordsInGame.text = item.maxWordsInGame.toString()
-            scorePerGame.text = item.scorePerGame.toString()
+            scorePerGame.text = String.format("%.1f", item.scorePerGame)
             maxScoreInGame.text = item.maxScoreInGame.toString()
             allGamesScore.text = item.allGamesScore.toString()
             longestWord.text = item.longestWord.takeIf { it.isNotBlank() } ?: "-"
 
-            val valuableExist = item.mostValuableWord.isNotBlank()
+            val valuableExist = item.mostValuableWordScore > 0
             val score = if (valuableExist) " ($mostValuableWordScore)" else ""
             val word = if (valuableExist) item.mostValuableWord else "-"
             mostValuableWord.text = "$word$score"
