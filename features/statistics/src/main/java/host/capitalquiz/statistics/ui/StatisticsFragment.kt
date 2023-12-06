@@ -33,21 +33,18 @@ class StatisticsFragment : BindingFragment<StatisticsBinding>() {
         view.doOnPreDraw { startPostponedEnterTransition() }
         super.onViewCreated(view, savedInstanceState)
 
-        val userNameAdapter = UserNameAdapter()
+        val userNameAdapter =
+            UserNameAdapter(R.color.even_player_row_color, R.color.odd_player_row_color)
         binding.columnPlayersNames.apply {
             adapter = userNameAdapter
             setHasFixedSize(true)
         }
 
-        val userStatsAdapter = UserStatsAdapter()
+        val userStatsAdapter = UserStatsAdapter(R.color.even_row_color, R.color.odd_row_color)
         binding.statisticsRows.apply {
             adapter = userStatsAdapter
             setHasFixedSize(true)
         }
-
-        binding.information.infoImage.setImageResource(R.drawable.joker)
-        binding.information.infoText.setText(R.string.no_statistics_yet)
-        binding.information.infoButton.setText(R.string.close)
 
         viewModel.sortedRows.collect(viewLifecycleOwner) { items ->
             userNameAdapter.submitList(items.map { it.playerName })
@@ -59,8 +56,15 @@ class StatisticsFragment : BindingFragment<StatisticsBinding>() {
         }
 
         viewModel.showInformation.collect(viewLifecycleOwner) { show ->
-            binding.information.root.isVisible = show
-            binding.statisticsTable.isVisible = show.not()
+            with(binding) {
+                information.root.isVisible = show
+                statisticsTable.isVisible = show.not()
+                if (show) {
+                    information.infoImage.setImageResource(R.drawable.joker)
+                    information.infoText.setText(R.string.no_statistics_yet)
+                    information.infoButton.setText(R.string.close)
+                }
+            }
         }
 
         binding.information.infoButton.setOnClickListener {

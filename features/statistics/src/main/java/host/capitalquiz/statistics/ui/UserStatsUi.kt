@@ -22,11 +22,11 @@ data class UserStatsUi(
         with(binding) {
             totalGames.text = item.totalGames.toString()
             victories.text = item.victories.toString()
-            victoriesPercent.text = String.format("%.2f%%", item.victoriesRate)
+            victoriesPercent.text = "%.2f%%".format(item.victoriesRate)
             wordsTotal.text = item.words.toString()
-            wordsPerGame.text = String.format("%.1f", item.wordsPerGame)
+            wordsPerGame.text = "%.1f".format(item.wordsPerGame)
             maxWordsInGame.text = item.maxWordsInGame.toString()
-            scorePerGame.text = String.format("%.1f", item.scorePerGame)
+            scorePerGame.text = "%.1f".format(item.scorePerGame)
             maxScoreInGame.text = item.maxScoreInGame.toString()
             allGamesScore.text = item.allGamesScore.toString()
             longestWord.text = item.longestWord.takeIf { it.isNotBlank() } ?: "-"

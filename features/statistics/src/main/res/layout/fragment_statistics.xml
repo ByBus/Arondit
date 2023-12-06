@@ -11,17 +11,7 @@
         android:id="@+id/statisticsTable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="background, playersColumnHeader, columnPlayersNames,headersHorizontalScroller, statistics_horizontal_scroller" />
-
-    <View
-        android:id="@+id/background"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/odd_row_color"
-        app:layout_constraintBottom_toBottomOf="@id/statistics_horizontal_scroller"
-        app:layout_constraintEnd_toEndOf="@id/statistics_horizontal_scroller"
-        app:layout_constraintStart_toStartOf="@id/statistics_horizontal_scroller"
-        app:layout_constraintTop_toTopOf="@id/statistics_horizontal_scroller" />
+        app:constraint_referenced_ids="playersColumnHeader, columnPlayersNames,headersHorizontalScroller, statistics_horizontal_scroller" />
 
     <HorizontalScrollView
         android:id="@+id/statistics_horizontal_scroller"
@@ -77,21 +67,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/headersBackground"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/odd_player_row_color"
-        app:layout_constraintBottom_toBottomOf="@id/headersHorizontalScroller"
-        app:layout_constraintEnd_toEndOf="@id/headersHorizontalScroller"
-        app:layout_constraintStart_toStartOf="@id/headersHorizontalScroller"
-        app:layout_constraintTop_toTopOf="@id/headersHorizontalScroller" />
 
     <HorizontalScrollView
         android:id="@+id/headersHorizontalScroller"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#0A3D3060"
+        android:background="#4D3D77"
         android:elevation="8dp"
         android:fadingEdge="horizontal"
         android:fadingEdgeLength="8dp"
