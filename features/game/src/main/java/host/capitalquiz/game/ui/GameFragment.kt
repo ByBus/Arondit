@@ -32,9 +32,18 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
     @Inject
     lateinit var gameViewModelFactory: GameViewModelFactory
 
-    private val viewModel: GameViewModel by viewModels{
+    private val viewModel: GameViewModel by viewModels() {
         GameViewModel.provideFactory(gameViewModelFactory, args.gameId)
     }
+
+    /*
+    *  extrasProducer = {
+            defaultViewModelCreationExtras
+                .withCreationCallback<GameViewModelFactory> { factory ->
+                    factory.create(args.gameId)
+                }
+        }
+    * */
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

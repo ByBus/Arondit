@@ -1,5 +1,6 @@
 package host.capitalquiz.game.domain
 
+import host.capitalquiz.core.interfaces.DeleteFieldUseCase
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -18,6 +19,7 @@ interface FieldInteractor {
     class Base @Inject constructor(
         private val fieldRepository: FieldRepository,
         private val playerRepository: PlayerRepository,
+        private val deleteFieldUseCase: DeleteFieldUseCase,
     ) : FieldInteractor {
         override fun findAllFieldsOfGame(gameId: Long): Flow<List<Field>> {
             return fieldRepository.allFieldsOfGame(gameId)
@@ -39,13 +41,7 @@ interface FieldInteractor {
         }
 
         override suspend fun deleteField(fieldId: Long) {
-            val field = fieldRepository.fieldById(fieldId)
-            val playerId = field.playerId
-            val numberOfGamesWithPlayer = fieldRepository.findFieldsIdsWithPlayer(playerId).count()
-            fieldRepository.deleteField(fieldId)
-            if (numberOfGamesWithPlayer == 1) {
-                playerRepository.deletePlayer(playerId)
-            }
+            deleteFieldUseCase(fieldId)
         }
 
         override suspend fun findAllPlayersWhoIsNotPlayingYet(gameId: Long): List<Player> {

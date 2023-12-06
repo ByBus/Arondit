@@ -9,4 +9,6 @@ interface GamesRepository {
     suspend fun createGame(): Long
 
     suspend fun deleteGame(id: Long)
+
+    suspend fun findGameFieldsIds(gameId: Long): List<Long>
 }

@@ -30,4 +30,6 @@ interface FieldDao {
     @Query("SELECT id FROM game_fields WHERE playerId=:playerId")
     suspend fun findFieldsIdsWithPlayer(playerId: Long): List<Long>
 
+    @Query("SELECT id FROM game_fields WHERE gameId=:gameId")
+    suspend fun findAllFieldsIdsOfGame(gameId: Long): List<Long>
 }

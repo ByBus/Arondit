@@ -1,5 +1,6 @@
 package host.capitalquiz.gameslist.data
 
+import host.capitalquiz.core.db.FieldDao
 import host.capitalquiz.core.db.GameDao
 import host.capitalquiz.core.db.GameData
 import host.capitalquiz.core.db.mappers.GameDataMapper
@@ -12,6 +13,7 @@ import javax.inject.Inject
 
 class GamesListRepository @Inject constructor(
     private val gameDao: GameDao,
+    private val fieldDao: FieldDao,
     private val mapper: GameDataMapper<Game>,
 ) : GamesRepository {
     override fun allGames(): Flow<List<Game>> {
@@ -28,5 +30,9 @@ class GamesListRepository @Inject constructor(
 
     override suspend fun deleteGame(id: Long) {
         gameDao.deleteGameById(id)
+    }
+
+    override suspend fun findGameFieldsIds(gameId: Long): List<Long> {
+        return fieldDao.findAllFieldsIdsOfGame(gameId)
     }
 }
