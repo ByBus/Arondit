@@ -1,11 +1,11 @@
 package host.capitalquiz.editgamerule.ui.editscreen
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import host.capitalquiz.editgamerule.domain.EditGameRuleInteractor
 import host.capitalquiz.editgamerule.domain.GameRule
 import host.capitalquiz.editgamerule.domain.GameRuleMapper
@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 
 private const val EDIT_RULE = -1L
 
+@HiltViewModel(assistedFactory = EditGameRuleViewModelFactory::class)
 class EditGameRuleViewModel @AssistedInject constructor(
     private val ruleInteractor: EditGameRuleInteractor,
     private val ruleToUiMapper: GameRuleMapper<EditableGameRuleUi>,
@@ -59,17 +60,6 @@ class EditGameRuleViewModel @AssistedInject constructor(
 
     fun navigateToEditLetter(letter: Char? = null, points: Int = -1){
         _editLetterNavigation.trySend(NavigationEvent(latestRuleId.value, letter, points))
-    }
-
-    companion object {
-        fun factory(
-            assistedFactory: EditGameRuleViewModelFactory,
-            ruleId: Long,
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return assistedFactory.create(ruleId) as T
-            }
-        }
     }
 }
 

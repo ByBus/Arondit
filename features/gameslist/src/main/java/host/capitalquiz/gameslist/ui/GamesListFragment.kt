@@ -6,6 +6,9 @@ import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.core.ui.BindingFragment
@@ -63,6 +66,10 @@ class GamesListFragment : BindingFragment<GamesBinding>(), GameAdapter.Callback 
         }
 
         viewModel.games.collect(viewLifecycleOwner) {
+            TransitionManager.beginDelayedTransition(binding.root,
+                TransitionSet().apply {
+                    addTransition(Fade(Fade.IN))
+                })
             binding.information.root.isVisible = it.isEmpty()
             if (binding.information.root.isVisible) {
                 binding.information.infoImage.setImageResource(R.drawable.img_camp)

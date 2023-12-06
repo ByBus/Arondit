@@ -1,17 +1,17 @@
 package host.capitalquiz.editgamerule.ui.dialog
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import host.capitalquiz.editgamerule.di.CreationMode
 import host.capitalquiz.editgamerule.di.EditMode
 import host.capitalquiz.editgamerule.domain.EditGameRuleInteractor
-import host.capitalquiz.editgamerule.domain.LetterResult
 import host.capitalquiz.editgamerule.domain.LetterAddResultMapper
 import host.capitalquiz.editgamerule.domain.LetterAddResultMapperWithParameter
+import host.capitalquiz.editgamerule.domain.LetterResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 
 typealias CreateResultToUiMapper<AddLetterUiState> = LetterAddResultMapperWithParameter<Boolean, AddLetterUiState>
 
+@HiltViewModel(assistedFactory = EditLetterViewModelFactory::class)
 class EditLetterViewModel @AssistedInject constructor(
     private val ruleInteractor: EditGameRuleInteractor,
     @CreationMode private val uiStateMapperCreate: CreateResultToUiMapper<AddLetterUiState>,
@@ -97,15 +98,6 @@ class EditLetterViewModel @AssistedInject constructor(
     }
 
     companion object {
-        fun factory(
-            assistedFactory: EditLetterViewModelFactory,
-            ruleId: Long,
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return assistedFactory.create(ruleId) as T
-            }
-        }
-
         private const val CREATION_MODE = 1
         private const val EDIT_MODE = 0
     }

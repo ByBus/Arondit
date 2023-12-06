@@ -1,12 +1,12 @@
 package host.capitalquiz.editgamerule.ui.ruleslist
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import host.capitalquiz.editgamerule.domain.GameRuleInteractor
 import host.capitalquiz.editgamerule.ui.ruleslist.mappers.GameRuleToGameUiMapper
 import kotlinx.coroutines.channels.Channel
@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
+@HiltViewModel(assistedFactory = GameRuleViewModelFactory::class)
 class GameRulesViewModel @AssistedInject constructor(
     private val gameRuleInteractor: GameRuleInteractor,
     private val gameUiMapper: GameRuleToGameUiMapper,
@@ -40,18 +41,6 @@ class GameRulesViewModel @AssistedInject constructor(
         viewModelScope.launch {
             val isDeleted = gameRuleInteractor.deleteRule(ruleId, gameId)
             if (isDeleted.not()) _deleteRuleErrorEvent.trySend(CantDeleteRuleEvent())
-        }
-    }
-
-    companion object {
-        fun provideFactory(
-            assistedFactory: GameRuleViewModelFactory,
-            gameId: Long,
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return assistedFactory.create(gameId) as T
-            }
         }
     }
 }

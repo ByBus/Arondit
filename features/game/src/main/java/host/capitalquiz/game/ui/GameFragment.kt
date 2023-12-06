@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 import host.capitalquiz.core.ui.BindingFragment
 import host.capitalquiz.core.ui.Inflater
 import host.capitalquiz.core.ui.collect
@@ -29,15 +30,21 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
     @Inject
     lateinit var navigation: GameNavigation
 
-    @Inject
-    lateinit var gameViewModelFactory: GameViewModelFactory
-
-    private val viewModel: GameViewModel by viewModels() {
-        GameViewModel.provideFactory(gameViewModelFactory, args.gameId)
-    }
+    private val viewModel: GameViewModel by viewModels(
+        extrasProducer = {
+            defaultViewModelCreationExtras
+                .withCreationCallback<GameViewModelFactory> { factory ->
+                    factory.create(args.gameId)
+                }
+        }
+    )
+//    {
+//        GameViewModel.provideFactory(gameViewModelFactory, args.gameId)
+//    }
 
     /*
-    *  extrasProducer = {
+    *
+    * extrasProducer = {
             defaultViewModelCreationExtras
                 .withCreationCallback<GameViewModelFactory> { factory ->
                     factory.create(args.gameId)

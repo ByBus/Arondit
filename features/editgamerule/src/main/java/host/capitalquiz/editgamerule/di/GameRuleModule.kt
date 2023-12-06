@@ -3,7 +3,7 @@ package host.capitalquiz.editgamerule.di
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ViewModelComponent
 import host.capitalquiz.core.db.mappers.GameRuleWithGamesMapper
 import host.capitalquiz.editgamerule.data.BaseGameRuleRepository
 import host.capitalquiz.editgamerule.data.GameDataSource
@@ -14,7 +14,7 @@ import host.capitalquiz.editgamerule.domain.GameRuleInteractor
 import host.capitalquiz.editgamerule.domain.GameRuleRepository
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 interface GameRuleModule {
 
     @Binds

@@ -9,13 +9,13 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 import host.capitalquiz.core.ui.BottomSheetDialogFragmentWithBorder
 import host.capitalquiz.core.ui.Dismissible
 import host.capitalquiz.core.ui.collect
 import host.capitalquiz.editgamerule.R
 import host.capitalquiz.editgamerule.databinding.FragmentAddLetterDialogBinding
 import host.capitalquiz.editgamerule.ui.editscreen.EditGameRuleFragment
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddLetterDialogFragment : BottomSheetDialogFragmentWithBorder(), Dismissible {
@@ -24,12 +24,14 @@ class AddLetterDialogFragment : BottomSheetDialogFragmentWithBorder(), Dismissib
     override val borderView get() = binding.border
     private val args by navArgs<AddLetterDialogFragmentArgs>()
 
-    @Inject
-    lateinit var editLetterVMFactory: EditLetterViewModelFactory
-
-    private val viewModel: EditLetterViewModel by viewModels {
-        EditLetterViewModel.factory(editLetterVMFactory, args.ruleId)
-    }
+    private val viewModel: EditLetterViewModel by viewModels(
+        extrasProducer = {
+            defaultViewModelCreationExtras
+                .withCreationCallback<EditLetterViewModelFactory> { factory ->
+                    factory.create(args.ruleId)
+                }
+        }
+    )
 
     private val letter get() = binding.letterInput.editText!!.text.first()
     private val points get() = binding.pointsInput.editText!!.text.toString().toInt()

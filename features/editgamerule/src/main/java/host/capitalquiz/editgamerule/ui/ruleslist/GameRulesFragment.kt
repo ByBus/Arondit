@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 import host.capitalquiz.core.ui.Inflater
 import host.capitalquiz.core.ui.collect
 import host.capitalquiz.editgamerule.R
@@ -25,12 +26,14 @@ class GameRulesFragment : BaseGameRuleFragment<GameRulesBinding>() {
     @Inject
     lateinit var navigation: GameRulesNavigation
 
-    @Inject
-    lateinit var gameRulesViewModelFactory: GameRuleViewModelFactory
-
-    private val viewModel: GameRulesViewModel by viewModels {
-        GameRulesViewModel.provideFactory(gameRulesViewModelFactory, args.gameId)
-    }
+    private val viewModel: GameRulesViewModel by viewModels(
+        extrasProducer = {
+            defaultViewModelCreationExtras
+                .withCreationCallback<GameRuleViewModelFactory> { factory ->
+                    factory.create(args.gameId)
+                }
+        }
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

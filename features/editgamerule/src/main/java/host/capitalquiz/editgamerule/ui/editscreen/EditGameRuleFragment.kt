@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionManager
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 import host.capitalquiz.core.ui.Inflater
 import host.capitalquiz.core.ui.collect
 import host.capitalquiz.core.ui.getLongOrNull
@@ -30,12 +31,14 @@ class EditGameRuleFragment : BaseGameRuleFragment<EditRuleBinding>(),
     @Inject
     lateinit var navigation: EditGameRuleNavigation
 
-    @Inject
-    lateinit var editRuleVMFactory: EditGameRuleViewModelFactory
-
-    private val viewModel: EditGameRuleViewModel by viewModels {
-        EditGameRuleViewModel.factory(editRuleVMFactory, args.gameRuleId)
-    }
+    private val viewModel: EditGameRuleViewModel by viewModels(
+        extrasProducer = {
+            defaultViewModelCreationExtras
+                .withCreationCallback<EditGameRuleViewModelFactory> { factory ->
+                    factory.create(args.gameRuleId)
+                }
+        }
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -2,11 +2,11 @@ package host.capitalquiz.game.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import host.capitalquiz.core.ui.liveData
 import host.capitalquiz.game.domain.Field
 import host.capitalquiz.game.domain.FieldInteractor
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-//@HiltViewModel
+@HiltViewModel(assistedFactory = GameViewModelFactory::class)
 class GameViewModel @AssistedInject constructor(
     private val fieldInteractor: FieldInteractor,
     private val uiFieldMapper: FieldMapperWithParameter<GameRuleSimple, FieldUi>,
@@ -85,18 +85,6 @@ class GameViewModel @AssistedInject constructor(
     fun loadAvailablePlayers() {
         viewModelScope.launch {
             _availablePlayers.value = fieldInteractor.findAllPlayersWhoIsNotPlayingYet(gameId)
-        }
-    }
-
-    companion object {
-        fun provideFactory(
-            assistedFactory: GameViewModelFactory,
-            gameId: Long,
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return assistedFactory.create(gameId) as T
-            }
         }
     }
 }

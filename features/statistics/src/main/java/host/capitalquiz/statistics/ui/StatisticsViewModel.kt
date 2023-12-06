@@ -44,40 +44,6 @@ class StatisticsViewModel @Inject constructor(
                 }
             }
         }
-
-//        val words = listOf(
-//            "недопуск",
-//            "бронотозавр",
-//            "артель",
-//            "невзрачность",
-//            "чёрствость",
-//            "назойливость",
-//            "выхоливание",
-//            "звероловство",
-//            "зыбун",
-//            "унтертон",
-//            "оскал",
-//            "нахвостник"
-//        ).map { it.uppercase() }
-//        val items = List(100) {
-//            UserStatsUi(
-//                "Player $it",
-//                (1..20).random(),
-//                (0..10).random(),
-//                Random.nextDouble() * 100,
-//                (10..200).random(),
-//                Random.nextDouble() * 15,
-//                (10..20).random(),
-//                Random.nextDouble() * 100,
-//                (200..300).random(),
-//                (400..800).random(),
-//                words.random(),
-//                "СИНХРОФАЗОТРОН 50"
-//            )
-//        }
-//        statistics.update {
-//            items
-//        }
     }
 
     fun loadStatistics() {

@@ -3,15 +3,12 @@ package host.capitalquiz.game.di
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ViewModelComponent
 import host.capitalquiz.core.db.mappers.FieldDataMapperWithParameter
-import host.capitalquiz.core.db.mappers.GameRuleDataMapper
 import host.capitalquiz.core.db.mappers.WordDataMapper
 import host.capitalquiz.game.BasePlayerRepository
 import host.capitalquiz.game.data.BaseFieldRepository
-import host.capitalquiz.game.data.GameRuleDataDataSource
 import host.capitalquiz.game.data.mappers.FieldDataToFieldMapper
-import host.capitalquiz.game.data.mappers.GameRuleDataToSimpleMapper
 import host.capitalquiz.game.data.mappers.WordDataToWordMapper
 import host.capitalquiz.game.domain.Field
 import host.capitalquiz.game.domain.FieldInteractor
@@ -28,7 +25,7 @@ import host.capitalquiz.game.ui.mappers.FieldToFieldUiMapper
 import host.capitalquiz.game.ui.mappers.WordToWordUiMapper
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 interface GameModule {
 
     @Binds
@@ -51,12 +48,6 @@ interface GameModule {
 
     @Binds
     fun bindSimpleGameInteractor(impl: GameRuleInteractor.Base): GameRuleInteractor
-
-    @Binds
-    fun bindGameRuleSimpleDataSource(impl: GameRuleDataDataSource.Base): GameRuleDataDataSource
-
-    @Binds
-    fun bindGameRuleDataMapper(impl: GameRuleDataToSimpleMapper): GameRuleDataMapper<GameRuleSimple>
 
     @Binds
     fun bindPlayerRepository(impl: BasePlayerRepository): PlayerRepository

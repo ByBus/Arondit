@@ -3,7 +3,7 @@ package host.capitalquiz.editgamerule.di
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ViewModelComponent
 import host.capitalquiz.core.db.GameRuleData
 import host.capitalquiz.core.db.mappers.GameRuleDataMapper
 import host.capitalquiz.editgamerule.data.BaseEditGameRuleRepository
@@ -22,10 +22,9 @@ import host.capitalquiz.editgamerule.ui.dialog.mappers.EditLetterAddResultToUiMa
 import host.capitalquiz.editgamerule.ui.editscreen.EditableGameRuleUi
 import host.capitalquiz.editgamerule.ui.editscreen.mappers.EditableGameRuleUiMapper
 import host.capitalquiz.editgamerule.ui.editscreen.mappers.EditableRuleToUiMapper
-import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 interface EditGameRuleModule {
 
     @Binds
@@ -35,7 +34,6 @@ interface EditGameRuleModule {
     fun bindEditGameRuleRepository(impl: BaseEditGameRuleRepository): EditGameRuleRepository
 
     @Binds
-    @Singleton
     fun bindEditGameRuleInteractor(impl: EditGameRuleInteractor.Base): EditGameRuleInteractor
 
     @Binds
