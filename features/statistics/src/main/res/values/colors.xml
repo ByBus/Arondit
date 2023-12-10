@@ -5,4 +5,5 @@
     <color name="even_player_row_color">#FF7E57C2</color>
     <color name="odd_player_row_color">#FF5E35B1</color>
     <color name="headers_color">#FF6750A3</color>
+    <color name="headers_color_bk">#FF6750A3</color>
 </resources>

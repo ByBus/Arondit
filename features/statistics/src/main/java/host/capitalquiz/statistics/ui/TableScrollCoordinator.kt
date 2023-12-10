@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.View
 import android.view.View.OnScrollChangeListener
 import android.widget.HorizontalScrollView
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.recyclerview.widget.RecyclerView
 import java.lang.ref.WeakReference
 
@@ -12,18 +13,26 @@ class TableScrollCoordinator(
     rowsScroll: HorizontalScrollView,
     playerNamesColumn: RecyclerView,
     rows: RecyclerView,
+    motionLayout: MotionLayout,
 ) {
     private val headersHorizontalScroll =
         WeakReference(headersRow.apply { tag = HEADERS_HOR_SCROLL })
     private val rowsHorizontalScroll = WeakReference(rowsScroll.apply { tag = ROWS_HOR_SCROLL })
     private val playerNamesRc = WeakReference(playerNamesColumn.apply { tag = ROWS_VERT_SCROLL })
     private val allRowsRc = WeakReference(rows.apply { tag = PLAYERS_VERT_SCROLL })
+    private val motionLayoutWeak = WeakReference(motionLayout)
     private var nowScrollingVerticalView = -1
     private var nowScrollingHorizontalView = -1
+    private val maxScroll by lazy { playerNamesRc.get()?.width ?: 0 }
+
 
     private val horizontalScrollListener =
         OnScrollChangeListener { scrollView, scrollX, _, _, _ ->
             if (nowScrollingHorizontalView != scrollView.tag as Int) return@OnScrollChangeListener
+
+            if (scrollX < maxScroll)
+                motionLayoutWeak.get()?.progress = (scrollX.toFloat() / maxScroll).coerceIn(0f, 1f)
+
             when (nowScrollingHorizontalView) {
                 HEADERS_HOR_SCROLL -> rowsHorizontalScroll.get()?.scrollX = scrollX
                 ROWS_HOR_SCROLL -> headersHorizontalScroll.get()?.scrollX = scrollX

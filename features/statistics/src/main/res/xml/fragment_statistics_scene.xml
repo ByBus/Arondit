@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="200"
+        motion:layoutDuringTransition="honorRequest"
+        motion:motionInterpolator="linear" />
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@id/playersColumnHeader">
+            <PropertySet motion:visibilityMode="ignore" />
+        </Constraint>
+        <Constraint android:id="@id/headersHorizontalScroller">
+            <PropertySet motion:visibilityMode="ignore" />
+        </Constraint>
+        <Constraint android:id="@id/statistics_horizontal_scroller">
+            <PropertySet motion:visibilityMode="ignore" />
+        </Constraint>
+        <Constraint android:id="@id/statisticsTable">
+            <PropertySet motion:visibilityMode="ignore" />
+        </Constraint>
+        <Constraint android:id="@id/information">
+            <PropertySet motion:visibilityMode="ignore" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/columnPlayersNames"
+            android:layout_width="@dimen/names_column_width"
+            android:layout_height="0dp"
+            android:elevation="4dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/headersHorizontalScroller"
+            motion:visibilityMode="ignore" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/columnPlayersNames"
+            android:layout_width="@dimen/names_column_collapsed_width"
+            android:layout_height="0dp"
+            android:elevation="4dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/headersHorizontalScroller" />
+    </ConstraintSet>
+</MotionScene>

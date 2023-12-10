@@ -14,4 +14,5 @@
     <string name="players_header">Игроки</string>
     <string name="no_statistics_yet">Пока что ни один игрок не набрал очков, что бы было что показать.</string>
     <string name="close">ЗАКРЫТЬ</string>
+    <string name="statistics_toolbar_title">Зал славы</string>
 </resources>

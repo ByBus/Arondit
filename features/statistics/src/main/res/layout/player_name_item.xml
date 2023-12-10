@@ -5,7 +5,7 @@
     android:id="@+id/playerName"
     style="@style/TableCell"
     android:fontFamily="@font/yanone_kaffeesatz_bold"
-    android:layout_width="150dp"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/row_height"
     android:ellipsize="marquee"
     android:gravity="center"

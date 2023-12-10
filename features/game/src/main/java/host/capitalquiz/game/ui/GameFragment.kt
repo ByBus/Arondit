@@ -38,20 +38,6 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
                 }
         }
     )
-//    {
-//        GameViewModel.provideFactory(gameViewModelFactory, args.gameId)
-//    }
-
-    /*
-    *
-    * extrasProducer = {
-            defaultViewModelCreationExtras
-                .withCreationCallback<GameViewModelFactory> { factory ->
-                    factory.create(args.gameId)
-                }
-        }
-    * */
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +51,7 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
         }
 
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

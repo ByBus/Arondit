@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="row_height">64dp</dimen>
+    <dimen name="names_column_width">125dp</dimen>
+    <dimen name="names_column_collapsed_width">80dp</dimen>
 </resources>
