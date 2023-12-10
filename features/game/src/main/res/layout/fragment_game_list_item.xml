@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="host.capitalquiz.arondit.game.ui.GameFragment">
+    tools:context="host.capitalquiz.game.ui.GameFragment">
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/bottomToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,10 +23,11 @@
             android:id="@+id/addWord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
             android:text="@string/word"
             android:textSize="16sp" />
-    </RelativeLayout>
+
+    </FrameLayout>
 
     <View
         android:id="@+id/border"

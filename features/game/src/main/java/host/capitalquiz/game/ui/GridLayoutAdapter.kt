@@ -1,20 +1,28 @@
 package host.capitalquiz.game.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.GridLayout
-import android.widget.RelativeLayout
+import androidx.annotation.OptIn
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
+import com.google.android.material.badge.ExperimentalBadgeUtils
+import com.google.android.material.color.MaterialColors
 import host.capitalquiz.core.ui.view.PlayerHeaderView
 import host.capitalquiz.game.R
+import java.lang.ref.WeakReference
 
 
 class GridLayoutAdapter(private val listener: Listener) {
@@ -31,6 +39,7 @@ class GridLayoutAdapter(private val listener: Listener) {
         borderDrawable = decoration
     }
 
+    @OptIn(ExperimentalBadgeUtils::class)
     inner class PlayerField(
         private val id: FieldId,
         private val color: FieldColor,
@@ -43,6 +52,15 @@ class GridLayoutAdapter(private val listener: Listener) {
             listener.onWordClick(wordId, id, color)
         }
         private var header: PlayerHeaderView
+        private val badge = WeakReference(
+            BadgeDrawable.create(itemView.context).apply {
+                backgroundColor = MaterialColors.getColor(
+                    itemView.context,
+                    androidx.appcompat.R.attr.colorPrimaryDark,
+                    Color.GREEN
+                )
+            })
+        private var badgeAttached = false
 
         init {
             recyclerView.adapter = adapter
@@ -52,7 +70,7 @@ class GridLayoutAdapter(private val listener: Listener) {
             header.setOnClickListener {
                 listener.onNameClick(playerName, playerId, color)
             }
-            val bottomToolbar = itemView.findViewById<RelativeLayout>(R.id.bottomToolbar)
+            val bottomToolbar = itemView.findViewById<FrameLayout>(R.id.bottomToolbar)
             bottomToolbar.backgroundTintList = ColorStateList.valueOf(color.value)
             header.removePlayerButton().setOnClickListener {
                 listener.onRemovePlayerClick(id, color)
@@ -60,19 +78,42 @@ class GridLayoutAdapter(private val listener: Listener) {
             header.addPlayerButton().setOnClickListener {
                 listener.onAddPlayerClick()
             }
-            bottomToolbar.findViewById<Button>(R.id.addWord).setOnClickListener {
+            val addWordButton = bottomToolbar.findViewById<Button>(R.id.addWord)
+            addWordButton.setOnClickListener {
                 listener.onAddWordClick(id, color)
             }
+
+
             borderDrawable?.let {
                 itemView.findViewById<View>(R.id.border)?.background = it
             }
         }
 
+        @SuppressLint("WrongConstant")
         fun updateField(playerWords: List<WordUi>, playerScore: Int, playerName: String) {
             header.setScore(playerScore)
             header.setName(playerName)
             this.playerName = playerName
             adapter.submitList(playerWords.toMutableList())
+            val button = itemView.findViewById<Button>(R.id.addWord)
+            updateWordCountBadge(button, playerWords.size)
+        }
+
+        private fun updateWordCountBadge(
+            button: Button,
+            number: Int,
+        ) {
+            button.post {
+                badge.get()?.let { it ->
+                    it.number = number
+                    it.isVisible = number > 0
+                    it.verticalOffset = button.height / 2
+                    if (badgeAttached.not()) {
+                        BadgeUtils.attachBadgeDrawable(it, button)
+                        badgeAttached = true
+                    }
+                }
+            }
         }
 
         fun attach() {
