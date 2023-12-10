@@ -46,16 +46,20 @@
         android:paddingTop="38dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/bottomToolbar"
+        app:layout_constraintHeight_default="wrap"
         app:layout_constraintTop_toTopOf="@+id/border"
+        app:layout_constraintVertical_bias="0"
+        app:stackFromEnd="true"
+        tools:itemCount="20"
         tools:listitem="@layout/word_item" />
 
     <host.capitalquiz.core.ui.view.PlayerHeaderView
-        android:animateLayoutChanges="true"
         android:id="@+id/playerHeader"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
-        android:layout_height="78dp"/>
+        android:layout_height="78dp"
+        android:animateLayoutChanges="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
