@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     tools:context="host.capitalquiz.game.ui.GameFragment">
 
-    <FrameLayout
+    <View
         android:id="@+id/bottomToolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:background="@drawable/bottom_corners_round"
         android:paddingHorizontal="32dp"
         android:paddingTop="2dp"
@@ -17,17 +17,41 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:backgroundTint="@color/design_default_color_secondary_variant">
+        tools:backgroundTint="@color/design_default_color_secondary_variant" />
 
-        <Button
-            android:id="@+id/addWord"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/word"
-            android:textSize="16sp" />
+    <Button
+        android:id="@+id/addWord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:text="@string/word"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/bottomToolbar"
+        app:layout_constraintEnd_toEndOf="@id/bottomToolbar"
+        app:layout_constraintStart_toStartOf="@id/bottomToolbar"
+        app:layout_constraintTop_toTopOf="@id/bottomToolbar" />
 
-    </FrameLayout>
+    <TextView
+        android:id="@+id/wordsCountBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:background="@drawable/badge_background"
+        android:gravity="center"
+        android:minWidth="16dp"
+        android:paddingHorizontal="2dp"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        android:translationX="-3dp"
+        android:translationY="-8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/addWord"
+        app:layout_constraintEnd_toEndOf="@id/addWord"
+        app:layout_constraintStart_toEndOf="@id/addWord"
+        app:layout_constraintTop_toTopOf="@id/addWord"
+        tools:text="7"
+        tools:visibility="visible" />
 
     <View
         android:id="@+id/border"

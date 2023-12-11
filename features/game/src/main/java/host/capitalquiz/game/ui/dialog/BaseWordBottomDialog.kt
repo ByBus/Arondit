@@ -13,9 +13,9 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import dagger.hilt.android.AndroidEntryPoint
-import host.capitalquiz.game.R
 import host.capitalquiz.core.ui.BottomSheetDialogFragmentWithBorder
 import host.capitalquiz.core.ui.collect
+import host.capitalquiz.game.R
 import host.capitalquiz.game.databinding.DialogFragmentAddWordBinding
 
 
@@ -105,7 +105,10 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
         }
 
         binding.wordInput.editText?.addTextChangedListener {
-            viewModel.updateWord(it.toString())
+            val input = it?.trim()
+            if (input.isNullOrBlank().not()) {
+                viewModel.updateWord(input.toString())
+            }
         }
 
         viewModel.wordSavingResult.collect(viewLifecycleOwner) { saved ->
