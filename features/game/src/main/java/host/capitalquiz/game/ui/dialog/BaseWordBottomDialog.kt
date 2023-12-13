@@ -15,6 +15,7 @@ import androidx.transition.TransitionSet
 import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.core.ui.BottomSheetDialogFragmentWithBorder
 import host.capitalquiz.core.ui.collect
+import host.capitalquiz.core.ui.setIfEmpty
 import host.capitalquiz.game.R
 import host.capitalquiz.game.databinding.DialogFragmentAddWordBinding
 
@@ -48,9 +49,11 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.dialogHeader.text = getString(titleRes)
+        binding.confirmWord.text = getString(confirmButtonTextRes)
         binding.dialogHeader.setBackgroundColor(headerColor)
+        binding.wordInput.editText!!.filters += NoSpacesFilter()
 
-        viewModel.word.observe(viewLifecycleOwner) { word ->
+        viewModel.word.observe(viewLifecycleOwner) { wordUi ->
             with(binding) {
                 TransitionManager.beginDelayedTransition(binding.dialogButtons,
                     TransitionSet().apply {
@@ -58,14 +61,14 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
                         addTransition(ChangeBounds())
                         addTransition(Fade(Fade.IN))
                     })
-                word.update(eruditWord, x2WordBonusButton, x3WordBonusButton, extraPointsButton)
-            }
-        }
-
-        viewModel.word.observe(viewLifecycleOwner) {
-            val editText = binding.wordInput.editText
-            if (editText?.text.isNullOrBlank() && it.word.isNotBlank()) {
-                editText?.setText(it.word)
+                wordUi.update(
+                    eruditWord,
+                    x2WordBonusButton,
+                    x3WordBonusButton,
+                    extraPointsButton,
+                    confirmWord
+                )
+                wordInput.editText?.setIfEmpty(wordUi.word) // init when the dialog is first opened
             }
         }
 
@@ -97,25 +100,17 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
             viewModel.showExtraScore(binding.extraPointsButton.isChecked)
         }
 
-        binding.confirmWord.text = getString(confirmButtonTextRes)
         binding.confirmWord.setOnClickListener {
-            if (!binding.wordInput.editText?.text.isNullOrBlank()) {
-                viewModel.saveWord()
-            }
+            viewModel.saveWord()
         }
 
-        binding.wordInput.editText?.addTextChangedListener {
-            val input = it?.trim()
-            if (input.isNullOrBlank().not()) {
-                viewModel.updateWord(input.toString())
-            }
+        binding.wordInput.editText?.addTextChangedListener { editable ->
+            editable?.let { viewModel.updateWord(it.toString()) }
         }
 
         viewModel.wordSavingResult.collect(viewLifecycleOwner) { saved ->
-            if (saved)
-                dismiss()
-            else
-                Snackbar(R.string.this_word_already_used_message).show()
+            if (saved) dismiss()
+            else Snackbar(R.string.this_word_already_used_message).show()
         }
     }
 

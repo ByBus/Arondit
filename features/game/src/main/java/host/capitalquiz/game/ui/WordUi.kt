@@ -1,5 +1,6 @@
 package host.capitalquiz.game.ui
 
+import android.widget.Button
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.core.view.isVisible
@@ -23,13 +24,15 @@ data class WordUi(
         wordView: EruditWordView,
         x2Button: ToggleButton,
         x3Button: ToggleButton,
-        extraPointButton: ToggleButton
+        extraPointButton: ToggleButton,
+        confirmWord: Button,
     ) {
         x2Button.isChecked = multiplier == 2
         x3Button.isChecked = multiplier == 3
         extraPointButton.isVisible = extraPoints > 0 || word.length > 7
         extraPointButton.isChecked = extraPoints > 0
         update(wordView)
+        confirmWord.isEnabled = word.isNotBlank()
     }
 
     private fun update(wordView: EruditWordView) {

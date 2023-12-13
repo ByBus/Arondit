@@ -112,14 +112,13 @@
                     tools:checked="true"
                     tools:visibility="visible" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/confirmWord"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/right_corners_round"
                     android:text="@string/add_word_button"
-                    android:textColor="@color/white"
                     app:backgroundTint="@color/base_green"
                     tools:background="@drawable/all_corners_straight" />
 

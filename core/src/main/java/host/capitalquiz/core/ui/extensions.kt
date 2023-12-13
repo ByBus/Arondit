@@ -2,6 +2,7 @@ package host.capitalquiz.core.ui
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -10,19 +11,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch
-
-inline fun Fragment.observeFlows(crossinline observationFunction: suspend (CoroutineScope) -> Unit) {
-    viewLifecycleOwner.lifecycle.coroutineScope.launch {
-        viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            observationFunction(this)
-        }
-    }
-}
-
 
 inline fun <reified T> Flow<T>.collect(
     owner: LifecycleOwner,
@@ -52,3 +43,8 @@ fun Bundle.getLongOrNull(key: String): Long? {
 fun TextView.setRightDrawable(
     default: Drawable?,
 ) = setCompoundDrawablesWithIntrinsicBounds(null, null, default, null)
+
+fun EditText.setIfEmpty(message: String) {
+    val worthToUpdate = text.isNullOrBlank() && message.isNotBlank()
+    if (worthToUpdate) setText(message)
+}
