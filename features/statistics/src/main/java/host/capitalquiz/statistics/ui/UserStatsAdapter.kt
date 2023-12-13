@@ -7,8 +7,8 @@ import host.capitalquiz.statistics.databinding.TableRowItemBinding
 typealias RowBinding = TableRowItemBinding
 
 class UserStatsAdapter(
-    override val evenColorId: Int,
-    override val oddColorId: Int,
+    override val evenRowColorId: Int,
+    override val oddRowColorId: Int,
 ) : BaseTableRowsAdapter<RowBinding, UserStatsUi>() {
 
     override fun viewHolder(binding: RowBinding): Bindable = Row(binding)

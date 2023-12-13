@@ -7,8 +7,8 @@ import host.capitalquiz.statistics.databinding.PlayerNameItemBinding
 typealias PlayerNameBinding = PlayerNameItemBinding
 
 class UserNameAdapter(
-    override val evenColorId: Int,
-    override val oddColorId: Int,
+    override val evenRowColorId: Int,
+    override val oddRowColorId: Int,
 ) : BaseTableRowsAdapter<PlayerNameBinding, String>() {
     override fun viewHolder(binding: PlayerNameBinding): Bindable = Row(binding)
 

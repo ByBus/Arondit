@@ -9,14 +9,14 @@ import host.capitalquiz.core.ui.setRightDrawable
 import host.capitalquiz.statistics.R
 
 
-interface HeadersState {
+interface HeadersUiState {
 
     fun update(headerLayout: LinearLayout)
-    fun rememberPrevious(state: HeadersState)
+    fun rememberPrevious(state: HeadersUiState)
     fun headerId(): Int?
     fun direction(): Int
 
-    abstract class Base : HeadersState {
+    abstract class Base : HeadersUiState {
         protected abstract val headerId: Int?
         protected abstract val direction: Int
         private var previousHeaderId: Int? = null
@@ -25,7 +25,7 @@ interface HeadersState {
         override fun headerId(): Int? = headerId
         override fun direction(): Int = direction
 
-        override fun rememberPrevious(state: HeadersState) {
+        override fun rememberPrevious(state: HeadersUiState) {
             previousHeaderId = state.headerId()
             previousHeaderDir = state.direction()
         }

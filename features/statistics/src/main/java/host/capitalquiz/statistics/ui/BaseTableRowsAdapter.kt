@@ -11,8 +11,8 @@ abstract class BaseTableRowsAdapter<VB : ViewBinding, T> :
 
     private val items = mutableListOf<T>()
 
-    abstract val evenColorId: Int
-    abstract val oddColorId: Int
+    abstract val evenRowColorId: Int
+    abstract val oddRowColorId: Int
 
     abstract fun viewHolder(binding: VB): Bindable
 
@@ -21,7 +21,7 @@ abstract class BaseTableRowsAdapter<VB : ViewBinding, T> :
     }
 
     override fun onBindViewHolder(holder: Bindable, position: Int) {
-        val color = if (items.isPositionEven(position)) evenColorId else oddColorId
+        val color = if (items.isPositionEven(position)) evenRowColorId else oddRowColorId
         holder.bind(items[position], color)
     }
 

@@ -3,7 +3,6 @@ package host.capitalquiz.statistics.ui
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.doOnPreDraw
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,7 +51,6 @@ class StatisticsFragment : BindingFragment<StatisticsBinding>() {
         }
 
         viewModel.sortedRows.collect(viewLifecycleOwner) { items ->
-//            val items = it.flatMap { itms ->List(30) {itms} }
             userNameAdapter.submitList(items.map { it.playerName })
             userStatsAdapter.submitList(items)
         }
@@ -61,17 +59,8 @@ class StatisticsFragment : BindingFragment<StatisticsBinding>() {
             state.update(table.headersRow.columnNames)
         }
 
-        viewModel.showInformation.collect(viewLifecycleOwner) { show ->
-            with(binding) {
-                information.root.isVisible = show
-                table.statisticsTable.isVisible = show.not()
-                appBarLayout.isVisible = show.not()
-                if (show) {
-                    information.infoImage.setImageResource(R.drawable.joker)
-                    information.infoText.setText(R.string.no_statistics_yet)
-                    information.infoButton.setText(R.string.close)
-                }
-            }
+        viewModel.informationScreenState.collect(viewLifecycleOwner) { state ->
+            state.update(binding)
         }
 
         binding.information.infoButton.setOnClickListener {

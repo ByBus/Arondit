@@ -25,21 +25,21 @@ class StatisticsViewModel @Inject constructor(
     private val sorter = MutableStateFlow<Sorter>(Sorter.Default)
     private val statistics = MutableStateFlow<List<UserStatsUi>>(emptyList())
 
-    private val _headersState = MutableStateFlow<HeadersState>(HeadersState.Default)
-    val headersState = _headersState.asStateFlow()
+    private val _headersUiState = MutableStateFlow<HeadersUiState>(HeadersUiState.Default)
+    val headersState = _headersUiState.asStateFlow()
 
     val sortedRows = sorter.combine(statistics) { sorter, items ->
         sorter.sort(items)
     }
 
-    val showInformation = statistics.map { stats ->
-        stats.all { it.allGamesScore == 0 }
+    val informationScreenState = statistics.map { stats ->
+        InformationScreenState(stats.all { it.allGamesScore == 0 })
     }
 
     init {
         viewModelScope.launch {
             sorter.collectLatest { sorter ->
-                _headersState.update { oldState ->
+                _headersUiState.update { oldState ->
                     headersReducer.reduce(oldState, lastClickedHeaderId, sorter)
                 }
             }

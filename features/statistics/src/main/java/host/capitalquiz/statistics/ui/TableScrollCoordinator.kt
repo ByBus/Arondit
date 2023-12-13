@@ -15,11 +15,14 @@ class TableScrollCoordinator(
     rows: RecyclerView,
     motionLayout: MotionLayout,
 ) {
+    private val scrollIdToTag = mutableMapOf<Int, Int>()
     private val headersHorizontalScroll =
-        WeakReference(headersRow.apply { tag = HEADERS_HOR_SCROLL })
-    private val rowsHorizontalScroll = WeakReference(rowsScroll.apply { tag = ROWS_HOR_SCROLL })
-    private val playerNamesRc = WeakReference(playerNamesColumn.apply { tag = ROWS_VERT_SCROLL })
-    private val allRowsRc = WeakReference(rows.apply { tag = PLAYERS_VERT_SCROLL })
+        WeakReference(headersRow.apply { scrollIdToTag[id] = HEADERS_HOR_SCROLL })
+    private val rowsHorizontalScroll =
+        WeakReference(rowsScroll.apply { scrollIdToTag[id] = ROWS_HOR_SCROLL })
+    private val playerNamesRc =
+        WeakReference(playerNamesColumn.apply { scrollIdToTag[id] = COLUMN_VERT_SCROLL })
+    private val allRowsRc = WeakReference(rows.apply { scrollIdToTag[id] = ROWS_VERT_SCROLL })
     private val motionLayoutWeak = WeakReference(motionLayout)
     private var nowScrollingVerticalView = -1
     private var nowScrollingHorizontalView = -1
@@ -28,7 +31,7 @@ class TableScrollCoordinator(
 
     private val horizontalScrollListener =
         OnScrollChangeListener { scrollView, scrollX, _, _, _ ->
-            if (nowScrollingHorizontalView != scrollView.tag as Int) return@OnScrollChangeListener
+            if (nowScrollingHorizontalView != scrollIdToTag[scrollView.id]) return@OnScrollChangeListener
 
             if (scrollX < maxScroll)
                 motionLayoutWeak.get()?.progress = (scrollX.toFloat() / maxScroll).coerceIn(0f, 1f)
@@ -43,23 +46,23 @@ class TableScrollCoordinator(
         object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (nowScrollingVerticalView != recyclerView.tag as Int) return
+                if (nowScrollingVerticalView != scrollIdToTag[recyclerView.id]) return
                 when (nowScrollingVerticalView) {
-                    ROWS_VERT_SCROLL -> allRowsRc.get()?.scrollBy(dx, dy)
-                    PLAYERS_VERT_SCROLL -> playerNamesRc.get()?.scrollBy(dx, dy)
+                    COLUMN_VERT_SCROLL -> allRowsRc.get()?.scrollBy(dx, dy)
+                    ROWS_VERT_SCROLL -> playerNamesRc.get()?.scrollBy(dx, dy)
                 }
             }
         }
 
     @SuppressLint("ClickableViewAccessibility")
-    private val setTagHorScrollListener = View.OnTouchListener { view, event ->
-        nowScrollingHorizontalView = view.tag as Int
+    private val setTagHorScrollListener = View.OnTouchListener { view, _ ->
+        nowScrollingHorizontalView = scrollIdToTag[view.id] ?: -1
         false
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private val setTagVertScrollListener = View.OnTouchListener { view, event ->
-        nowScrollingVerticalView = view.tag as Int
+    private val setTagVertScrollListener = View.OnTouchListener { view, _ ->
+        nowScrollingVerticalView = scrollIdToTag[view.id] ?: -1
         false
     }
 
@@ -79,7 +82,7 @@ class TableScrollCoordinator(
     companion object {
         private const val HEADERS_HOR_SCROLL = 1
         private const val ROWS_HOR_SCROLL = 2
-        private const val ROWS_VERT_SCROLL = 3
-        private const val PLAYERS_VERT_SCROLL = 4
+        private const val COLUMN_VERT_SCROLL = 3
+        private const val ROWS_VERT_SCROLL = 4
     }
 }
