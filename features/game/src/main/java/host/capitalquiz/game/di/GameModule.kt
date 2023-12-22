@@ -18,10 +18,12 @@ import host.capitalquiz.game.domain.GameRuleSimple
 import host.capitalquiz.game.domain.PlayerRepository
 import host.capitalquiz.game.domain.Word
 import host.capitalquiz.game.domain.mappers.FieldMapperWithParameter
+import host.capitalquiz.game.domain.mappers.GameMapper
 import host.capitalquiz.game.domain.mappers.WordMapperWithParameter
 import host.capitalquiz.game.ui.FieldUi
 import host.capitalquiz.game.ui.WordUi
 import host.capitalquiz.game.ui.mappers.FieldToFieldUiMapper
+import host.capitalquiz.game.ui.mappers.GameToFieldsUiMapper
 import host.capitalquiz.game.ui.mappers.WordToWordUiMapper
 
 @Module
@@ -52,4 +54,6 @@ interface GameModule {
     @Binds
     fun bindPlayerRepository(impl: BasePlayerRepository): PlayerRepository
 
+    @Binds
+    fun bindGameToFieldsUiMapper(impl: GameToFieldsUiMapper): GameMapper<List<FieldUi>>
 }

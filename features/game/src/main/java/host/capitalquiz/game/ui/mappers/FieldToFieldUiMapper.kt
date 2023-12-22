@@ -13,9 +13,11 @@ class FieldToFieldUiMapper @Inject constructor(
     private val wordMapper: WordMapperWithParameter<GameRuleSimple, WordUi>,
 ) : FieldMapperWithParameter<GameRuleSimple, FieldUi> {
     private var rule: GameRuleSimple = GameRuleSimple(1L, emptyMap())
+    private var winner: Boolean = false
 
-    override fun map(field: Field, param: GameRuleSimple): FieldUi {
-        rule = param
+    override fun map(field: Field, winner: Field?, rule: GameRuleSimple): FieldUi {
+        this.rule = rule
+        this.winner = field == winner
         return field.map(this)
     }
 
@@ -27,6 +29,14 @@ class FieldToFieldUiMapper @Inject constructor(
         words: List<Word>,
         playerId: Long,
     ): FieldUi {
-        return FieldUi(id, color, name, words.map { wordMapper.map(it, rule) }, score, playerId)
+        return FieldUi(
+            id,
+            color,
+            name,
+            words.map { wordMapper.map(it, rule) },
+            score,
+            playerId,
+            winner
+        )
     }
 }

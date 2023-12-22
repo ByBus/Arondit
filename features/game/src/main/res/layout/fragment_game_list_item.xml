@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="1dp"
+    android:paddingVertical="1dp"
     tools:context="host.capitalquiz.game.ui.GameFragment">
 
     <View
@@ -19,15 +21,20 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:backgroundTint="@color/design_default_color_secondary_variant" />
 
+    <View
+        android:id="@+id/border"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="38dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/playerHeader" />
+
     <Button
         android:id="@+id/addWord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
         android:layout_marginBottom="8dp"
         android:text="@string/word"
-        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/bottomToolbar"
         app:layout_constraintEnd_toEndOf="@id/bottomToolbar"
         app:layout_constraintStart_toStartOf="@id/bottomToolbar"
@@ -53,12 +60,6 @@
         tools:text="7"
         tools:visibility="visible" />
 
-    <View
-        android:id="@+id/border"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="38dp" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/wordsList"
         android:layout_width="match_parent"
@@ -77,6 +78,22 @@
         tools:itemCount="20"
         tools:listitem="@layout/word_item" />
 
+    <ImageView
+        android:id="@+id/crown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-4dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/image_of_crown_desc"
+        android:src="@drawable/crown"
+        android:translationY="4dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="64dp"
+        tools:visibility="gone" />
+
     <host.capitalquiz.core.ui.view.PlayerHeaderView
         android:id="@+id/playerHeader"
         android:layout_width="0dp"
@@ -84,6 +101,6 @@
         android:animateLayoutChanges="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/crown" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

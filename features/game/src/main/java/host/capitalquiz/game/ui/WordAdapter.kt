@@ -29,6 +29,15 @@ class WordAdapter(private val wordClickListener: (Long) -> Unit) :
         }
     }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindViewHolder {
+        val binding = WordItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return WordViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: BindViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
     companion object {
         private val DIFF_UTIL = object : DiffUtil.ItemCallback<WordUi>() {
             override fun areItemsTheSame(oldItem: WordUi, newItem: WordUi): Boolean {
@@ -39,15 +48,5 @@ class WordAdapter(private val wordClickListener: (Long) -> Unit) :
                 return oldItem == newItem
             }
         }
-    }
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindViewHolder {
-        val binding = WordItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return WordViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: BindViewHolder, position: Int) {
-        holder.bind(getItem(position))
     }
 }

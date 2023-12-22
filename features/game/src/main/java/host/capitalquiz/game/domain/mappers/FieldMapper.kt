@@ -16,5 +16,5 @@ interface FieldMapper<R> {
 
 
 interface FieldMapperWithParameter<P, R> : FieldMapper<R> {
-    fun map(field: Field, param: P): R
+    fun map(field: Field, winner: Field?, rule: P): R
 }

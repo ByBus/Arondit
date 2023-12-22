@@ -8,4 +8,5 @@ data class FieldUi(
     val words: List<WordUi>,
     val score: Int,
     val playerId: Long,
+    val showCrown: Boolean,
 )

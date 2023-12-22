@@ -2,11 +2,12 @@ package host.capitalquiz.game.domain
 
 import host.capitalquiz.core.interfaces.DeleteFieldUseCase
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 interface FieldInteractor {
 
-    fun findAllFieldsOfGame(gameId: Long): Flow<List<Field>>
+    fun findGame(gameId: Long): Flow<Game>
 
     suspend fun createField(field: Field, gameId: Long): Boolean
 
@@ -20,9 +21,13 @@ interface FieldInteractor {
         private val fieldRepository: FieldRepository,
         private val playerRepository: PlayerRepository,
         private val deleteFieldUseCase: DeleteFieldUseCase,
+        private val gameRuleInteractor: GameRuleInteractor,
     ) : FieldInteractor {
-        override fun findAllFieldsOfGame(gameId: Long): Flow<List<Field>> {
-            return fieldRepository.allFieldsOfGame(gameId)
+        override fun findGame(gameId: Long): Flow<Game> {
+            return fieldRepository.allFieldsOfGame(gameId).map {
+                val rule = gameRuleInteractor.findRuleOfGame(gameId)
+                Game(rule, it)
+            }
         }
 
         override suspend fun createField(field: Field, gameId: Long): Boolean {

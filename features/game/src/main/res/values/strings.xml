@@ -14,4 +14,5 @@
     <string name="this_word_already_used_message">Это слово уже было</string>
     <string name="same_player_name_exists_warning">Игрок с таким именем уже существует. Выберите другое имя.</string>
     <string name="available_players_title">Возможно вы уже играли</string>
+    <string name="image_of_crown_desc">image of a crown</string>
 </resources>

@@ -71,7 +71,7 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
 
         gridLayoutAdapter?.apply {
             bindTo(binding.grid)
-            addDecorationDrawable(
+            addDecorationDrawableFactory {
                 CompositeBorderDrawable(
                     requireContext(),
                     leftTopCorner = R.drawable.player_border_top_left_corner,
@@ -80,7 +80,7 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
                     topHorizontalPipe = R.drawable.player_border_top_hor_pipe,
                     bottomHorizontalPipe = R.drawable.player_border_top_hor_pipe
                 )
-            )
+            }
         }
 
         with(binding.information) {

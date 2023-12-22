@@ -5,8 +5,10 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridLayout
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -22,13 +24,13 @@ class GridLayoutAdapter(private val listener: Listener) {
 
     private lateinit var grid: GridLayout
     private val fields = mutableMapOf<Int, PlayerField>()
-    private var borderDrawable: Drawable? = null
+    private var borderDrawable: (() -> Drawable)? = null
 
     fun bindTo(gridLayout: GridLayout) {
         grid = gridLayout
     }
 
-    fun addDecorationDrawable(decoration: Drawable) {
+    fun addDecorationDrawableFactory(decoration: () -> Drawable) {
         borderDrawable = decoration
     }
 
@@ -43,12 +45,12 @@ class GridLayoutAdapter(private val listener: Listener) {
         private val adapter = WordAdapter { wordId ->
             listener.onWordClick(wordId, id, color)
         }
-        private var header: PlayerHeaderView
-        private var badge: TextView
+        private var header = itemView.findViewById<PlayerHeaderView>(R.id.playerHeader)
+        private var badge = itemView.findViewById<TextView>(R.id.wordsCountBadge)
+        private var crown = itemView.findViewById<ImageView>(R.id.crown)
 
         init {
             recyclerView.adapter = adapter
-            header = itemView.findViewById(R.id.playerHeader)
             header.setColor(color.value)
             header.setName(playerName)
             header.setOnClickListener {
@@ -66,39 +68,54 @@ class GridLayoutAdapter(private val listener: Listener) {
                 listener.onAddWordClick(id, color)
             }
             borderDrawable?.let {
-                itemView.findViewById<View>(R.id.border)?.background = it
+                itemView.findViewById<View>(R.id.border)?.background = it.invoke()
             }
-            badge = itemView.findViewById(R.id.wordsCountBadge)
         }
 
-        fun updateField(playerWords: List<WordUi>, playerScore: Int, playerName: String) {
+        fun updateField(
+            playerWords: List<WordUi>,
+            playerScore: Int,
+            playerName: String,
+            showCrown: Boolean,
+        ) {
             header.setScore(playerScore)
             header.setName(playerName)
             this.playerName = playerName
+            updateCrown(showCrown)
             adapter.submitList(playerWords.toMutableList())
             updateWordCountBadge(playerWords.size)
+        }
+
+        private fun updateCrown(showCrown: Boolean) {
+            if (crown.isVisible != showCrown) {
+                startTransition(grid)
+                crown.isVisible = showCrown
+            }
         }
 
         private fun updateWordCountBadge(number: Int) {
             val showBadge = number > 0
             badge.isVisible = showBadge
-            if (showBadge) badge.text = number.toString()
+            val text = number.toString()
+            if (showBadge && badge.text != text) { // 2nd predicate is needed to avoid updating when deleting/adding a field
+                badge.text = text
+            }
         }
 
         fun attach() {
-            startTransition()
+            startTransition(grid)
             grid.addView(itemView)
             fields[color.value] = this
         }
 
         fun detach() {
-            startTransition()
+            startTransition(grid)
             fields.remove(color.value)
             grid.removeView(itemView)
         }
 
-        private fun startTransition() {
-            TransitionManager.beginDelayedTransition(grid,
+        private fun startTransition(root: ViewGroup) {
+            TransitionManager.beginDelayedTransition(root,
                 TransitionSet().apply {
                     ordering = TransitionSet.ORDERING_SEQUENTIAL
                     addTransition(ChangeBounds())
@@ -136,7 +153,12 @@ class GridLayoutAdapter(private val listener: Listener) {
             if (fields.containsKey(fieldColor).not()) {
                 createPlayerField(context, field)
             }
-            fields[fieldColor]?.updateField(field.words, field.score, field.playerName)
+            fields[fieldColor]?.updateField(
+                field.words,
+                field.score,
+                field.playerName,
+                field.showCrown
+            )
         }
     }
 
