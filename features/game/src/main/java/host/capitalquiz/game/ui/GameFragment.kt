@@ -14,7 +14,6 @@ import dagger.hilt.android.lifecycle.withCreationCallback
 import host.capitalquiz.core.ui.BindingFragment
 import host.capitalquiz.core.ui.Inflater
 import host.capitalquiz.core.ui.collect
-import host.capitalquiz.core.ui.view.CompositeBorderDrawable
 import host.capitalquiz.game.R
 import host.capitalquiz.game.databinding.FragmentGameBinding
 import javax.inject.Inject
@@ -69,19 +68,7 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
         view.doOnPreDraw { startPostponedEnterTransition() }
         super.onViewCreated(view, savedInstanceState)
 
-        gridLayoutAdapter?.apply {
-            bindTo(binding.grid)
-            addDecorationDrawableFactory {
-                CompositeBorderDrawable(
-                    requireContext(),
-                    leftTopCorner = R.drawable.player_border_top_left_corner,
-                    leftBottomCorner = R.drawable.player_border_bottom_left_corner,
-                    leftVerticalPipe = R.drawable.player_border_left_vert_pipe,
-                    topHorizontalPipe = R.drawable.player_border_top_hor_pipe,
-                    bottomHorizontalPipe = R.drawable.player_border_top_hor_pipe
-                )
-            }
-        }
+        gridLayoutAdapter?.bindTo(binding.grid)
 
         with(binding.information) {
             infoButton.setOnClickListener {

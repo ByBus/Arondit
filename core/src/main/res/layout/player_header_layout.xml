@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="80dp"
+    tools:parentTag="android.widget.RelativeLayout">
 
     <ImageView
         android:id="@+id/leftHeaderTintPiece"
@@ -28,7 +29,7 @@
 
     <host.capitalquiz.core.ui.view.ResponsiveTextDrawView
         android:id="@+id/fieldPlayerName"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignTop="@id/leftHeaderPiece"
         android:layout_alignBottom="@id/leftHeaderPiece"
@@ -42,24 +43,6 @@
         app:normalTextSize="32sp"
         app:textBaseColor="@color/white"
         tools:textToDraw="Дон Рэба" />
-
-<!--    <ImageView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="10dp"-->
-<!--        android:background="@color/base_green"-->
-<!--        android:layout_alignTop="@id/leftHeaderPiece"-->
-<!--        android:layout_toStartOf="@id/rightHeaderPiece"-->
-<!--        android:layout_toEndOf="@id/leftHeaderPiece"-->
-<!--        />-->
-
-<!--    <ImageView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="20dp"-->
-<!--        android:background="@color/base_green"-->
-<!--        android:layout_alignBottom="@id/leftHeaderPiece"-->
-<!--        android:layout_toStartOf="@id/rightHeaderPiece"-->
-<!--        android:layout_toEndOf="@id/leftHeaderPiece"-->
-<!--        />-->
 
     <ImageView
         android:id="@+id/middleHeaderPiece"
@@ -101,9 +84,9 @@
         android:layout_height="27dp"
         android:layout_alignBottom="@id/leftHeaderPiece"
         android:layout_centerHorizontal="true"
-        android:translationY="9.5dp"
         android:paddingTop="0dp"
         android:textSize="16sp"
+        android:translationY="9.5dp"
         app:centerDrawable="@drawable/score_middle"
         app:leftDrawable="@drawable/score_left"
         app:leftDrawableTintBackgroundMask="@drawable/score_left_tint"
