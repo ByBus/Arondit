@@ -3,8 +3,6 @@ package host.capitalquiz.core.ui.view
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
@@ -24,7 +22,6 @@ class LetterBlockView @JvmOverloads constructor(
         isAntiAlias = true
     }
     private var charWidth = 1f
-    private val textXferMode = PorterDuffXfermode(PorterDuff.Mode.MULTIPLY)
 
     init {
         context.withStyledAttributes(attrs, R.styleable.LetterBlockView) {
@@ -57,8 +54,6 @@ class LetterBlockView @JvmOverloads constructor(
         val yPosition =
             blockBounds.bottom - (blockBounds.width() - paint.textSize) / 2 - paint.descent()
         var scoreXPosition = 0f
-        val xfermodeTemp = paint.xfermode
-        paint.xfermode = textXferMode
         paint.withTextSize(scoreTextSize) {
             val score = points.toString()
             val scoreWidth = measureText(score)
@@ -75,7 +70,6 @@ class LetterBlockView @JvmOverloads constructor(
         paint.drawWithTextScaleX(scale) {
             canvas.drawText(char.toString(), xPosition, yPosition, paint)
         }
-        paint.xfermode = xfermodeTemp
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
