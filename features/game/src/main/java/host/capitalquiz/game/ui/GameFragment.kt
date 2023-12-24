@@ -115,8 +115,8 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
     }
 
     companion object {
-        const val RESULT_REQUEST_CODE = "current game request code"
-        const val REMOVE_PLAYER_ID_KEY = "remove player with id"
-        const val REMOVE_PLAYER_COLOR_KEY = "return player's color"
+        const val RESULT_REQUEST_CODE = "host.capitalquiz.game current game request code"
+        const val REMOVE_PLAYER_ID_KEY = "host.capitalquiz.game remove player with id"
+        const val REMOVE_PLAYER_COLOR_KEY = "host.capitalquiz.game return player's color"
     }
 }

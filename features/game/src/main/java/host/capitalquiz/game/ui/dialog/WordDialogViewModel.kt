@@ -2,7 +2,6 @@ package host.capitalquiz.game.ui.dialog
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,17 +11,22 @@ import host.capitalquiz.game.domain.WordInteractor
 import host.capitalquiz.game.domain.mappers.WordDefinitionMapper
 import host.capitalquiz.game.domain.mappers.WordMapperWithParameter
 import host.capitalquiz.game.ui.WordUi
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val TEXT_INPUT_DEBOUNCE_MILLIS = 500L
 
+@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class WordDialogViewModel @Inject constructor(
     private val wordInteractor: WordInteractor,
@@ -32,21 +36,23 @@ class WordDialogViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val tempWord = wordInteractor.loadWord()
-    val word: LiveData<WordUi> get() = tempWord.map {
-    val rule = ruleInteractor.getLastGameRule()
-        wordToUiMapper.map(it, rule)
-    }
+    val word: LiveData<WordUi>
+        get() = tempWord.map {
+            val rule = ruleInteractor.getLastGameRule()
+            wordToUiMapper.map(it, rule)
+        }
 
     private val queryFlow = MutableStateFlow("")
     private val _definition = MutableStateFlow<WordDefinitionUi>(WordDefinitionUi.NoDefinition)
-    val definition: LiveData<WordDefinitionUi>
-        get() = _definition.asLiveData(viewModelScope.coroutineContext)
+    val definition = _definition.asStateFlow()
 
-    private val duplicateWordChannel = Channel<Boolean>()
-    val wordSavingResult = duplicateWordChannel.receiveAsFlow()
+    private val duplicateWordEvent = MutableSharedFlow<Boolean>()
+    val wordSavingResult = duplicateWordEvent.asSharedFlow()
+
     init {
         viewModelScope.launch {
             queryFlow
+                .filterNot { it.isBlank() }
                 .sample(TEXT_INPUT_DEBOUNCE_MILLIS)
                 .distinctUntilChanged()
                 .mapLatest {
@@ -84,7 +90,7 @@ class WordDialogViewModel @Inject constructor(
     fun saveWord() {
         viewModelScope.launch {
             val isSaved = wordInteractor.saveWord()
-            duplicateWordChannel.send(isSaved)
+            duplicateWordEvent.emit(isSaved)
         }
     }
 

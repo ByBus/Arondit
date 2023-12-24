@@ -72,7 +72,7 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
             }
         }
 
-        viewModel.definition.observe(viewLifecycleOwner) { definition ->
+        viewModel.definition.collect(viewLifecycleOwner) { definition ->
             definition.update(binding.glossaryBlock)
         }
 

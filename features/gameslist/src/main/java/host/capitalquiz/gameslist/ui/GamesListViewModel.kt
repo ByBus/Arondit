@@ -5,11 +5,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import host.capitalquiz.gameslist.domain.GamesListInteractor
 import host.capitalquiz.gameslist.domain.mappers.GameMapper
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,21 +30,21 @@ class GamesListViewModel @Inject constructor(
 
     private val shouldShowOnBoardingScreen = gamesListInteractor.showOnBoardingScreen
     private val gameId = MutableStateFlow(NO_GAME_ID)
-    private val _navigationState = Channel<NavigationState>()
-    val navigationState = _navigationState.receiveAsFlow()
+    private val _navigationState = MutableSharedFlow<NavigationState>()
+    val navigationState = _navigationState.asSharedFlow()
 
     init {
         viewModelScope.launch {
             combine(
                 shouldShowOnBoardingScreen, gameId
             ) { showOnBoarding, id ->
-                when  {
+                when {
                     id == NO_GAME_ID -> NavigationState.Idle
                     showOnBoarding -> NavigationState.OnBoardingScreen(id)
                     else -> NavigationState.GameScreen(id)
                 }
             }.collect{
-                _navigationState.trySend(it)
+                _navigationState.emit(it)
             }
         }
     }
@@ -57,7 +57,7 @@ class GamesListViewModel @Inject constructor(
 
     fun showRemoveGameDialog(gameId: Long) {
         viewModelScope.launch {
-            _navigationState.trySend(NavigationState.RemoveGameDialog(gameId))
+            _navigationState.emit(NavigationState.RemoveGameDialog(gameId))
         }
     }
 
@@ -74,13 +74,13 @@ class GamesListViewModel @Inject constructor(
 
     fun showEditGameRuleScreen(gameId: Long) {
         viewModelScope.launch {
-            _navigationState.trySend(NavigationState.EditGameRuleScreen(gameId))
+            _navigationState.emit(NavigationState.EditGameRuleScreen(gameId))
         }
     }
 
     fun showStatisticsScreen() {
         viewModelScope.launch {
-            _navigationState.trySend(NavigationState.StatisticsScreen)
+            _navigationState.emit(NavigationState.StatisticsScreen)
         }
     }
 }
