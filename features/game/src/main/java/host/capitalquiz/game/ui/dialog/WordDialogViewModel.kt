@@ -17,10 +17,11 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.sample
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -52,11 +53,14 @@ class WordDialogViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             queryFlow
+                .debounce(TEXT_INPUT_DEBOUNCE_MILLIS)
+                .onEach { word ->
+                    wordInteractor.updateWord(word)
+                }
                 .filterNot { it.isBlank() }
-                .sample(TEXT_INPUT_DEBOUNCE_MILLIS)
                 .distinctUntilChanged()
-                .mapLatest {
-                    wordInteractor.findDefinition(it)
+                .mapLatest { word ->
+                    wordInteractor.findDefinition(word)
                 }
                 .collect { result ->
                     _definition.value = result.map(wordDefinitionToUiMapper)
@@ -78,7 +82,6 @@ class WordDialogViewModel @Inject constructor(
 
     fun updateWord(word: String) {
         viewModelScope.launch {
-            wordInteractor.updateWord(word)
             queryFlow.value = word
         }
     }

@@ -15,7 +15,6 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import androidx.annotation.Px
 import androidx.core.content.withStyledAttributes
-import androidx.recyclerview.widget.DiffUtil
 import host.capitalquiz.core.R
 import kotlin.math.roundToInt
 
@@ -128,14 +127,23 @@ class EruditWordView @JvmOverloads constructor(
 
     private fun updateWord(string: String?, points: List<Int>) {
         if (string == null) return
-        var newWord = string.mapIndexed<Letter> { i, char -> Letter.Base(char, params = params, point = points.getOrNull(i)) }
+        var newWord = string.mapIndexed<Letter> { i, char ->
+            Letter.Base(
+                char,
+                params = params,
+                point = points.getOrNull(i)
+            )
+        }
         if (diffUtil) {
-            val wordCopy = word.toMutableList()
-            val wordUpdater = WordUpdater(wordCopy, newWord)
-            val diffUtil = wordUpdater.LetterDiffUtil()
-            val diff: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffUtil)
-            diff.dispatchUpdatesTo(wordUpdater)
-            newWord = wordCopy
+            val differ = MayersWordUpdater<Letter>()
+            newWord = differ.update(word, newWord)
+
+//            val wordCopy = word.toMutableList()
+//            val wordUpdater = WordUpdater(wordCopy, newWord)
+//            val diffUtil = wordUpdater.LetterDiffUtil()
+//            val diff: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffUtil)
+//            diff.dispatchUpdatesTo(wordUpdater)
+//            newWord = wordCopy
         }
         word.clear()
         word.addAll(newWord)
@@ -308,8 +316,9 @@ class EruditWordView @JvmOverloads constructor(
     }
 
     companion object {
-         /** Letter badge height as a fraction of 'size' parameter*/
+        /** Letter badge height as a fraction of 'size' parameter*/
         private const val BADGE_HEIGHT_FACTOR = 0.4f
+
         /** Spacing between letter blocks as a fraction of block size*/
         private const val GAP_FACTOR = 0.05f
     }
