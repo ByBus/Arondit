@@ -10,7 +10,7 @@ interface WordToWordMapper : WordMapper<Word> {
     fun map(word: Word, newWord: String): Word
 
     class BonusUpdater @Inject constructor() : WordToWordMapper {
-        private lateinit var grid: Array<IntArray>
+        private var grid: Array<IntArray> = emptyArray()
         private var newWord = ""
 
         override fun map(word: Word, newWord: String): Word {
@@ -37,7 +37,6 @@ interface WordToWordMapper : WordMapper<Word> {
             newWord: String,
             oldBonuses: List<Int>,
         ): List<Int> {
-            // y = newList, x = oldList
             val queue: Queue<Segment> = LinkedList()
             grid = generateField(oldWord, newWord)
             var last = Segment.initial()
@@ -59,7 +58,7 @@ interface WordToWordMapper : WordMapper<Word> {
                 }
                 grid[y][x] = PROCESSED
             }
-            val diff = findDiff(last)
+            val diff = createDiff(last)
             return applyDiff(oldBonuses, diff)
         }
 
@@ -75,17 +74,15 @@ interface WordToWordMapper : WordMapper<Word> {
         private fun applyDiff(
             oldList: List<Int>,
             diff: List<Segment>,
-        ): List<Int> {
-            val result = mutableListOf<Int>()
-            var cursorOld = 0
+        ): List<Int> = buildList {
+            var i = 0
             for (segment in diff) {
                 when {
-                    segment.isRetain -> result.add(oldList[cursorOld++])
-                    segment.isAdd -> result.add(DEFAULT_BONUS_FOR_NEW_LETTERS)
-                    else -> cursorOld++
+                    segment.isRetain -> add(oldList[i++])
+                    segment.isAdd -> add(DEFAULT_BONUS_FOR_NEW_LETTERS)
+                    else -> i++
                 }
             }
-            return result
         }
 
         private fun generateField(oldList: String, newList: String): Array<IntArray> {
@@ -100,14 +97,12 @@ interface WordToWordMapper : WordMapper<Word> {
             return grid
         }
 
-        private fun findDiff(segment: Segment): List<Segment> {
+        private fun createDiff(segment: Segment): List<Segment> = buildList {
             var current = segment
-            val diff = mutableListOf<Segment>()
             while (current.parent != null) {
-                diff.add(0, current)
+                add(0, current)
                 current = current.parent!!
             }
-            return diff
         }
 
         companion object {

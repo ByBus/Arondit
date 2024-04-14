@@ -29,7 +29,7 @@ class MayersWordUpdater<T> {
             }
             grid[y][x] = PROCESSED
         }
-        val diff = findDiff(last)
+        val diff = createDiffList(last)
         return applyDiff(oldList, newList, diff)
     }
 
@@ -42,48 +42,37 @@ class MayersWordUpdater<T> {
             offer(producer.invoke())
     }
 
-    private fun applyDiff(oldList: List<T>, newList: List<T>, diff: List<Segment>): List<T> {
-        val result = mutableListOf<T>()
-        var cursorOld = 0
-        var cursorNew = 0
-        for (segment in diff) {
-            when {
-                segment.isRetain -> result.add(oldList[cursorOld++]).also { cursorNew++ }
-                segment.isAdd -> result.add(newList[cursorNew++])
-                else -> cursorOld++
+    private fun applyDiff(oldList: List<T>, newList: List<T>, diff: List<Segment>): List<T> =
+        buildList {
+            var cursorOld = 0
+            var cursorNew = 0
+            for (segment in diff) {
+                when {
+                    segment.isRetain -> add(oldList[cursorOld++]).also { cursorNew++ }
+                    segment.isAdd -> add(newList[cursorNew++])
+                    else -> cursorOld++
+                }
             }
         }
-        return result
-    }
 
     private fun generateField(oldList: List<T>, newList: List<T>): Array<IntArray> {
         val grid = Array(newList.size + 1) { IntArray(oldList.size + 1) }
         for (y in newList.indices) {
             for (x in oldList.indices) {
-                try {
-                    val a = newList[y] as Char
-                    val b = oldList[x] as Char
-                    if (a.equals(b, true)) {
-                        grid[y][x] = SHORTCUT
-                    }
-                } catch (e: ClassCastException) {
-                    if (newList[y] == oldList[x]) {
-                        grid[y][x] = SHORTCUT
-                    }
+                if (newList[y] == oldList[x]) {
+                    grid[y][x] = SHORTCUT
                 }
             }
         }
         return grid
     }
 
-    private fun findDiff(segment: Segment): List<Segment> {
+    private fun createDiffList(segment: Segment): List<Segment> = buildList {
         var current = segment
-        val diff = mutableListOf<Segment>()
         while (current.parent != null) {
-            diff.add(0, current)
+            add(0, current)
             current = current.parent!!
         }
-        return diff
     }
 
     companion object {
