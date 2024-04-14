@@ -62,7 +62,7 @@ class EditGameRuleFragment : BaseGameRuleFragment<EditRuleBinding>(),
         view.doOnPreDraw { startPostponedEnterTransition() }
 
         val adapter = RuleLetterAdapter { letter, points ->
-            viewModel.navigateToEditLetter(letter, points)
+            viewModel.goToAddLetterDialog(letter, points)
         }
         binding.lettersList.adapter = adapter
 
@@ -74,24 +74,24 @@ class EditGameRuleFragment : BaseGameRuleFragment<EditRuleBinding>(),
             adapter.submitList(it.letters)
         }
 
-        viewModel.editLetterNavigation.collect(viewLifecycleOwner) { navEvent ->
-            navEvent.consume(navigation::navigateToAddLetterDialog)
+        viewModel.navigationEvent.collect(viewLifecycleOwner) { navEvent ->
+            navEvent.consume(navigation)
         }
 
         binding.addLetterFab.setOnClickListener {
-            viewModel.navigateToEditLetter()
+            viewModel.goToAddLetterDialog()
         }
 
         toolbar.apply {
             setOnMenuItemClickListener(this@EditGameRuleFragment)
-            setNavigationOnClickListener { navigation.navigateUp() }
+            setNavigationOnClickListener { viewModel.goBack() }
         }
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             R.id.edit_rule_name -> {
-                navigation.navigateToRenameRuleDialog(binding.rulesToolbar.title.toString())
+                viewModel.goToRenameRuleDialog()
                 true
             }
 

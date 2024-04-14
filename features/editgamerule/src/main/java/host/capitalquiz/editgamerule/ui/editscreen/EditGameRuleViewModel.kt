@@ -30,8 +30,8 @@ class EditGameRuleViewModel @AssistedInject constructor(
     @Assisted private val ruleId: Long,
 ) : ViewModel() {
     private val latestRuleId = MutableStateFlow(ruleId)
-    private val _editLetterNavigation = Channel<NavigationEvent>()
-    val editLetterNavigation = _editLetterNavigation.receiveAsFlow()
+    private val navigationChannel = Channel<NavigationEvent>()
+    val navigationEvent = navigationChannel.receiveAsFlow()
 
     val gameRule = latestRuleId.flatMapLatest { id ->
         if (id == EDIT_RULE)
@@ -58,8 +58,24 @@ class EditGameRuleViewModel @AssistedInject constructor(
         }
     }
 
-    fun navigateToEditLetter(letter: Char? = null, points: Int = -1){
-        _editLetterNavigation.trySend(NavigationEvent(latestRuleId.value, letter, points))
+    fun goToAddLetterDialog(letter: Char? = null, points: Int = -1) {
+        navigationChannel.trySend(
+            NavigationEvent.AddLetterDialog(
+                latestRuleId.value,
+                letter,
+                points
+            )
+        )
+    }
+
+    fun goBack() {
+        navigationChannel.trySend(NavigationEvent.Up)
+    }
+
+    fun goToRenameRuleDialog() {
+        viewModelScope.launch {
+            navigationChannel.trySend(NavigationEvent.RenameRuleDialog(gameRule.first().name))
+        }
     }
 }
 
