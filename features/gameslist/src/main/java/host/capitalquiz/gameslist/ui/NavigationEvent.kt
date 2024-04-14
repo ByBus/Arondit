@@ -1,35 +1,35 @@
 package host.capitalquiz.gameslist.ui
 
-interface NavigationState {
+interface NavigationEvent {
 
     fun navigate(navigation: GamesListNavigation)
 
-    object Idle : NavigationState {
+    object Idle : NavigationEvent {
         override fun navigate(navigation: GamesListNavigation) = Unit
     }
 
-    class GameScreen(private val gameId: Long) : NavigationState {
+    class GameScreen(private val gameId: Long) : NavigationEvent {
         override fun navigate(navigation: GamesListNavigation) =
             navigation.navigateToGame(gameId)
     }
 
-    class OnBoardingScreen(private val gameId: Long) : NavigationState {
+    class OnBoardingScreen(private val gameId: Long) : NavigationEvent {
         override fun navigate(navigation: GamesListNavigation) =
             navigation.navigateToOnBoarding(gameId)
     }
 
-    class RemoveGameDialog(private val gameId: Long) : NavigationState {
+    class RemoveGameDialog(private val gameId: Long) : NavigationEvent {
         override fun navigate(navigation: GamesListNavigation) =
             navigation.navigateToRemoveGameDialog(gameId)
     }
 
-    class EditGameRuleScreen(private val gameId: Long) : NavigationState {
+    class EditGameRuleScreen(private val gameId: Long) : NavigationEvent {
         override fun navigate(navigation: GamesListNavigation) {
             navigation.navigateToEditGameRule(gameId)
         }
     }
 
-    object StatisticsScreen : NavigationState {
+    object StatisticsScreen : NavigationEvent {
         override fun navigate(navigation: GamesListNavigation) {
             navigation.navigateToStatistics()
         }

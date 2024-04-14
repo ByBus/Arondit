@@ -26,6 +26,9 @@ class GameViewModel @AssistedInject constructor(
 ) : ViewModel() {
     private val availableColors = mutableListOf<Int>()
 
+    private val _navigationEvent = Channel<NavigationEvent>()
+    val navigationEvent = _navigationEvent.receiveAsFlow()
+
     private val _game = fieldInteractor.findGame(gameId)
     val fields = _game.map { game ->
         game.map(gameToFieldsUiMapper)
@@ -64,12 +67,6 @@ class GameViewModel @AssistedInject constructor(
         }
     }
 
-    fun borrowColor(colorConsumer: (Int) -> Unit) {
-        if (availableColors.isNotEmpty()) {
-            colorConsumer(availableColors.removeLast())
-        }
-    }
-
     fun removeUsedColors(colors: List<Int>) {
         availableColors.removeAll(colors)
     }
@@ -81,6 +78,34 @@ class GameViewModel @AssistedInject constructor(
     fun loadAvailablePlayers() {
         viewModelScope.launch {
             _availablePlayers.value = fieldInteractor.findAllPlayersWhoIsNotPlayingYet(gameId)
+        }
+    }
+
+    fun goToAddPlayerDialog() {
+        borrowColor { color ->
+            _navigationEvent.trySend(NavigationEvent.AddPlayerDialog(color))
+        }
+    }
+
+    fun goToRemovePlayerDialog(fieldId: Long, color: Int) {
+        _navigationEvent.trySend(NavigationEvent.RemovePlayerDialog(fieldId, color))
+    }
+
+    fun goToAddWordDialog(fieldId: Long, color: Int) {
+        _navigationEvent.trySend(NavigationEvent.AddWordDialog(fieldId, color))
+    }
+
+    fun goToEditWordDialog(wordId: Long, fieldId: Long, color: Int) {
+        _navigationEvent.trySend(NavigationEvent.EditWordDialog(wordId, fieldId, color))
+    }
+
+    fun goToRenamePlayerDialog(oldName: String, playerId: Long, color: Int) {
+        _navigationEvent.trySend(NavigationEvent.RenamePlayerDialog(oldName, playerId, color))
+    }
+
+    private fun borrowColor(colorConsumer: (Int) -> Unit) {
+        if (availableColors.isNotEmpty()) {
+            colorConsumer(availableColors.removeLast())
         }
     }
 }

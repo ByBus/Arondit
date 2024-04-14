@@ -85,6 +85,10 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
             binding.grid.isVisible = players.isNotEmpty()
             gridLayoutAdapter?.submitList(requireContext(), players)
         }
+
+        viewModel.navigationEvent.collect(viewLifecycleOwner) { navEvent ->
+            navEvent.navigate(navigation)
+        }
     }
 
     override fun onDestroyView() {
@@ -92,27 +96,19 @@ class GameFragment : BindingFragment<FragmentGameBinding>(), GridLayoutAdapter.L
         super.onDestroyView()
     }
 
-    override fun onAddPlayerClick() {
-        viewModel.borrowColor { color ->
-            navigation.navigateToToAddPlayerDialog(color)
-        }
-    }
+    override fun onAddPlayerClick() = viewModel.goToAddPlayerDialog()
 
-    override fun onRemovePlayerClick(fieldId: FieldId, fieldColor: FieldColor) {
-        navigation.navigateToRemovePlayerDialog(fieldId.value, fieldColor.value)
-    }
+    override fun onRemovePlayerClick(fieldId: FieldId, fieldColor: FieldColor) =
+        viewModel.goToRemovePlayerDialog(fieldId.value, fieldColor.value)
 
-    override fun onAddWordClick(fieldId: FieldId, fieldColor: FieldColor) {
-        navigation.navigateToAddWordDialog(fieldId.value, fieldColor.value)
-    }
+    override fun onAddWordClick(fieldId: FieldId, fieldColor: FieldColor) =
+        viewModel.goToAddWordDialog(fieldId.value, fieldColor.value)
 
-    override fun onWordClick(wordId: Long, fieldId: FieldId, fieldColor: FieldColor) {
-        navigation.navigateToEditWordDialog(wordId, fieldId.value, fieldColor.value)
-    }
+    override fun onWordClick(wordId: Long, fieldId: FieldId, fieldColor: FieldColor) =
+        viewModel.goToEditWordDialog(wordId, fieldId.value, fieldColor.value)
 
-    override fun onNameClick(name: String, playerId: Long, fieldColor: FieldColor) {
-        navigation.navigateToRenamePlayerDialog(name, playerId, fieldColor.value)
-    }
+    override fun onNameClick(name: String, playerId: Long, fieldColor: FieldColor) =
+        viewModel.goToRenamePlayerDialog(name, playerId, fieldColor.value)
 
     companion object {
         const val RESULT_REQUEST_CODE = "host.capitalquiz.game current game request code"

@@ -75,7 +75,7 @@ class EditGameRuleFragment : BaseGameRuleFragment<EditRuleBinding>(),
         }
 
         viewModel.navigationEvent.collect(viewLifecycleOwner) { navEvent ->
-            navEvent.consume(navigation)
+            navEvent.navigate(navigation)
         }
 
         binding.addLetterFab.setOnClickListener {

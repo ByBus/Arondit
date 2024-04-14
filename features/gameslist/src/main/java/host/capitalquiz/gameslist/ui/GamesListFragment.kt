@@ -78,7 +78,7 @@ class GamesListFragment : BindingFragment<GamesBinding>(), GameAdapter.Callback 
             gameAdapter.submitList(it)
         }
 
-        viewModel.navigationState.collect(viewLifecycleOwner) { navState ->
+        viewModel.navigationEvent.collect(viewLifecycleOwner) { navState ->
             navState.navigate(navigation)
         }
 

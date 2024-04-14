@@ -30,8 +30,8 @@ class GamesListViewModel @Inject constructor(
 
     private val shouldShowOnBoardingScreen = gamesListInteractor.showOnBoardingScreen
     private val gameId = MutableStateFlow(NO_GAME_ID)
-    private val _navigationState = MutableSharedFlow<NavigationState>()
-    val navigationState = _navigationState.asSharedFlow()
+    private val _navigationEvent = MutableSharedFlow<NavigationEvent>()
+    val navigationEvent = _navigationEvent.asSharedFlow()
 
     init {
         viewModelScope.launch {
@@ -39,12 +39,12 @@ class GamesListViewModel @Inject constructor(
                 shouldShowOnBoardingScreen, gameId
             ) { showOnBoarding, id ->
                 when {
-                    id == NO_GAME_ID -> NavigationState.Idle
-                    showOnBoarding -> NavigationState.OnBoardingScreen(id)
-                    else -> NavigationState.GameScreen(id)
+                    id == NO_GAME_ID -> NavigationEvent.Idle
+                    showOnBoarding -> NavigationEvent.OnBoardingScreen(id)
+                    else -> NavigationEvent.GameScreen(id)
                 }
             }.collect{
-                _navigationState.emit(it)
+                _navigationEvent.emit(it)
             }
         }
     }
@@ -57,7 +57,7 @@ class GamesListViewModel @Inject constructor(
 
     fun showRemoveGameDialog(gameId: Long) {
         viewModelScope.launch {
-            _navigationState.emit(NavigationState.RemoveGameDialog(gameId))
+            _navigationEvent.emit(NavigationEvent.RemoveGameDialog(gameId))
         }
     }
 
@@ -74,13 +74,13 @@ class GamesListViewModel @Inject constructor(
 
     fun showEditGameRuleScreen(gameId: Long) {
         viewModelScope.launch {
-            _navigationState.emit(NavigationState.EditGameRuleScreen(gameId))
+            _navigationEvent.emit(NavigationEvent.EditGameRuleScreen(gameId))
         }
     }
 
     fun showStatisticsScreen() {
         viewModelScope.launch {
-            _navigationState.emit(NavigationState.StatisticsScreen)
+            _navigationEvent.emit(NavigationEvent.StatisticsScreen)
         }
     }
 }
