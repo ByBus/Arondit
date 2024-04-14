@@ -48,7 +48,7 @@ class EditGameRuleFragment : BaseGameRuleFragment<EditRuleBinding>(),
             bundle.getLongOrNull(RULE_ID_KEY)?.let { viewModel.updateRule(it) }
         }
 
-        if (args.gameRuleId < 0) {
+        if (savedInstanceState == null && args.gameRuleId < 0) {
             viewModel.createNewRule(getString(R.string.deafult_new_rule_name))
         }
 
