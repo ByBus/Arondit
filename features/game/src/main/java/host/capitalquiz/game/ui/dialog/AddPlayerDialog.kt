@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionManager
+import host.capitalquiz.core.ui.TwoColumnAutoSpanGridLayoutManager
 import host.capitalquiz.game.R
 
 class AddPlayerDialog : PlayerNameDialogBase() {
@@ -36,17 +37,10 @@ class AddPlayerDialog : PlayerNameDialogBase() {
             parentViewModel.addPlayer("", args.color, playerId)
         }
 
-        val gridLayoutManager = GridLayoutManager(requireContext(), 2)
-
-        val spanSizeLookUp = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                val itemCount = playersAdapter.itemCount
-                return if (itemCount % 2 != 0 && position == itemCount - 1) 2 else 1
-            }
+        val gridLayoutManager =
+            TwoColumnAutoSpanGridLayoutManager(requireContext(), playersAdapter).apply {
+                orientation = GridLayoutManager.VERTICAL
         }
-
-        gridLayoutManager.spanSizeLookup = spanSizeLookUp
-        gridLayoutManager.orientation = GridLayoutManager.VERTICAL
 
         binding.availablePlayers.apply {
             adapter = playersAdapter

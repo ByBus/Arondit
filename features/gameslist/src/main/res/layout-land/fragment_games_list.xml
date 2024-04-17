@@ -5,18 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:maxWidth="700dp"
     android:transitionGroup="true"
     tools:context="host.capitalquiz.gameslist.ui.GamesListFragment">
 
     <include layout="@layout/arondit_sword_logo" />
 
     <androidx.constraintlayout.widget.Group
-        app:constraint_referenced_ids="gamesList,createGame, showStatistics"
         android:id="@+id/gamesLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:visibility="gone" />
+        android:visibility="gone"
+        app:constraint_referenced_ids="gamesList,createGame, showStatistics" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gamesList"
@@ -27,13 +26,11 @@
         android:layout_marginBottom="4dp"
         android:orientation="vertical"
         android:padding="36dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/frameLayout"
         app:layout_constraintVertical_weight="1"
-        app:layout_constraintWidth_max="650dp"
         tools:listitem="@layout/game_item" />
 
     <View
@@ -84,11 +81,11 @@
         android:id="@+id/information"
         layout="@layout/info_screen_layout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frameLayout"
         app:layout_constraintWidth_max="512dp"
         tools:visibility="visible" />
 

@@ -1,5 +1,6 @@
 package host.capitalquiz.gameslist.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.doOnPreDraw
@@ -14,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import host.capitalquiz.core.ui.BindingFragment
 import host.capitalquiz.core.ui.BorderDrawable
 import host.capitalquiz.core.ui.Inflater
+import host.capitalquiz.core.ui.TwoColumnAutoSpanGridLayoutManager
 import host.capitalquiz.core.ui.collect
 import host.capitalquiz.gameslist.R
 import javax.inject.Inject
@@ -45,6 +47,13 @@ class GamesListFragment : BindingFragment<GamesBinding>(), GameAdapter.Callback 
         val gameAdapter = GameAdapter(this)
 
         binding.gamesList.adapter = gameAdapter
+
+        val orientation = resources.configuration.orientation
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.gamesList.layoutManager =
+                TwoColumnAutoSpanGridLayoutManager(requireContext(), gameAdapter)
+        }
+
         binding.border.background = BorderDrawable(
             requireContext(),
             R.drawable.medival_corner_2,

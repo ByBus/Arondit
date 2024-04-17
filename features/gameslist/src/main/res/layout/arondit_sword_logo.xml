@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="0dp"
+    android:layout_height="100dp"
+    android:layout_marginTop="16dp"
+    android:paddingHorizontal="4dp"
+    android:paddingVertical="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintWidth_max="600dp"
+    tools:showIn="@layout/fragment_games_list">
+
+    <ImageView
+        android:id="@+id/swordSpike"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/sword_spike" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/swordHilt"
+        android:layout_toRightOf="@id/swordSpike"
+        android:scaleType="fitXY"
+        android:src="@drawable/sword_blade" />
+
+    <ImageView
+        android:id="@+id/swordHilt"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/sword_hilt" />
+
+    <host.capitalquiz.core.ui.view.eruditwordview.EruditWordView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="48dp"
+        android:layout_toLeftOf="@id/swordHilt"
+        app:mainColor="@color/main_menu_letters_tile"
+        app:size="70dp"
+        app:textColor="@color/main_menu_letters"
+        app:word="АРОНДИТ" />
+</RelativeLayout>
