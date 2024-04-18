@@ -62,7 +62,9 @@ dependencies {
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.scalars)
+    implementation(libs.okhttp3)
     implementation(libs.jsoup)
+    testImplementation(libs.coroutines.test)
 
     implementation(project(":core"))
 }
