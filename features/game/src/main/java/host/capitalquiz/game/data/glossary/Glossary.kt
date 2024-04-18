@@ -8,11 +8,12 @@ import javax.inject.Inject
 interface Glossary {
 
     fun next(glossary: Glossary): Glossary
-    fun urlForWord(word: String): String
+
     suspend fun requestDefinition(word: String): WordDefinition
 
     abstract class AbstractGlossary(private val glossaryApi: GlossaryApi, private val parser: HtmlParser) : Glossary {
         private var nextGlossary: Glossary = EmptyGlossary
+        abstract fun urlForWord(word: String): String
 
         override fun next(glossary: Glossary): Glossary {
             nextGlossary = glossary
@@ -59,10 +60,7 @@ interface Glossary {
     object EmptyGlossary: Glossary {
         override fun next(glossary: Glossary): Glossary = this
 
-        override fun urlForWord(word: String): String = ""
-
         override suspend fun requestDefinition(word: String): WordDefinition = WordDefinition.Empty
-
     }
 }
 
