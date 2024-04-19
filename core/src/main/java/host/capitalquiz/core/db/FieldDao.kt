@@ -1,6 +1,5 @@
 package host.capitalquiz.core.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -11,10 +10,6 @@ import kotlinx.coroutines.flow.Flow
 interface FieldDao {
     @Insert
     suspend fun insert(field: FieldData): Long
-
-    @Transaction
-    @Query("SELECT * FROM game_fields WHERE id=:fieldId")
-    fun playerWithWords(fieldId: Long): LiveData<FieldWithPlayerAndWordsData>
 
     @Transaction
     @Query("SELECT * FROM game_fields WHERE gameId=:gameId")
