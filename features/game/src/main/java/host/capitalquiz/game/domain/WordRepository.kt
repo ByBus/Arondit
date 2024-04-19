@@ -1,6 +1,6 @@
 package host.capitalquiz.game.domain
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 
 interface WordRepository : CurrentWordRepository {
 
@@ -11,7 +11,7 @@ interface WordRepository : CurrentWordRepository {
 
 
 interface CurrentWordRepository {
-    fun readCache(): LiveData<Word>
+    fun readCache(): Flow<Word>
 
     suspend fun loadToCache(wordId: Long)
 

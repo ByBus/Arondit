@@ -1,13 +1,13 @@
 package host.capitalquiz.game.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import host.capitalquiz.core.db.WordDao
 import host.capitalquiz.core.db.WordData
 import host.capitalquiz.core.db.mappers.WordDataMapper
 import host.capitalquiz.game.domain.Word
 import host.capitalquiz.game.domain.WordRepository
 import host.capitalquiz.game.domain.mappers.WordMapperWithParameter
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class BaseWordRepository @Inject constructor(
@@ -31,7 +31,9 @@ class BaseWordRepository @Inject constructor(
         }
     }
 
-    override fun readCache(): LiveData<Word> = oneWordCache.read().map { it.map(wordMapper) }
+    override fun readCache(): Flow<Word> = oneWordCache.read().map {
+        it?.map(wordMapper) ?: Word("")
+    }
 
     override suspend fun initCache(fieldId: Long) {
         if (oneWordCache.isEmpty()) {

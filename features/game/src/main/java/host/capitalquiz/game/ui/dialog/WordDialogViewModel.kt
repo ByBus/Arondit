@@ -1,8 +1,6 @@
 package host.capitalquiz.game.ui.dialog
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import host.capitalquiz.game.domain.GameRuleInteractor
@@ -15,13 +13,16 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterNot
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,14 +37,13 @@ class WordDialogViewModel @Inject constructor(
     private val wordDefinitionToUiMapper: WordDefinitionMapper<WordDefinitionUi>,
 ) : ViewModel() {
 
-    private val tempWord = wordInteractor.loadWord()
-    val word: LiveData<WordUi>
-        get() = tempWord.map {
-            val rule = ruleInteractor.getLastGameRule()
-            wordToUiMapper.map(it, rule)
-        }
-
     private val queryFlow = MutableStateFlow("")
+
+    val word = wordInteractor.loadWord().map {
+        val rule = ruleInteractor.getLastGameRule()
+        wordToUiMapper.map(it, rule)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), WordUi())
+
     private val _definition = MutableStateFlow<WordDefinitionUi>(WordDefinitionUi.NoDefinition)
     val definition = _definition.asStateFlow()
 
@@ -57,7 +57,7 @@ class WordDialogViewModel @Inject constructor(
                 .onEach { word ->
                     wordInteractor.updateWord(word)
                 }
-                .filterNot { it.isBlank() }
+                .filter { it.isNotBlank() }
                 .distinctUntilChanged()
                 .mapLatest { word ->
                     wordInteractor.findDefinition(word)

@@ -1,7 +1,7 @@
 package host.capitalquiz.game.domain
 
-import androidx.lifecycle.LiveData
 import host.capitalquiz.game.domain.mappers.WordToWordMapper
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface WordInteractor {
@@ -26,7 +26,7 @@ interface WordInteractor {
 
     suspend fun initCacheWithField(playerId: Long)
 
-    fun loadWord(): LiveData<Word>
+    fun loadWord(): Flow<Word>
 
     suspend fun findDefinition(word: String): WordDefinition
 
@@ -45,7 +45,7 @@ interface WordInteractor {
             }
         }
 
-        override fun loadWord(): LiveData<Word> = wordRepository.readCache()
+        override fun loadWord(): Flow<Word> = wordRepository.readCache()
 
         override suspend fun findDefinition(word: String): WordDefinition =
             definitionRepository.findDefinition(word)

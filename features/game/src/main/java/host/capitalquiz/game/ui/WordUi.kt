@@ -13,8 +13,8 @@ data class WordUi(
     val multiplier: Int = 1,
     val id: Long = 0,
     val score: Int = 0,
-    val extraPoints: Int,
-    val points: List<Int> = emptyList()
+    val extraPoints: Int = 0,
+    val points: List<Int> = emptyList(),
 ) {
     fun <R> map(mapper: WordUiMapper<R>): R {
         return mapper(word, letterBonuses, multiplier, id, score, extraPoints)

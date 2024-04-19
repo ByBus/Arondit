@@ -1,12 +1,13 @@
 package host.capitalquiz.game.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import host.capitalquiz.core.db.WordData
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 interface WordDataDataSource {
-    fun read(): LiveData<WordData>
+    fun read(): StateFlow<WordData?>
 
     fun save(word: WordData)
 
@@ -16,8 +17,8 @@ interface WordDataDataSource {
 
     class Base @Inject constructor(): WordDataDataSource {
 
-        private val cachedWord = MutableLiveData<WordData>()
-        override fun read(): LiveData<WordData> = cachedWord
+        private val cachedWord = MutableStateFlow<WordData?>(null)
+        override fun read() = cachedWord.asStateFlow()
 
         override fun save(word: WordData) {
            cachedWord.value = word

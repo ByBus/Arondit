@@ -53,7 +53,7 @@ abstract class BaseWordBottomDialog : BottomSheetDialogFragmentWithBorder() {
         binding.dialogHeader.setBackgroundColor(headerColor)
         binding.wordInput.editText!!.filters += NoSpacesFilter()
 
-        viewModel.word.observe(viewLifecycleOwner) { wordUi ->
+        viewModel.word.collect(viewLifecycleOwner) { wordUi ->
             with(binding) {
                 TransitionManager.beginDelayedTransition(binding.dialogButtons,
                     TransitionSet().apply {

@@ -9,7 +9,7 @@ data class Word(
     val letterBonuses: List<Int> = emptyList(),
     val multiplier: Int = 1,
     val id: Long = 0,
-    val hasExtraPoints: Boolean,
+    val hasExtraPoints: Boolean = false,
 ) {
     fun score(rangDictionary: Map<Char, Int>): Int {
         var count = 0
