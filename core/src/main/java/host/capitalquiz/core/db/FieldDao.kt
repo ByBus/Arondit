@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FieldDao {
     @Insert
-    suspend fun insert(filed: FieldData): Long
+    suspend fun insert(field: FieldData): Long
 
     @Transaction
     @Query("SELECT * FROM game_fields WHERE id=:fieldId")
