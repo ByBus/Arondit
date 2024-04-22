@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import host.capitalquiz.core.R
@@ -31,6 +32,9 @@ abstract class BottomSheetDialogFragmentWithBorder : BottomSheetDialogFragment()
         bottomSheet.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
         bottomSheet.elevation = 0f
         borderView.background = CompositeBorderDrawable()
+        view.postDelayed({
+            BottomSheetBehavior.from(bottomSheet).setState(BottomSheetBehavior.STATE_EXPANDED)
+        }, 500)
     }
 
     protected fun Snackbar(@StringRes resId: Int): Snackbar =

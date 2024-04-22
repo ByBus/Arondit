@@ -15,6 +15,7 @@
         android:theme="@style/Theme.Arondit"
         tools:targetApi="31">
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name="host.capitalquiz.arondit.MainActivity"
             android:exported="true">
             <intent-filter>
