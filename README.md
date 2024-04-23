@@ -14,10 +14,20 @@
 ---
 ****Приложение построено на Чистой архитектуре, разделено на фича-модули, содержит несколько Custom
 View****
+<p align="center">
+  <img src="screenshots/1.jpg" width="256">
+  <img src="screenshots/1.1.jpg" width="256">
+  <img src="screenshots/2.jpg" width="256">
+</p>
+<p align="center">
+  <img src="screenshots/3.jpg" width="256">
+  <img src="screenshots/4.jpg" width="256">
+  <img src="screenshots/5.jpg" width="256">
+</p>
+<p align="center">  
+  <img src="screenshots/6.jpg" width="256">
+</p>
 
-![](screenshots/1.jpg?raw=true) ![](screenshots/1.1.jpg?raw=true) ![](screenshots/2.jpg?raw=true)
-![](screenshots/3.jpg?raw=true) ![](screenshots/4.jpg?raw=true) ![](screenshots/5.jpg?raw=true)
-![](screenshots/6.jpg?raw=true) 
 
 
 
